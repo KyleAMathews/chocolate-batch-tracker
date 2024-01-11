@@ -20,7 +20,7 @@ export type Chocolate_batch = {
   /**
    * @zod.string.uuid()
    */
-  batch_id: string
+  id: string
   /**
    * @zod.string.uuid()
    */
@@ -38,7 +38,7 @@ export type Production_comments = {
   /**
    * @zod.string.uuid()
    */
-  comment_id: string
+  id: string
   /**
    * @zod.string.uuid()
    */
@@ -57,12 +57,12 @@ export type Recipe_ingredients = {
   /**
    * @zod.string.uuid()
    */
-  ingredient_id: string
+  id: string
   /**
    * @zod.string.uuid()
    */
   recipe_id: string | null
-  ingredient_name: string
+  name: string
   /**
    * @zod.number.int().gte(-2147483648).lte(2147483647)
    */
@@ -77,8 +77,9 @@ export type Recipes = {
   /**
    * @zod.string.uuid()
    */
-  recipe_id: string
-  recipe_name: string
+  id: string
+  description: string
+  name: string
 }
 
 
@@ -975,7 +976,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchMinAggregateOutputType = {
-    batch_id: string | null
+    id: string | null
     recipe_id: string | null
     bean_origin: string | null
     importer: string | null
@@ -983,7 +984,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchMaxAggregateOutputType = {
-    batch_id: string | null
+    id: string | null
     recipe_id: string | null
     bean_origin: string | null
     importer: string | null
@@ -991,7 +992,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchCountAggregateOutputType = {
-    batch_id: number
+    id: number
     recipe_id: number
     bean_origin: number
     importer: number
@@ -1001,7 +1002,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Chocolate_batchMinAggregateInputType = {
-    batch_id?: true
+    id?: true
     recipe_id?: true
     bean_origin?: true
     importer?: true
@@ -1009,7 +1010,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchMaxAggregateInputType = {
-    batch_id?: true
+    id?: true
     recipe_id?: true
     bean_origin?: true
     importer?: true
@@ -1017,7 +1018,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchCountAggregateInputType = {
-    batch_id?: true
+    id?: true
     recipe_id?: true
     bean_origin?: true
     importer?: true
@@ -1099,7 +1100,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Chocolate_batchGroupByOutputType = {
-    batch_id: string
+    id: string
     recipe_id: string | null
     bean_origin: string
     importer: string
@@ -1124,7 +1125,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Chocolate_batchSelect = {
-    batch_id?: boolean
+    id?: boolean
     recipe_id?: boolean
     bean_origin?: boolean
     importer?: boolean
@@ -1247,8 +1248,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * // Get first 10 Chocolate_batches
      * const chocolate_batches = await prisma.chocolate_batch.findMany({ take: 10 })
      * 
-     * // Only select the `batch_id`
-     * const chocolate_batchWithBatch_idOnly = await prisma.chocolate_batch.findMany({ select: { batch_id: true } })
+     * // Only select the `id`
+     * const chocolate_batchWithIdOnly = await prisma.chocolate_batch.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends Chocolate_batchFindManyArgs>(
@@ -1937,7 +1938,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsMinAggregateOutputType = {
-    comment_id: string | null
+    id: string | null
     batch_id: string | null
     user_name: string | null
     comment_timestamp: Date | null
@@ -1946,7 +1947,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsMaxAggregateOutputType = {
-    comment_id: string | null
+    id: string | null
     batch_id: string | null
     user_name: string | null
     comment_timestamp: Date | null
@@ -1955,7 +1956,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsCountAggregateOutputType = {
-    comment_id: number
+    id: number
     batch_id: number
     user_name: number
     comment_timestamp: number
@@ -1966,7 +1967,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Production_commentsMinAggregateInputType = {
-    comment_id?: true
+    id?: true
     batch_id?: true
     user_name?: true
     comment_timestamp?: true
@@ -1975,7 +1976,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsMaxAggregateInputType = {
-    comment_id?: true
+    id?: true
     batch_id?: true
     user_name?: true
     comment_timestamp?: true
@@ -1984,7 +1985,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsCountAggregateInputType = {
-    comment_id?: true
+    id?: true
     batch_id?: true
     user_name?: true
     comment_timestamp?: true
@@ -2067,7 +2068,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Production_commentsGroupByOutputType = {
-    comment_id: string
+    id: string
     batch_id: string | null
     user_name: string
     comment_timestamp: Date | null
@@ -2093,7 +2094,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Production_commentsSelect = {
-    comment_id?: boolean
+    id?: boolean
     batch_id?: boolean
     user_name?: boolean
     comment_timestamp?: boolean
@@ -2209,8 +2210,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * // Get first 10 Production_comments
      * const production_comments = await prisma.production_comments.findMany({ take: 10 })
      * 
-     * // Only select the `comment_id`
-     * const production_commentsWithComment_idOnly = await prisma.production_comments.findMany({ select: { comment_id: true } })
+     * // Only select the `id`
+     * const production_commentsWithIdOnly = await prisma.production_comments.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends Production_commentsFindManyArgs>(
@@ -2886,23 +2887,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Recipe_ingredientsMinAggregateOutputType = {
-    ingredient_id: string | null
+    id: string | null
     recipe_id: string | null
-    ingredient_name: string | null
+    name: string | null
     percentage: number | null
   }
 
   export type Recipe_ingredientsMaxAggregateOutputType = {
-    ingredient_id: string | null
+    id: string | null
     recipe_id: string | null
-    ingredient_name: string | null
+    name: string | null
     percentage: number | null
   }
 
   export type Recipe_ingredientsCountAggregateOutputType = {
-    ingredient_id: number
+    id: number
     recipe_id: number
-    ingredient_name: number
+    name: number
     percentage: number
     _all: number
   }
@@ -2917,23 +2918,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Recipe_ingredientsMinAggregateInputType = {
-    ingredient_id?: true
+    id?: true
     recipe_id?: true
-    ingredient_name?: true
+    name?: true
     percentage?: true
   }
 
   export type Recipe_ingredientsMaxAggregateInputType = {
-    ingredient_id?: true
+    id?: true
     recipe_id?: true
-    ingredient_name?: true
+    name?: true
     percentage?: true
   }
 
   export type Recipe_ingredientsCountAggregateInputType = {
-    ingredient_id?: true
+    id?: true
     recipe_id?: true
-    ingredient_name?: true
+    name?: true
     percentage?: true
     _all?: true
   }
@@ -3026,9 +3027,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Recipe_ingredientsGroupByOutputType = {
-    ingredient_id: string
+    id: string
     recipe_id: string | null
-    ingredient_name: string
+    name: string
     percentage: number
     _count: Recipe_ingredientsCountAggregateOutputType | null
     _avg: Recipe_ingredientsAvgAggregateOutputType | null
@@ -3052,9 +3053,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type Recipe_ingredientsSelect = {
-    ingredient_id?: boolean
+    id?: boolean
     recipe_id?: boolean
-    ingredient_name?: boolean
+    name?: boolean
     percentage?: boolean
     recipes?: boolean | RecipesArgs
   }
@@ -3166,8 +3167,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * // Get first 10 Recipe_ingredients
      * const recipe_ingredients = await prisma.recipe_ingredients.findMany({ take: 10 })
      * 
-     * // Only select the `ingredient_id`
-     * const recipe_ingredientsWithIngredient_idOnly = await prisma.recipe_ingredients.findMany({ select: { ingredient_id: true } })
+     * // Only select the `id`
+     * const recipe_ingredientsWithIdOnly = await prisma.recipe_ingredients.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends Recipe_ingredientsFindManyArgs>(
@@ -3833,35 +3834,41 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RecipesMinAggregateOutputType = {
-    recipe_id: string | null
-    recipe_name: string | null
+    id: string | null
+    description: string | null
+    name: string | null
   }
 
   export type RecipesMaxAggregateOutputType = {
-    recipe_id: string | null
-    recipe_name: string | null
+    id: string | null
+    description: string | null
+    name: string | null
   }
 
   export type RecipesCountAggregateOutputType = {
-    recipe_id: number
-    recipe_name: number
+    id: number
+    description: number
+    name: number
     _all: number
   }
 
 
   export type RecipesMinAggregateInputType = {
-    recipe_id?: true
-    recipe_name?: true
+    id?: true
+    description?: true
+    name?: true
   }
 
   export type RecipesMaxAggregateInputType = {
-    recipe_id?: true
-    recipe_name?: true
+    id?: true
+    description?: true
+    name?: true
   }
 
   export type RecipesCountAggregateInputType = {
-    recipe_id?: true
-    recipe_name?: true
+    id?: true
+    description?: true
+    name?: true
     _all?: true
   }
 
@@ -3939,8 +3946,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type RecipesGroupByOutputType = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     _count: RecipesCountAggregateOutputType | null
     _min: RecipesMinAggregateOutputType | null
     _max: RecipesMaxAggregateOutputType | null
@@ -3961,8 +3969,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type RecipesSelect = {
-    recipe_id?: boolean
-    recipe_name?: boolean
+    id?: boolean
+    description?: boolean
+    name?: boolean
     chocolate_batch?: boolean | Recipes$chocolate_batchArgs
     recipe_ingredients?: boolean | Recipes$recipe_ingredientsArgs
     _count?: boolean | RecipesCountOutputTypeArgs
@@ -4081,8 +4090,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * // Get first 10 Recipes
      * const recipes = await prisma.recipes.findMany({ take: 10 })
      * 
-     * // Only select the `recipe_id`
-     * const recipesWithRecipe_idOnly = await prisma.recipes.findMany({ select: { recipe_id: true } })
+     * // Only select the `id`
+     * const recipesWithIdOnly = await prisma.recipes.findMany({ select: { id: true } })
      * 
     **/
     findMany<T extends RecipesFindManyArgs>(
@@ -4788,7 +4797,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
   export const Chocolate_batchScalarFieldEnum: {
-    batch_id: 'batch_id',
+    id: 'id',
     recipe_id: 'recipe_id',
     bean_origin: 'bean_origin',
     importer: 'importer',
@@ -4799,7 +4808,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export const Production_commentsScalarFieldEnum: {
-    comment_id: 'comment_id',
+    id: 'id',
     batch_id: 'batch_id',
     user_name: 'user_name',
     comment_timestamp: 'comment_timestamp',
@@ -4819,9 +4828,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export const Recipe_ingredientsScalarFieldEnum: {
-    ingredient_id: 'ingredient_id',
+    id: 'id',
     recipe_id: 'recipe_id',
-    ingredient_name: 'ingredient_name',
+    name: 'name',
     percentage: 'percentage'
   };
 
@@ -4829,8 +4838,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export const RecipesScalarFieldEnum: {
-    recipe_id: 'recipe_id',
-    recipe_name: 'recipe_name'
+    id: 'id',
+    description: 'description',
+    name: 'name'
   };
 
   export type RecipesScalarFieldEnum = (typeof RecipesScalarFieldEnum)[keyof typeof RecipesScalarFieldEnum]
@@ -4863,7 +4873,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Chocolate_batchWhereInput>
     OR?: Enumerable<Chocolate_batchWhereInput>
     NOT?: Enumerable<Chocolate_batchWhereInput>
-    batch_id?: UuidFilter | string
+    id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
     bean_origin?: StringFilter | string
     importer?: StringFilter | string
@@ -4873,7 +4883,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchOrderByWithRelationInput = {
-    batch_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -4883,11 +4893,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchWhereUniqueInput = {
-    batch_id?: string
+    id?: string
   }
 
   export type Chocolate_batchOrderByWithAggregationInput = {
-    batch_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -4901,7 +4911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Chocolate_batchScalarWhereWithAggregatesInput>
     OR?: Enumerable<Chocolate_batchScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Chocolate_batchScalarWhereWithAggregatesInput>
-    batch_id?: UuidWithAggregatesFilter | string
+    id?: UuidWithAggregatesFilter | string
     recipe_id?: UuidNullableWithAggregatesFilter | string | null
     bean_origin?: StringWithAggregatesFilter | string
     importer?: StringWithAggregatesFilter | string
@@ -4912,7 +4922,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Production_commentsWhereInput>
     OR?: Enumerable<Production_commentsWhereInput>
     NOT?: Enumerable<Production_commentsWhereInput>
-    comment_id?: UuidFilter | string
+    id?: UuidFilter | string
     batch_id?: UuidNullableFilter | string | null
     user_name?: StringFilter | string
     comment_timestamp?: DateTimeNullableFilter | Date | string | null
@@ -4922,7 +4932,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsOrderByWithRelationInput = {
-    comment_id?: SortOrder
+    id?: SortOrder
     batch_id?: SortOrder
     user_name?: SortOrder
     comment_timestamp?: SortOrder
@@ -4932,11 +4942,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsWhereUniqueInput = {
-    comment_id?: string
+    id?: string
   }
 
   export type Production_commentsOrderByWithAggregationInput = {
-    comment_id?: SortOrder
+    id?: SortOrder
     batch_id?: SortOrder
     user_name?: SortOrder
     comment_timestamp?: SortOrder
@@ -4951,7 +4961,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
     OR?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
-    comment_id?: UuidWithAggregatesFilter | string
+    id?: UuidWithAggregatesFilter | string
     batch_id?: UuidNullableWithAggregatesFilter | string | null
     user_name?: StringWithAggregatesFilter | string
     comment_timestamp?: DateTimeNullableWithAggregatesFilter | Date | string | null
@@ -4963,29 +4973,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Recipe_ingredientsWhereInput>
     OR?: Enumerable<Recipe_ingredientsWhereInput>
     NOT?: Enumerable<Recipe_ingredientsWhereInput>
-    ingredient_id?: UuidFilter | string
+    id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
-    ingredient_name?: StringFilter | string
+    name?: StringFilter | string
     percentage?: IntFilter | number
     recipes?: XOR<RecipesRelationFilter, RecipesWhereInput> | null
   }
 
   export type Recipe_ingredientsOrderByWithRelationInput = {
-    ingredient_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
-    ingredient_name?: SortOrder
+    name?: SortOrder
     percentage?: SortOrder
     recipes?: RecipesOrderByWithRelationInput
   }
 
   export type Recipe_ingredientsWhereUniqueInput = {
-    ingredient_id?: string
+    id?: string
   }
 
   export type Recipe_ingredientsOrderByWithAggregationInput = {
-    ingredient_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
-    ingredient_name?: SortOrder
+    name?: SortOrder
     percentage?: SortOrder
     _count?: Recipe_ingredientsCountOrderByAggregateInput
     _avg?: Recipe_ingredientsAvgOrderByAggregateInput
@@ -4998,9 +5008,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Recipe_ingredientsScalarWhereWithAggregatesInput>
     OR?: Enumerable<Recipe_ingredientsScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Recipe_ingredientsScalarWhereWithAggregatesInput>
-    ingredient_id?: UuidWithAggregatesFilter | string
+    id?: UuidWithAggregatesFilter | string
     recipe_id?: UuidNullableWithAggregatesFilter | string | null
-    ingredient_name?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
     percentage?: IntWithAggregatesFilter | number
   }
 
@@ -5008,26 +5018,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<RecipesWhereInput>
     OR?: Enumerable<RecipesWhereInput>
     NOT?: Enumerable<RecipesWhereInput>
-    recipe_id?: UuidFilter | string
-    recipe_name?: StringFilter | string
+    id?: UuidFilter | string
+    description?: StringFilter | string
+    name?: StringFilter | string
     chocolate_batch?: Chocolate_batchListRelationFilter
     recipe_ingredients?: Recipe_ingredientsListRelationFilter
   }
 
   export type RecipesOrderByWithRelationInput = {
-    recipe_id?: SortOrder
-    recipe_name?: SortOrder
+    id?: SortOrder
+    description?: SortOrder
+    name?: SortOrder
     chocolate_batch?: Chocolate_batchOrderByRelationAggregateInput
     recipe_ingredients?: Recipe_ingredientsOrderByRelationAggregateInput
   }
 
   export type RecipesWhereUniqueInput = {
-    recipe_id?: string
+    id?: string
   }
 
   export type RecipesOrderByWithAggregationInput = {
-    recipe_id?: SortOrder
-    recipe_name?: SortOrder
+    id?: SortOrder
+    description?: SortOrder
+    name?: SortOrder
     _count?: RecipesCountOrderByAggregateInput
     _max?: RecipesMaxOrderByAggregateInput
     _min?: RecipesMinOrderByAggregateInput
@@ -5037,12 +5050,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<RecipesScalarWhereWithAggregatesInput>
     OR?: Enumerable<RecipesScalarWhereWithAggregatesInput>
     NOT?: Enumerable<RecipesScalarWhereWithAggregatesInput>
-    recipe_id?: UuidWithAggregatesFilter | string
-    recipe_name?: StringWithAggregatesFilter | string
+    id?: UuidWithAggregatesFilter | string
+    description?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
   }
 
   export type Chocolate_batchCreateInput = {
-    batch_id: string
+    id: string
     bean_origin: string
     importer: string
     production_date: Date | string
@@ -5051,7 +5065,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedCreateInput = {
-    batch_id: string
+    id: string
     recipe_id?: string | null
     bean_origin: string
     importer: string
@@ -5060,7 +5074,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUpdateInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5069,7 +5083,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedUpdateInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
@@ -5078,7 +5092,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchCreateManyInput = {
-    batch_id: string
+    id: string
     recipe_id?: string | null
     bean_origin: string
     importer: string
@@ -5086,14 +5100,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUpdateManyMutationInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Chocolate_batchUncheckedUpdateManyInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
@@ -5101,7 +5115,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsCreateInput = {
-    comment_id: string
+    id: string
     user_name: string
     comment_timestamp?: Date | string | null
     comment_text: string
@@ -5110,7 +5124,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUncheckedCreateInput = {
-    comment_id: string
+    id: string
     batch_id?: string | null
     user_name: string
     comment_timestamp?: Date | string | null
@@ -5119,7 +5133,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUpdateInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment_text?: StringFieldUpdateOperationsInput | string
@@ -5128,7 +5142,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUncheckedUpdateInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     batch_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5137,7 +5151,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsCreateManyInput = {
-    comment_id: string
+    id: string
     batch_id?: string | null
     user_name: string
     comment_timestamp?: Date | string | null
@@ -5146,7 +5160,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUpdateManyMutationInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment_text?: StringFieldUpdateOperationsInput | string
@@ -5154,7 +5168,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUncheckedUpdateManyInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     batch_id?: NullableStringFieldUpdateOperationsInput | string | null
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5163,94 +5177,101 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Recipe_ingredientsCreateInput = {
-    ingredient_id: string
-    ingredient_name: string
+    id: string
+    name: string
     percentage: number
     recipes?: RecipesCreateNestedOneWithoutRecipe_ingredientsInput
   }
 
   export type Recipe_ingredientsUncheckedCreateInput = {
-    ingredient_id: string
+    id: string
     recipe_id?: string | null
-    ingredient_name: string
+    name: string
     percentage: number
   }
 
   export type Recipe_ingredientsUpdateInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
     recipes?: RecipesUpdateOneWithoutRecipe_ingredientsNestedInput
   }
 
   export type Recipe_ingredientsUncheckedUpdateInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 
   export type Recipe_ingredientsCreateManyInput = {
-    ingredient_id: string
+    id: string
     recipe_id?: string | null
-    ingredient_name: string
+    name: string
     percentage: number
   }
 
   export type Recipe_ingredientsUpdateManyMutationInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 
   export type Recipe_ingredientsUncheckedUpdateManyInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 
   export type RecipesCreateInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     chocolate_batch?: Chocolate_batchCreateNestedManyWithoutRecipesInput
     recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     chocolate_batch?: Chocolate_batchUncheckedCreateNestedManyWithoutRecipesInput
     recipe_ingredients?: Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput
   }
 
   export type RecipesUpdateInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     chocolate_batch?: Chocolate_batchUpdateManyWithoutRecipesNestedInput
     recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     chocolate_batch?: Chocolate_batchUncheckedUpdateManyWithoutRecipesNestedInput
     recipe_ingredients?: Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput
   }
 
   export type RecipesCreateManyInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
   }
 
   export type RecipesUpdateManyMutationInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type RecipesUncheckedUpdateManyInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type UuidFilter = {
@@ -5319,7 +5340,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchCountOrderByAggregateInput = {
-    batch_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -5327,7 +5348,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchMaxOrderByAggregateInput = {
-    batch_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -5335,7 +5356,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchMinOrderByAggregateInput = {
-    batch_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -5436,7 +5457,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsCountOrderByAggregateInput = {
-    comment_id?: SortOrder
+    id?: SortOrder
     batch_id?: SortOrder
     user_name?: SortOrder
     comment_timestamp?: SortOrder
@@ -5445,7 +5466,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsMaxOrderByAggregateInput = {
-    comment_id?: SortOrder
+    id?: SortOrder
     batch_id?: SortOrder
     user_name?: SortOrder
     comment_timestamp?: SortOrder
@@ -5454,7 +5475,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsMinOrderByAggregateInput = {
-    comment_id?: SortOrder
+    id?: SortOrder
     batch_id?: SortOrder
     user_name?: SortOrder
     comment_timestamp?: SortOrder
@@ -5506,9 +5527,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Recipe_ingredientsCountOrderByAggregateInput = {
-    ingredient_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
-    ingredient_name?: SortOrder
+    name?: SortOrder
     percentage?: SortOrder
   }
 
@@ -5517,16 +5538,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Recipe_ingredientsMaxOrderByAggregateInput = {
-    ingredient_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
-    ingredient_name?: SortOrder
+    name?: SortOrder
     percentage?: SortOrder
   }
 
   export type Recipe_ingredientsMinOrderByAggregateInput = {
-    ingredient_id?: SortOrder
+    id?: SortOrder
     recipe_id?: SortOrder
-    ingredient_name?: SortOrder
+    name?: SortOrder
     percentage?: SortOrder
   }
 
@@ -5571,18 +5592,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RecipesCountOrderByAggregateInput = {
-    recipe_id?: SortOrder
-    recipe_name?: SortOrder
+    id?: SortOrder
+    description?: SortOrder
+    name?: SortOrder
   }
 
   export type RecipesMaxOrderByAggregateInput = {
-    recipe_id?: SortOrder
-    recipe_name?: SortOrder
+    id?: SortOrder
+    description?: SortOrder
+    name?: SortOrder
   }
 
   export type RecipesMinOrderByAggregateInput = {
-    recipe_id?: SortOrder
-    recipe_name?: SortOrder
+    id?: SortOrder
+    description?: SortOrder
+    name?: SortOrder
   }
 
   export type RecipesCreateNestedOneWithoutChocolate_batchInput = {
@@ -5995,14 +6019,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RecipesCreateWithoutChocolate_batchInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateWithoutChocolate_batchInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     recipe_ingredients?: Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput
   }
 
@@ -6012,7 +6038,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsCreateWithoutChocolate_batchInput = {
-    comment_id: string
+    id: string
     user_name: string
     comment_timestamp?: Date | string | null
     comment_text: string
@@ -6020,7 +6046,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUncheckedCreateWithoutChocolate_batchInput = {
-    comment_id: string
+    id: string
     user_name: string
     comment_timestamp?: Date | string | null
     comment_text: string
@@ -6043,14 +6069,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RecipesUpdateWithoutChocolate_batchInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateWithoutChocolate_batchInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     recipe_ingredients?: Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput
   }
 
@@ -6074,7 +6102,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Production_commentsScalarWhereInput>
     OR?: Enumerable<Production_commentsScalarWhereInput>
     NOT?: Enumerable<Production_commentsScalarWhereInput>
-    comment_id?: UuidFilter | string
+    id?: UuidFilter | string
     batch_id?: UuidNullableFilter | string | null
     user_name?: StringFilter | string
     comment_timestamp?: DateTimeNullableFilter | Date | string | null
@@ -6083,7 +6111,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchCreateWithoutProduction_commentsInput = {
-    batch_id: string
+    id: string
     bean_origin: string
     importer: string
     production_date: Date | string
@@ -6091,7 +6119,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedCreateWithoutProduction_commentsInput = {
-    batch_id: string
+    id: string
     recipe_id?: string | null
     bean_origin: string
     importer: string
@@ -6109,7 +6137,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUpdateWithoutProduction_commentsInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6117,7 +6145,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedUpdateWithoutProduction_commentsInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
@@ -6125,14 +6153,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RecipesCreateWithoutRecipe_ingredientsInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     chocolate_batch?: Chocolate_batchCreateNestedManyWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateWithoutRecipe_ingredientsInput = {
-    recipe_id: string
-    recipe_name: string
+    id: string
+    description: string
+    name: string
     chocolate_batch?: Chocolate_batchUncheckedCreateNestedManyWithoutRecipesInput
   }
 
@@ -6147,19 +6177,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type RecipesUpdateWithoutRecipe_ingredientsInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     chocolate_batch?: Chocolate_batchUpdateManyWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateWithoutRecipe_ingredientsInput = {
-    recipe_id?: StringFieldUpdateOperationsInput | string
-    recipe_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     chocolate_batch?: Chocolate_batchUncheckedUpdateManyWithoutRecipesNestedInput
   }
 
   export type Chocolate_batchCreateWithoutRecipesInput = {
-    batch_id: string
+    id: string
     bean_origin: string
     importer: string
     production_date: Date | string
@@ -6167,7 +6199,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedCreateWithoutRecipesInput = {
-    batch_id: string
+    id: string
     bean_origin: string
     importer: string
     production_date: Date | string
@@ -6185,14 +6217,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Recipe_ingredientsCreateWithoutRecipesInput = {
-    ingredient_id: string
-    ingredient_name: string
+    id: string
+    name: string
     percentage: number
   }
 
   export type Recipe_ingredientsUncheckedCreateWithoutRecipesInput = {
-    ingredient_id: string
-    ingredient_name: string
+    id: string
+    name: string
     percentage: number
   }
 
@@ -6226,7 +6258,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Chocolate_batchScalarWhereInput>
     OR?: Enumerable<Chocolate_batchScalarWhereInput>
     NOT?: Enumerable<Chocolate_batchScalarWhereInput>
-    batch_id?: UuidFilter | string
+    id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
     bean_origin?: StringFilter | string
     importer?: StringFilter | string
@@ -6253,14 +6285,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     AND?: Enumerable<Recipe_ingredientsScalarWhereInput>
     OR?: Enumerable<Recipe_ingredientsScalarWhereInput>
     NOT?: Enumerable<Recipe_ingredientsScalarWhereInput>
-    ingredient_id?: UuidFilter | string
+    id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
-    ingredient_name?: StringFilter | string
+    name?: StringFilter | string
     percentage?: IntFilter | number
   }
 
   export type Production_commentsCreateManyChocolate_batchInput = {
-    comment_id: string
+    id: string
     user_name: string
     comment_timestamp?: Date | string | null
     comment_text: string
@@ -6268,7 +6300,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUpdateWithoutChocolate_batchInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment_text?: StringFieldUpdateOperationsInput | string
@@ -6276,7 +6308,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUncheckedUpdateWithoutChocolate_batchInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment_text?: StringFieldUpdateOperationsInput | string
@@ -6284,7 +6316,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Production_commentsUncheckedUpdateManyWithoutProduction_commentsInput = {
-    comment_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment_text?: StringFieldUpdateOperationsInput | string
@@ -6292,20 +6324,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchCreateManyRecipesInput = {
-    batch_id: string
+    id: string
     bean_origin: string
     importer: string
     production_date: Date | string
   }
 
   export type Recipe_ingredientsCreateManyRecipesInput = {
-    ingredient_id: string
-    ingredient_name: string
+    id: string
+    name: string
     percentage: number
   }
 
   export type Chocolate_batchUpdateWithoutRecipesInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6313,7 +6345,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedUpdateWithoutRecipesInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6321,27 +6353,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Chocolate_batchUncheckedUpdateManyWithoutChocolate_batchInput = {
-    batch_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type Recipe_ingredientsUpdateWithoutRecipesInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 
   export type Recipe_ingredientsUncheckedUpdateWithoutRecipesInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 
   export type Recipe_ingredientsUncheckedUpdateManyWithoutRecipe_ingredientsInput = {
-    ingredient_id?: StringFieldUpdateOperationsInput | string
-    ingredient_name?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 

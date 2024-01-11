@@ -1,19 +1,20 @@
 CREATE TABLE recipes (
-    recipe_id UUID PRIMARY KEY,
-    recipe_name TEXT NOT NULL
+    id UUID PRIMARY KEY,
+    description TEXT NOT NULL,
+    name TEXT NOT NULL
 );
 
 CREATE TABLE chocolate_batch (
-    batch_id UUID PRIMARY KEY,
-    recipe_id UUID REFERENCES recipes(recipe_id),
+    id UUID PRIMARY KEY,
+    recipe_id UUID REFERENCES recipes(id),
     bean_origin TEXT NOT NULL,
     importer TEXT NOT NULL,
     production_date DATE NOT NULL
 );
 
 CREATE TABLE production_comments (
-    comment_id UUID PRIMARY KEY,
-    batch_id UUID REFERENCES chocolate_batch(batch_id),
+    id UUID PRIMARY KEY,
+    batch_id UUID REFERENCES chocolate_batch(id),
     user_name TEXT NOT NULL,
     comment_timestamp TIMESTAMPTZ,
     comment_text TEXT NOT NULL,
@@ -21,9 +22,9 @@ CREATE TABLE production_comments (
 );
 
 CREATE TABLE recipe_ingredients (
-    ingredient_id UUID PRIMARY KEY,
-    recipe_id UUID REFERENCES recipes(recipe_id),
-    ingredient_name TEXT NOT NULL,
+    id UUID PRIMARY KEY,
+    recipe_id UUID REFERENCES recipes(id),
+    name TEXT NOT NULL,
     percentage INTEGER NOT NULL CHECK (percentage > 0 AND percentage <= 100)
 );
 

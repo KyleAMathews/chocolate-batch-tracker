@@ -1,6 +1,15 @@
+import { Flex } from "@radix-ui/themes"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card"
 import { Electric } from "../generated/client"
 import { genUUID } from "electric-sql/util"
 import { useElectricData } from "electric-query"
@@ -45,8 +54,9 @@ const ingredientSchema = z.object({
 
 const formSchema = z.object({
   recipeName: z.string().min(2, {
-    message: `Username must be at least 2 characters.`,
+    message: `The recipe name must be at least 2 characters.`,
   }),
+  description: z.string(),
   ingredients: z.array(ingredientSchema),
 })
 
@@ -58,6 +68,7 @@ export function RecipeForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       recipeName: ``,
+      description: ``,
       ingredients: [{ name: ``, percentage: 0 }],
     },
   })
@@ -72,8 +83,9 @@ export function RecipeForm() {
     console.log(
       await db.recipes.create({
         data: {
-          recipe_id,
-          recipe_name: values.recipeName,
+          id: recipe_id,
+          description: values.description,
+          name: values.recipeName,
         },
       })
     )
@@ -82,9 +94,9 @@ export function RecipeForm() {
         values.ingredients.map((ingredient) => {
           return db.recipe_ingredients.create({
             data: {
-              ingredient_id: genUUID(),
+              id: genUUID(),
               recipe_id,
-              ingredient_name: ingredient.name,
+              name: ingredient.name,
               percentage: ingredient.percentage,
             },
           })
@@ -111,6 +123,19 @@ export function RecipeForm() {
                 <FormLabel>Recipe Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter recipe name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Describe your recipe" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,34 +210,40 @@ export default function Recipes() {
       <div className="divide-y divide-gray-200">
         <div className="py-6">
           <h2 className="text-xl font-semibold mb-2">Recipes</h2>
-          <ul className="divide-y divide-gray-200">
-            {recipes.map((recipe) => {
-              return (
-                <li className="py-2">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <span className="font-semibold">
-                        {recipe.recipe_name}
-                      </span>
-                      <ul className="pl-4">
-                        {recipe.recipe_ingredients.map((ingredient) => {
-                          return (
-                            <li>
-                              <span>
-                                {ingredient.ingredient_name} -{` `}
-                                {ingredient.percentage}%
-                              </span>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </div>
-                    <span className="material-icons">edit</span>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
+          {recipes.length > 0 && (
+            <ul className="divide-y divide-gray-200">
+              {recipes.map((recipe) => {
+                return (
+                  <Card>
+                    <Flex gap="3" direction="column">
+                      <CardHeader>
+                        <CardTitle className="underline">
+                          {recipe.name}
+                        </CardTitle>
+                        <CardDescription>{recipe.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <ul>
+                          {recipe.recipe_ingredients.map((ingredient) => {
+                            return (
+                              <li>
+                                <span>
+                                  {ingredient.name} -{` `}
+                                  {ingredient.percentage}%
+                                </span>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                        <span className="material-icons">edit</span>
+                      </CardContent>
+                    </Flex>
+                  </Card>
+                )
+              })}
+            </ul>
+          )}
+          {recipes.length === 0 && <div>Add your first recipe!</div>}
         </div>
         <div className="py-6">
           <h2 className="text-xl font-semibold mb-2">Add/Edit Recipe</h2>

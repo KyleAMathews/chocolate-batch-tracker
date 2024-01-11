@@ -1,6 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import "./globals.css"
+import "@radix-ui/themes/styles.css"
+import { Theme } from "@radix-ui/themes"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ErrorPage from "./error-page"
 import { ElectricalProvider } from "./context"
@@ -44,14 +46,14 @@ const router = createBrowserRouter([
                 }),
                 isReady: async () =>
                   !!(await db.raw({
-                    sql: `select ingredient_id from recipe_ingredients limit 1`,
+                    sql: `select id from recipe_ingredients limit 1`,
                   })),
               },
               {
                 shape: db.recipes.sync(),
                 isReady: async () =>
                   !!(await db.raw({
-                    sql: `select recipe_id from recipes limit 1`,
+                    sql: `select id from recipes limit 1`,
                   })),
               },
             ],
@@ -105,9 +107,11 @@ async function render() {
   })
   ReactDOM.createRoot(document.getElementById(`root`)!).render(
     <React.StrictMode>
-      <ElectricalProvider db={electric}>
-        <RouterProvider router={router} />
-      </ElectricalProvider>
+      <Theme>
+        <ElectricalProvider db={electric}>
+          <RouterProvider router={router} />
+        </ElectricalProvider>
+      </Theme>
     </React.StrictMode>
   )
 }
