@@ -84,10 +84,12 @@ export default function Index() {
                     <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
                   </TableCell>
                   <TableCell>
-                    {batch.ingredients &&
-                      JSON.parse(batch.ingredients)
-                        .map((i) => i.grams)
-                        .reduce((a, b) => a + b, 0) + ` grams`}
+                    <Link to={`/batch/${batch.id}`}>
+                      {batch.ingredients &&
+                        JSON.parse(batch.ingredients)
+                          .map((i) => i.grams)
+                          .reduce((a, b) => a + b, 0) + ` grams`}
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <Link to={`/batch/${batch.id}`}>
