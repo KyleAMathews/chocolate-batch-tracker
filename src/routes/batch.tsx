@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
-import { Flex, Box } from "@radix-ui/themes"
+import { Flex, Box, Text } from "@radix-ui/themes"
 import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
+import { genUUID } from "electric-sql/util"
+import Markdown from "react-markdown"
 import {
   TableHead,
   TableRow,
@@ -22,11 +24,11 @@ import { pparseInt } from "@/lib/utils"
 function SelectRecipes({ recipes, batch }) {
   const { db } = useElectric()!
   const [selectedRecipe, setSelectedRecipe] = useState(undefined)
-  const [editing, setEditing] = useState(batch.recipe_id === null)
+  const [editing, setEditing] = useState(true)
   if (editing) {
     return (
       <select
-        defaultValue={batch.recipe_id}
+        defaultValue={batch.recipe_id || ``}
         onChange={async (e) => {
           const recipe = recipes.find((r) => r.id === e.target.value)
           setSelectedRecipe(recipe.name)
@@ -45,6 +47,9 @@ function SelectRecipes({ recipes, batch }) {
           })
         }}
       >
+        <option value="" disabled>
+          Select a recipe
+        </option>
         {recipes.map((recipe) => {
           return (
             <option key={`recipe-option-${recipe.id}`} value={recipe.id}>
@@ -145,8 +150,8 @@ function IngredientsEditor({ ingredients, batchId }) {
   const pIngredients = JSON.parse(ingredients)
   const [weights, setWeights] = useState(pIngredients.map((i) => i.grams))
   return (
-    <>
-      <h2>Ingredients</h2>
+    <div>
+      <h2 className="font-semibold text-lg md:text-xl mb-3">Ingredients</h2>
       <Table>
         <TableHeader>
           <TableRow>
@@ -201,7 +206,7 @@ function IngredientsEditor({ ingredients, batchId }) {
           })}
         </TableBody>
       </Table>
-    </>
+    </div>
   )
 }
 
@@ -226,6 +231,14 @@ WHERE
         recipe_ingredients: true,
       },
     }),
+    comments: db.production_comments.liveMany({
+      orderBy: {
+        created_at: `desc`,
+      },
+      where: {
+        batch_id: id,
+      },
+    }),
   }
 }
 
@@ -236,6 +249,7 @@ export default function Batch() {
   const {
     recipes,
     batch: [batch],
+    comments,
   } = useElectricData(location.pathname + location.search)
   return (
     <div className="grid gap-6 md:gap-8 px-4 md:px-6">
@@ -249,6 +263,7 @@ export default function Batch() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Recipe</TableHead>
+              <TableHead className="w-[200px]">Weight</TableHead>
               <TableHead className="w-[200px]">Bean Origin</TableHead>
               <TableHead className="w-[200px]">Importer</TableHead>
               <TableHead className="w-[200px]">Production Date</TableHead>
@@ -262,6 +277,12 @@ export default function Batch() {
                   batch={batch}
                   recipes={recipes}
                 />
+              </TableCell>
+              <TableCell className="font-medium">
+                {batch.ingredients &&
+                  JSON.parse(batch.ingredients)
+                    .map((i) => i.grams)
+                    .reduce((a, b) => a + b, 0) + ` grams`}
               </TableCell>
               <TableCell className="font-medium">
                 <InputOrDisplay
@@ -295,52 +316,70 @@ export default function Batch() {
         <h2 className="font-semibold text-lg md:text-xl mb-4">
           Production Comments
         </h2>
-        <div className="grid gap-4">
-          <div className="border rounded-lg p-4">
-            <h3 className="font-medium">John Doe</h3>
-            <p className="text-sm text-gray-500">January 10, 2024, 2:30 PM</p>
-            <p className="mt-2">
-              The batch was smooth and the beans were of excellent quality.
-            </p>
-            <img
-              alt="Comment attachment"
-              className="aspect-square object-cover mt-4 rounded-md"
-              height={200}
-              src="/placeholder.svg"
-              width={200}
-            />
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-medium">Jane Smith</h3>
-            <p className="text-sm text-gray-500">January 10, 2024, 3:15 PM</p>
-            <p className="mt-2">
-              Noticed a slight variation in the color of the beans. Might be due
-              to the weather conditions during transportation.
-            </p>
-            <img
-              alt="Comment attachment"
-              className="aspect-square object-cover mt-4 rounded-md"
-              height={200}
-              src="/placeholder.svg"
-              width={200}
-            />
-          </div>
-        </div>
+        <Flex direction="column" gap="4">
+          {comments.map((comment) => {
+            return (
+              <Box className="border rounded-lg" p="4">
+                <h3 className="font-medium">{comment.user_name}</h3>
+                <p className="text-sm text-gray-500">
+                  {comment.created_at.toString()}
+                </p>
+                <Markdown
+                  className="mt-2"
+                  components={{
+                    p(props) {
+                      return <Text as="p" mb="2" {...props} />
+                    },
+                  }}
+                >
+                  {comment.text}
+                </Markdown>
+              </Box>
+            )
+          })}
+        </Flex>
         <div className="mt-6">
           <h2 className="font-semibold text-lg md:text-xl mb-4">
             Add a Comment
           </h2>
-          <div className="grid gap-2">
-            <Label className="text-base" htmlFor="comment">
-              Comment
-            </Label>
-            <Textarea id="comment" placeholder="Enter your comment" />
-            <Label className="text-base" htmlFor="attachment">
-              Attachment
-            </Label>
-            <Input id="attachment" type="file" />
-            <Button className="mt-4">Submit Comment</Button>
-          </div>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault()
+              const formData = new FormData(e.target)
+              const data = Object.fromEntries(formData)
+              await db.production_comments.create({
+                data: {
+                  id: genUUID(),
+                  user_id: `123`,
+                  user_name: `Kyle Mathews`,
+                  batch_id: batch.id,
+                  text: data.comment,
+                  attachment_path: null,
+                  created_at: new Date(),
+                },
+              })
+              e.target.reset()
+            }}
+          >
+            <Flex gap="2" direction="column">
+              <Label className="text-base" htmlFor="comment">
+                Comment
+              </Label>
+              <Textarea
+                name="comment"
+                placeholder="Enter your comment (markdown supported)"
+              />
+              <Label className="text-base" htmlFor="attachment">
+                Attachment
+              </Label>
+              <Input id="attachment" type="file" />
+              <div>
+                <Button className="mt-4" type="submit">
+                  Submit Comment
+                </Button>
+              </div>
+            </Flex>
+          </form>
         </div>
       </div>
     </div>

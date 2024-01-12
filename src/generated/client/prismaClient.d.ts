@@ -25,10 +25,10 @@ export type Chocolate_batches = {
    * @zod.string.uuid()
    */
   recipe_id: string | null
-  bean_origin: string
+  bean_origin: string | null
   ingredients: Prisma.JsonValue | null
-  importer: string
-  production_date: Date
+  importer: string | null
+  production_date: Date | null
 }
 
 /**
@@ -43,10 +43,11 @@ export type Production_comments = {
   /**
    * @zod.string.uuid()
    */
-  batch_id: string | null
+  batch_id: string
+  user_id: string
   user_name: string
-  comment_timestamp: Date | null
-  comment_text: string
+  created_at: Date
+  text: string
   attachment_path: string | null
 }
 
@@ -62,7 +63,7 @@ export type Recipe_ingredients = {
   /**
    * @zod.string.uuid()
    */
-  recipe_id: string | null
+  recipe_id: string
   name: string
   /**
    * @zod.number.int().gte(-2147483648).lte(2147483647)
@@ -1105,10 +1106,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Chocolate_batchesGroupByOutputType = {
     id: string
     recipe_id: string | null
-    bean_origin: string
+    bean_origin: string | null
     ingredients: JsonValue | null
-    importer: string
-    production_date: Date
+    importer: string | null
+    production_date: Date | null
     _count: Chocolate_batchesCountAggregateOutputType | null
     _min: Chocolate_batchesMinAggregateOutputType | null
     _max: Chocolate_batchesMaxAggregateOutputType | null
@@ -1945,27 +1946,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Production_commentsMinAggregateOutputType = {
     id: string | null
     batch_id: string | null
+    user_id: string | null
     user_name: string | null
-    comment_timestamp: Date | null
-    comment_text: string | null
+    created_at: Date | null
+    text: string | null
     attachment_path: string | null
   }
 
   export type Production_commentsMaxAggregateOutputType = {
     id: string | null
     batch_id: string | null
+    user_id: string | null
     user_name: string | null
-    comment_timestamp: Date | null
-    comment_text: string | null
+    created_at: Date | null
+    text: string | null
     attachment_path: string | null
   }
 
   export type Production_commentsCountAggregateOutputType = {
     id: number
     batch_id: number
+    user_id: number
     user_name: number
-    comment_timestamp: number
-    comment_text: number
+    created_at: number
+    text: number
     attachment_path: number
     _all: number
   }
@@ -1974,27 +1978,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Production_commentsMinAggregateInputType = {
     id?: true
     batch_id?: true
+    user_id?: true
     user_name?: true
-    comment_timestamp?: true
-    comment_text?: true
+    created_at?: true
+    text?: true
     attachment_path?: true
   }
 
   export type Production_commentsMaxAggregateInputType = {
     id?: true
     batch_id?: true
+    user_id?: true
     user_name?: true
-    comment_timestamp?: true
-    comment_text?: true
+    created_at?: true
+    text?: true
     attachment_path?: true
   }
 
   export type Production_commentsCountAggregateInputType = {
     id?: true
     batch_id?: true
+    user_id?: true
     user_name?: true
-    comment_timestamp?: true
-    comment_text?: true
+    created_at?: true
+    text?: true
     attachment_path?: true
     _all?: true
   }
@@ -2074,10 +2081,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsGroupByOutputType = {
     id: string
-    batch_id: string | null
+    batch_id: string
+    user_id: string
     user_name: string
-    comment_timestamp: Date | null
-    comment_text: string
+    created_at: Date
+    text: string
     attachment_path: string | null
     _count: Production_commentsCountAggregateOutputType | null
     _min: Production_commentsMinAggregateOutputType | null
@@ -2101,9 +2109,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Production_commentsSelect = {
     id?: boolean
     batch_id?: boolean
+    user_id?: boolean
     user_name?: boolean
-    comment_timestamp?: boolean
-    comment_text?: boolean
+    created_at?: boolean
+    text?: boolean
     attachment_path?: boolean
     chocolate_batches?: boolean | Chocolate_batchesArgs
   }
@@ -2120,12 +2129,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Production_commentsArgs | Production_commentsFindManyArgs)
     ? Production_comments  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['include'][P]> | null :  never
+        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (Production_commentsArgs | Production_commentsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['select'][P]> | null :  P extends keyof Production_comments ? Production_comments[P] : never
+        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['select'][P]> :  P extends keyof Production_comments ? Production_comments[P] : never
   } 
       : Production_comments
 
@@ -3033,7 +3042,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Recipe_ingredientsGroupByOutputType = {
     id: string
-    recipe_id: string | null
+    recipe_id: string
     name: string
     percentage: number
     _count: Recipe_ingredientsCountAggregateOutputType | null
@@ -3077,12 +3086,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Recipe_ingredientsArgs | Recipe_ingredientsFindManyArgs)
     ? Recipe_ingredients  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'recipes' ? RecipesGetPayload<S['include'][P]> | null :  never
+        P extends 'recipes' ? RecipesGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (Recipe_ingredientsArgs | Recipe_ingredientsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'recipes' ? RecipesGetPayload<S['select'][P]> | null :  P extends keyof Recipe_ingredients ? Recipe_ingredients[P] : never
+        P extends 'recipes' ? RecipesGetPayload<S['select'][P]> :  P extends keyof Recipe_ingredients ? Recipe_ingredients[P] : never
   } 
       : Recipe_ingredients
 
@@ -4833,9 +4842,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export const Production_commentsScalarFieldEnum: {
     id: 'id',
     batch_id: 'batch_id',
+    user_id: 'user_id',
     user_name: 'user_name',
-    comment_timestamp: 'comment_timestamp',
-    comment_text: 'comment_text',
+    created_at: 'created_at',
+    text: 'text',
     attachment_path: 'attachment_path'
   };
 
@@ -4898,10 +4908,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     NOT?: Enumerable<Chocolate_batchesWhereInput>
     id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
-    bean_origin?: StringFilter | string
+    bean_origin?: StringNullableFilter | string | null
     ingredients?: JsonNullableFilter
-    importer?: StringFilter | string
-    production_date?: DateTimeFilter | Date | string
+    importer?: StringNullableFilter | string | null
+    production_date?: DateTimeNullableFilter | Date | string | null
     recipes?: XOR<RecipesRelationFilter, RecipesWhereInput> | null
     production_comments?: Production_commentsListRelationFilter
   }
@@ -4939,10 +4949,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     NOT?: Enumerable<Chocolate_batchesScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
     recipe_id?: UuidNullableWithAggregatesFilter | string | null
-    bean_origin?: StringWithAggregatesFilter | string
+    bean_origin?: StringNullableWithAggregatesFilter | string | null
     ingredients?: JsonNullableWithAggregatesFilter
-    importer?: StringWithAggregatesFilter | string
-    production_date?: DateTimeWithAggregatesFilter | Date | string
+    importer?: StringNullableWithAggregatesFilter | string | null
+    production_date?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type Production_commentsWhereInput = {
@@ -4950,20 +4960,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Production_commentsWhereInput>
     NOT?: Enumerable<Production_commentsWhereInput>
     id?: UuidFilter | string
-    batch_id?: UuidNullableFilter | string | null
+    batch_id?: UuidFilter | string
+    user_id?: StringFilter | string
     user_name?: StringFilter | string
-    comment_timestamp?: DateTimeNullableFilter | Date | string | null
-    comment_text?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    text?: StringFilter | string
     attachment_path?: StringNullableFilter | string | null
-    chocolate_batches?: XOR<Chocolate_batchesRelationFilter, Chocolate_batchesWhereInput> | null
+    chocolate_batches?: XOR<Chocolate_batchesRelationFilter, Chocolate_batchesWhereInput>
   }
 
   export type Production_commentsOrderByWithRelationInput = {
     id?: SortOrder
     batch_id?: SortOrder
+    user_id?: SortOrder
     user_name?: SortOrder
-    comment_timestamp?: SortOrder
-    comment_text?: SortOrder
+    created_at?: SortOrder
+    text?: SortOrder
     attachment_path?: SortOrder
     chocolate_batches?: Chocolate_batchesOrderByWithRelationInput
   }
@@ -4975,9 +4987,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Production_commentsOrderByWithAggregationInput = {
     id?: SortOrder
     batch_id?: SortOrder
+    user_id?: SortOrder
     user_name?: SortOrder
-    comment_timestamp?: SortOrder
-    comment_text?: SortOrder
+    created_at?: SortOrder
+    text?: SortOrder
     attachment_path?: SortOrder
     _count?: Production_commentsCountOrderByAggregateInput
     _max?: Production_commentsMaxOrderByAggregateInput
@@ -4989,10 +5002,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
-    batch_id?: UuidNullableWithAggregatesFilter | string | null
+    batch_id?: UuidWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
     user_name?: StringWithAggregatesFilter | string
-    comment_timestamp?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    comment_text?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    text?: StringWithAggregatesFilter | string
     attachment_path?: StringNullableWithAggregatesFilter | string | null
   }
 
@@ -5001,10 +5015,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Recipe_ingredientsWhereInput>
     NOT?: Enumerable<Recipe_ingredientsWhereInput>
     id?: UuidFilter | string
-    recipe_id?: UuidNullableFilter | string | null
+    recipe_id?: UuidFilter | string
     name?: StringFilter | string
     percentage?: IntFilter | number
-    recipes?: XOR<RecipesRelationFilter, RecipesWhereInput> | null
+    recipes?: XOR<RecipesRelationFilter, RecipesWhereInput>
   }
 
   export type Recipe_ingredientsOrderByWithRelationInput = {
@@ -5036,7 +5050,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Recipe_ingredientsScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Recipe_ingredientsScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
-    recipe_id?: UuidNullableWithAggregatesFilter | string | null
+    recipe_id?: UuidWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
     percentage?: IntWithAggregatesFilter | number
   }
@@ -5084,10 +5098,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCreateInput = {
     id: string
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
     recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
     production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
   }
@@ -5095,19 +5109,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Chocolate_batchesUncheckedCreateInput = {
     id: string
     recipe_id?: string | null
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
     production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchesInput
   }
 
   export type Chocolate_batchesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
     production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
   }
@@ -5115,98 +5129,105 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Chocolate_batchesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesCreateManyInput = {
     id: string
     recipe_id?: string | null
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
   }
 
   export type Chocolate_batchesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type Chocolate_batchesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type Production_commentsCreateInput = {
     id: string
+    user_id: string
     user_name: string
-    comment_timestamp?: Date | string | null
-    comment_text: string
+    created_at: Date | string
+    text: string
     attachment_path?: string | null
-    chocolate_batches?: Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput
+    chocolate_batches: Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput
   }
 
   export type Production_commentsUncheckedCreateInput = {
     id: string
-    batch_id?: string | null
+    batch_id: string
+    user_id: string
     user_name: string
-    comment_timestamp?: Date | string | null
-    comment_text: string
+    created_at: Date | string
+    text: string
     attachment_path?: string | null
   }
 
   export type Production_commentsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
-    chocolate_batches?: Chocolate_batchesUpdateOneWithoutProduction_commentsNestedInput
+    chocolate_batches?: Chocolate_batchesUpdateOneRequiredWithoutProduction_commentsNestedInput
   }
 
   export type Production_commentsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    batch_id?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Production_commentsCreateManyInput = {
     id: string
-    batch_id?: string | null
+    batch_id: string
+    user_id: string
     user_name: string
-    comment_timestamp?: Date | string | null
-    comment_text: string
+    created_at: Date | string
+    text: string
     attachment_path?: string | null
   }
 
   export type Production_commentsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Production_commentsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    batch_id?: NullableStringFieldUpdateOperationsInput | string | null
+    batch_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -5214,12 +5235,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id: string
     name: string
     percentage: number
-    recipes?: RecipesCreateNestedOneWithoutRecipe_ingredientsInput
+    recipes: RecipesCreateNestedOneWithoutRecipe_ingredientsInput
   }
 
   export type Recipe_ingredientsUncheckedCreateInput = {
     id: string
-    recipe_id?: string | null
+    recipe_id: string
     name: string
     percentage: number
   }
@@ -5228,19 +5249,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
-    recipes?: RecipesUpdateOneWithoutRecipe_ingredientsNestedInput
+    recipes?: RecipesUpdateOneRequiredWithoutRecipe_ingredientsNestedInput
   }
 
   export type Recipe_ingredientsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
+    recipe_id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
 
   export type Recipe_ingredientsCreateManyInput = {
     id: string
-    recipe_id?: string | null
+    recipe_id: string
     name: string
     percentage: number
   }
@@ -5253,7 +5274,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Recipe_ingredientsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
+    recipe_id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
   }
@@ -5332,10 +5353,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedUuidNullableFilter | string | null
   }
 
-  export type StringFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
     lt?: string
     lte?: string
     gt?: string
@@ -5344,7 +5365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     startsWith?: string
     endsWith?: string
     mode?: QueryMode
-    not?: NestedStringFilter | string
+    not?: NestedStringNullableFilter | string | null
   }
   export type JsonNullableFilter = 
     | PatchUndefined<
@@ -5369,20 +5390,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: InputJsonValue | JsonNullValueFilter
   }
 
-  export type DateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
     lt?: Date | string
     lte?: Date | string
     gt?: Date | string
     gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
   export type RecipesRelationFilter = {
-    is?: RecipesWhereInput | null
-    isNot?: RecipesWhereInput | null
+    is?: RecipesWhereInput
+    isNot?: RecipesWhereInput
   }
 
   export type Production_commentsListRelationFilter = {
@@ -5450,10 +5471,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedStringNullableFilter
   }
 
-  export type StringWithAggregatesFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
     lt?: string
     lte?: string
     gt?: string
@@ -5462,10 +5483,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     startsWith?: string
     endsWith?: string
     mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
   export type JsonNullableWithAggregatesFilter = 
     | PatchUndefined<
@@ -5493,78 +5514,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedJsonNullableFilter
   }
 
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
-  export type DateTimeNullableFilter = {
-    equals?: Date | string | null
-    in?: Enumerable<Date> | Enumerable<string> | null
-    notIn?: Enumerable<Date> | Enumerable<string> | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableFilter | Date | string | null
-  }
-
-  export type StringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableFilter | string | null
-  }
-
-  export type Chocolate_batchesRelationFilter = {
-    is?: Chocolate_batchesWhereInput | null
-    isNot?: Chocolate_batchesWhereInput | null
-  }
-
-  export type Production_commentsCountOrderByAggregateInput = {
-    id?: SortOrder
-    batch_id?: SortOrder
-    user_name?: SortOrder
-    comment_timestamp?: SortOrder
-    comment_text?: SortOrder
-    attachment_path?: SortOrder
-  }
-
-  export type Production_commentsMaxOrderByAggregateInput = {
-    id?: SortOrder
-    batch_id?: SortOrder
-    user_name?: SortOrder
-    comment_timestamp?: SortOrder
-    comment_text?: SortOrder
-    attachment_path?: SortOrder
-  }
-
-  export type Production_commentsMinOrderByAggregateInput = {
-    id?: SortOrder
-    batch_id?: SortOrder
-    user_name?: SortOrder
-    comment_timestamp?: SortOrder
-    comment_text?: SortOrder
-    attachment_path?: SortOrder
-  }
-
   export type DateTimeNullableWithAggregatesFilter = {
     equals?: Date | string | null
     in?: Enumerable<Date> | Enumerable<string> | null
@@ -5579,10 +5528,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter
   }
 
-  export type StringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
+  export type StringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
     lt?: string
     lte?: string
     gt?: string
@@ -5591,10 +5540,85 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     startsWith?: string
     endsWith?: string
     mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
+    not?: NestedStringFilter | string
+  }
+
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type Chocolate_batchesRelationFilter = {
+    is?: Chocolate_batchesWhereInput
+    isNot?: Chocolate_batchesWhereInput
+  }
+
+  export type Production_commentsCountOrderByAggregateInput = {
+    id?: SortOrder
+    batch_id?: SortOrder
+    user_id?: SortOrder
+    user_name?: SortOrder
+    created_at?: SortOrder
+    text?: SortOrder
+    attachment_path?: SortOrder
+  }
+
+  export type Production_commentsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batch_id?: SortOrder
+    user_id?: SortOrder
+    user_name?: SortOrder
+    created_at?: SortOrder
+    text?: SortOrder
+    attachment_path?: SortOrder
+  }
+
+  export type Production_commentsMinOrderByAggregateInput = {
+    id?: SortOrder
+    batch_id?: SortOrder
+    user_id?: SortOrder
+    user_name?: SortOrder
+    created_at?: SortOrder
+    text?: SortOrder
+    attachment_path?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
   export type IntFilter = {
@@ -5715,8 +5739,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     set?: string
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type RecipesUpdateOneWithoutChocolate_batchesNestedInput = {
@@ -5743,10 +5771,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Production_commentsScalarWhereInput>
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput = {
     create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchesInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchesInput>>
     connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchesInput>
@@ -5767,16 +5791,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Chocolate_batchesWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
-  export type Chocolate_batchesUpdateOneWithoutProduction_commentsNestedInput = {
+  export type Chocolate_batchesUpdateOneRequiredWithoutProduction_commentsNestedInput = {
     create?: XOR<Chocolate_batchesCreateWithoutProduction_commentsInput, Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput>
     connectOrCreate?: Chocolate_batchesCreateOrConnectWithoutProduction_commentsInput
     upsert?: Chocolate_batchesUpsertWithoutProduction_commentsInput
-    disconnect?: boolean
-    delete?: boolean
     connect?: Chocolate_batchesWhereUniqueInput
     update?: XOR<Chocolate_batchesUpdateWithoutProduction_commentsInput, Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput>
   }
@@ -5795,12 +5817,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     divide?: number
   }
 
-  export type RecipesUpdateOneWithoutRecipe_ingredientsNestedInput = {
+  export type RecipesUpdateOneRequiredWithoutRecipe_ingredientsNestedInput = {
     create?: XOR<RecipesCreateWithoutRecipe_ingredientsInput, RecipesUncheckedCreateWithoutRecipe_ingredientsInput>
     connectOrCreate?: RecipesCreateOrConnectWithoutRecipe_ingredientsInput
     upsert?: RecipesUpsertWithoutRecipe_ingredientsInput
-    disconnect?: boolean
-    delete?: boolean
     connect?: RecipesWhereUniqueInput
     update?: XOR<RecipesUpdateWithoutRecipe_ingredientsInput, RecipesUncheckedUpdateWithoutRecipe_ingredientsInput>
   }
@@ -5911,10 +5931,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedUuidNullableFilter | string | null
   }
 
-  export type NestedStringFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
     lt?: string
     lte?: string
     gt?: string
@@ -5922,18 +5942,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     contains?: string
     startsWith?: string
     endsWith?: string
-    not?: NestedStringFilter | string
+    not?: NestedStringNullableFilter | string | null
   }
 
-  export type NestedDateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
     lt?: Date | string
     lte?: Date | string
     gt?: Date | string
     gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
   export type NestedUuidWithAggregatesFilter = {
@@ -5961,6 +5981,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedIntFilter | number
   }
 
+  export type NestedStringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
+  }
+
   export type NestedUuidNullableWithAggregatesFilter = {
     equals?: string | null
     in?: Enumerable<string> | null
@@ -5986,7 +6020,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedIntNullableFilter | number | null
   }
 
-  export type NestedStringNullableFilter = {
+  export type NestedStringNullableWithAggregatesFilter = {
     equals?: string | null
     in?: Enumerable<string> | null
     notIn?: Enumerable<string> | null
@@ -5997,24 +6031,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     contains?: string
     startsWith?: string
     endsWith?: string
-    not?: NestedStringNullableFilter | string | null
-  }
-
-  export type NestedStringWithAggregatesFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
   export type NestedJsonNullableFilter = 
     | PatchUndefined<
@@ -6039,31 +6059,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: InputJsonValue | JsonNullValueFilter
   }
 
-  export type NestedDateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
-  export type NestedDateTimeNullableFilter = {
-    equals?: Date | string | null
-    in?: Enumerable<Date> | Enumerable<string> | null
-    notIn?: Enumerable<Date> | Enumerable<string> | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableFilter | Date | string | null
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter = {
     equals?: Date | string | null
     in?: Enumerable<Date> | Enumerable<string> | null
@@ -6078,10 +6073,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter
   }
 
-  export type NestedStringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedStringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
     lt?: string
     lte?: string
     gt?: string
@@ -6089,10 +6095,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     contains?: string
     startsWith?: string
     endsWith?: string
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -6143,17 +6163,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsCreateWithoutChocolate_batchesInput = {
     id: string
+    user_id: string
     user_name: string
-    comment_timestamp?: Date | string | null
-    comment_text: string
+    created_at: Date | string
+    text: string
     attachment_path?: string | null
   }
 
   export type Production_commentsUncheckedCreateWithoutChocolate_batchesInput = {
     id: string
+    user_id: string
     user_name: string
-    comment_timestamp?: Date | string | null
-    comment_text: string
+    created_at: Date | string
+    text: string
     attachment_path?: string | null
   }
 
@@ -6207,29 +6229,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Production_commentsScalarWhereInput>
     NOT?: Enumerable<Production_commentsScalarWhereInput>
     id?: UuidFilter | string
-    batch_id?: UuidNullableFilter | string | null
+    batch_id?: UuidFilter | string
+    user_id?: StringFilter | string
     user_name?: StringFilter | string
-    comment_timestamp?: DateTimeNullableFilter | Date | string | null
-    comment_text?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    text?: StringFilter | string
     attachment_path?: StringNullableFilter | string | null
   }
 
   export type Chocolate_batchesCreateWithoutProduction_commentsInput = {
     id: string
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
     recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
   }
 
   export type Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput = {
     id: string
     recipe_id?: string | null
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
   }
 
   export type Chocolate_batchesCreateOrConnectWithoutProduction_commentsInput = {
@@ -6244,20 +6267,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesUpdateWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RecipesCreateWithoutRecipe_ingredientsInput = {
@@ -6300,19 +6323,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCreateWithoutRecipesInput = {
     id: string
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
     production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
   }
 
   export type Chocolate_batchesUncheckedCreateWithoutRecipesInput = {
     id: string
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
     production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchesInput
   }
 
@@ -6370,10 +6393,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     NOT?: Enumerable<Chocolate_batchesScalarWhereInput>
     id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
-    bean_origin?: StringFilter | string
+    bean_origin?: StringNullableFilter | string | null
     ingredients?: JsonNullableFilter
-    importer?: StringFilter | string
-    production_date?: DateTimeFilter | Date | string
+    importer?: StringNullableFilter | string | null
+    production_date?: DateTimeNullableFilter | Date | string | null
   }
 
   export type Recipe_ingredientsUpsertWithWhereUniqueWithoutRecipesInput = {
@@ -6397,49 +6420,53 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Recipe_ingredientsScalarWhereInput>
     NOT?: Enumerable<Recipe_ingredientsScalarWhereInput>
     id?: UuidFilter | string
-    recipe_id?: UuidNullableFilter | string | null
+    recipe_id?: UuidFilter | string
     name?: StringFilter | string
     percentage?: IntFilter | number
   }
 
   export type Production_commentsCreateManyChocolate_batchesInput = {
     id: string
+    user_id: string
     user_name: string
-    comment_timestamp?: Date | string | null
-    comment_text: string
+    created_at: Date | string
+    text: string
     attachment_path?: string | null
   }
 
   export type Production_commentsUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Production_commentsUncheckedUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Production_commentsUncheckedUpdateManyWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
-    comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    comment_text?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Chocolate_batchesCreateManyRecipesInput = {
     id: string
-    bean_origin: string
+    bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer: string
-    production_date: Date | string
+    importer?: string | null
+    production_date?: Date | string | null
   }
 
   export type Recipe_ingredientsCreateManyRecipesInput = {
@@ -6450,28 +6477,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesUpdateWithoutRecipesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesUncheckedUpdateWithoutRecipesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesUncheckedUpdateManyWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type Recipe_ingredientsUpdateWithoutRecipesInput = {

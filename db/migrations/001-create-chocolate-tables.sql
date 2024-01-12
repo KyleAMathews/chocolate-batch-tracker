@@ -7,24 +7,25 @@ CREATE TABLE recipes (
 CREATE TABLE chocolate_batches (
     id UUID PRIMARY KEY,
     recipe_id UUID REFERENCES recipes(id),
-    bean_origin TEXT NOT NULL,
+    bean_origin TEXT,
     ingredients JSONB,
-    importer TEXT NOT NULL,
-    production_date DATE NOT NULL
+    importer TEXT,
+    production_date DATE
 );
 
 CREATE TABLE production_comments (
     id UUID PRIMARY KEY,
-    batch_id UUID REFERENCES chocolate_batches(id),
+    batch_id UUID NOT NULL REFERENCES chocolate_batches(id),
+    user_id TEXT NOT NULL,
     user_name TEXT NOT NULL,
-    comment_timestamp TIMESTAMPTZ,
-    comment_text TEXT NOT NULL,
-    attachment_path TEXT -- This will store the file path or identifier for the attachment
+    created_at TIMESTAMPTZ NOT NULL,
+    text TEXT NOT NULL,
+    attachment_path TEXT
 );
 
 CREATE TABLE recipe_ingredients (
     id UUID PRIMARY KEY,
-    recipe_id UUID REFERENCES recipes(id),
+    recipe_id UUID NOT NULL REFERENCES recipes(id),
     name TEXT NOT NULL,
     percentage INTEGER NOT NULL CHECK (percentage > 0 AND percentage <= 100)
 );

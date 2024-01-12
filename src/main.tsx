@@ -38,6 +38,7 @@ const router = createBrowserRouter([
                 shape: db.chocolate_batches.sync({
                   include: {
                     recipes: true,
+                    production_comments: true,
                   },
                 }),
                 isReady: async () =>
@@ -46,7 +47,12 @@ const router = createBrowserRouter([
                   })),
               },
               {
-                shape: db.recipes.sync(),
+                shape: db.recipes.sync({
+                  include: {
+                    chocolate_batches: true,
+                    recipe_ingredients: true,
+                  },
+                }),
                 isReady: async () =>
                   !!(await db.raw({
                     sql: `select id from recipes limit 1`,
@@ -114,6 +120,7 @@ const router = createBrowserRouter([
                 shape: db.chocolate_batches.sync({
                   include: {
                     recipes: true,
+                    production_comments: true,
                   },
                 }),
                 isReady: async () =>
@@ -133,10 +140,26 @@ const router = createBrowserRouter([
                   })),
               },
               {
-                shape: db.recipes.sync(),
+                shape: db.recipes.sync({
+                  include: {
+                    recipe_ingredients: true,
+                    chocolate_batches: true,
+                  },
+                }),
                 isReady: async () =>
                   !!(await db.raw({
                     sql: `select id from recipes limit 1`,
+                  })),
+              },
+              {
+                shape: db.production_comments.sync({
+                  include: {
+                    chocolate_batches: true,
+                  },
+                }),
+                isReady: async () =>
+                  !!(await db.raw({
+                    sql: `select id from production_comments limit 1`,
                   })),
               },
             ],
