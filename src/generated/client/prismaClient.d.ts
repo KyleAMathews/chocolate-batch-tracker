@@ -13,10 +13,10 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>
 
 
 /**
- * Model Chocolate_batch
+ * Model Chocolate_batches
  * 
  */
-export type Chocolate_batch = {
+export type Chocolate_batches = {
   /**
    * @zod.string.uuid()
    */
@@ -26,6 +26,7 @@ export type Chocolate_batch = {
    */
   recipe_id: string | null
   bean_origin: string
+  ingredients: Prisma.JsonValue | null
   importer: string
   production_date: Date
 }
@@ -91,7 +92,7 @@ export type Recipes = {
  * ```
  * const prisma = new PrismaClient()
  * // Fetch zero or more Chocolate_batches
- * const chocolate_batches = await prisma.chocolate_batch.findMany()
+ * const chocolate_batches = await prisma.chocolate_batches.findMany()
  * ```
  *
  * 
@@ -112,7 +113,7 @@ export class PrismaClient<
    * ```
    * const prisma = new PrismaClient()
    * // Fetch zero or more Chocolate_batches
-   * const chocolate_batches = await prisma.chocolate_batch.findMany()
+   * const chocolate_batches = await prisma.chocolate_batches.findMany()
    * ```
    *
    * 
@@ -201,14 +202,14 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
-   * `prisma.chocolate_batch`: Exposes CRUD operations for the **Chocolate_batch** model.
+   * `prisma.chocolate_batches`: Exposes CRUD operations for the **Chocolate_batches** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Chocolate_batches
-    * const chocolate_batches = await prisma.chocolate_batch.findMany()
+    * const chocolate_batches = await prisma.chocolate_batches.findMany()
     * ```
     */
-  get chocolate_batch(): Prisma.Chocolate_batchDelegate<GlobalReject>;
+  get chocolate_batches(): Prisma.Chocolate_batchesDelegate<GlobalReject>;
 
   /**
    * `prisma.production_comments`: Exposes CRUD operations for the **Production_comments** model.
@@ -708,7 +709,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export const ModelName: {
-    Chocolate_batch: 'Chocolate_batch',
+    Chocolate_batches: 'Chocolate_batches',
     Production_comments: 'Production_comments',
     Recipe_ingredients: 'Recipe_ingredients',
     Recipes: 'Recipes'
@@ -873,30 +874,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Count Type Chocolate_batchCountOutputType
+   * Count Type Chocolate_batchesCountOutputType
    */
 
 
-  export type Chocolate_batchCountOutputType = {
+  export type Chocolate_batchesCountOutputType = {
     production_comments: number
   }
 
-  export type Chocolate_batchCountOutputTypeSelect = {
+  export type Chocolate_batchesCountOutputTypeSelect = {
     production_comments?: boolean
   }
 
-  export type Chocolate_batchCountOutputTypeGetPayload<S extends boolean | null | undefined | Chocolate_batchCountOutputTypeArgs> =
+  export type Chocolate_batchesCountOutputTypeGetPayload<S extends boolean | null | undefined | Chocolate_batchesCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Chocolate_batchCountOutputType :
+    S extends true ? Chocolate_batchesCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (Chocolate_batchCountOutputTypeArgs)
-    ? Chocolate_batchCountOutputType 
-    : S extends { select: any } & (Chocolate_batchCountOutputTypeArgs)
+    S extends { include: any } & (Chocolate_batchesCountOutputTypeArgs)
+    ? Chocolate_batchesCountOutputType 
+    : S extends { select: any } & (Chocolate_batchesCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof Chocolate_batchCountOutputType ? Chocolate_batchCountOutputType[P] : never
+    P extends keyof Chocolate_batchesCountOutputType ? Chocolate_batchesCountOutputType[P] : never
   } 
-      : Chocolate_batchCountOutputType
+      : Chocolate_batchesCountOutputType
 
 
 
@@ -904,13 +905,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   // Custom InputTypes
 
   /**
-   * Chocolate_batchCountOutputType without action
+   * Chocolate_batchesCountOutputType without action
    */
-  export type Chocolate_batchCountOutputTypeArgs = {
+  export type Chocolate_batchesCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batchCountOutputType
+     * Select specific fields to fetch from the Chocolate_batchesCountOutputType
      */
-    select?: Chocolate_batchCountOutputTypeSelect | null
+    select?: Chocolate_batchesCountOutputTypeSelect | null
   }
 
 
@@ -921,12 +922,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type RecipesCountOutputType = {
-    chocolate_batch: number
+    chocolate_batches: number
     recipe_ingredients: number
   }
 
   export type RecipesCountOutputTypeSelect = {
-    chocolate_batch?: boolean
+    chocolate_batches?: boolean
     recipe_ingredients?: boolean
   }
 
@@ -965,17 +966,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
 
   /**
-   * Model Chocolate_batch
+   * Model Chocolate_batches
    */
 
 
-  export type AggregateChocolate_batch = {
-    _count: Chocolate_batchCountAggregateOutputType | null
-    _min: Chocolate_batchMinAggregateOutputType | null
-    _max: Chocolate_batchMaxAggregateOutputType | null
+  export type AggregateChocolate_batches = {
+    _count: Chocolate_batchesCountAggregateOutputType | null
+    _min: Chocolate_batchesMinAggregateOutputType | null
+    _max: Chocolate_batchesMaxAggregateOutputType | null
   }
 
-  export type Chocolate_batchMinAggregateOutputType = {
+  export type Chocolate_batchesMinAggregateOutputType = {
     id: string | null
     recipe_id: string | null
     bean_origin: string | null
@@ -983,7 +984,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     production_date: Date | null
   }
 
-  export type Chocolate_batchMaxAggregateOutputType = {
+  export type Chocolate_batchesMaxAggregateOutputType = {
     id: string | null
     recipe_id: string | null
     bean_origin: string | null
@@ -991,17 +992,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     production_date: Date | null
   }
 
-  export type Chocolate_batchCountAggregateOutputType = {
+  export type Chocolate_batchesCountAggregateOutputType = {
     id: number
     recipe_id: number
     bean_origin: number
+    ingredients: number
     importer: number
     production_date: number
     _all: number
   }
 
 
-  export type Chocolate_batchMinAggregateInputType = {
+  export type Chocolate_batchesMinAggregateInputType = {
     id?: true
     recipe_id?: true
     bean_origin?: true
@@ -1009,7 +1011,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     production_date?: true
   }
 
-  export type Chocolate_batchMaxAggregateInputType = {
+  export type Chocolate_batchesMaxAggregateInputType = {
     id?: true
     recipe_id?: true
     bean_origin?: true
@@ -1017,32 +1019,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     production_date?: true
   }
 
-  export type Chocolate_batchCountAggregateInputType = {
+  export type Chocolate_batchesCountAggregateInputType = {
     id?: true
     recipe_id?: true
     bean_origin?: true
+    ingredients?: true
     importer?: true
     production_date?: true
     _all?: true
   }
 
-  export type Chocolate_batchAggregateArgs = {
+  export type Chocolate_batchesAggregateArgs = {
     /**
-     * Filter which Chocolate_batch to aggregate.
+     * Filter which Chocolate_batches to aggregate.
      */
-    where?: Chocolate_batchWhereInput
+    where?: Chocolate_batchesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Chocolate_batches to fetch.
      */
-    orderBy?: Enumerable<Chocolate_batchOrderByWithRelationInput>
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: Chocolate_batchWhereUniqueInput
+    cursor?: Chocolate_batchesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -1060,256 +1063,258 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
      * Count returned Chocolate_batches
     **/
-    _count?: true | Chocolate_batchCountAggregateInputType
+    _count?: true | Chocolate_batchesCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: Chocolate_batchMinAggregateInputType
+    _min?: Chocolate_batchesMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: Chocolate_batchMaxAggregateInputType
+    _max?: Chocolate_batchesMaxAggregateInputType
   }
 
-  export type GetChocolate_batchAggregateType<T extends Chocolate_batchAggregateArgs> = {
-        [P in keyof T & keyof AggregateChocolate_batch]: P extends '_count' | 'count'
+  export type GetChocolate_batchesAggregateType<T extends Chocolate_batchesAggregateArgs> = {
+        [P in keyof T & keyof AggregateChocolate_batches]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateChocolate_batch[P]>
-      : GetScalarType<T[P], AggregateChocolate_batch[P]>
+        : GetScalarType<T[P], AggregateChocolate_batches[P]>
+      : GetScalarType<T[P], AggregateChocolate_batches[P]>
   }
 
 
 
 
-  export type Chocolate_batchGroupByArgs = {
-    where?: Chocolate_batchWhereInput
-    orderBy?: Enumerable<Chocolate_batchOrderByWithAggregationInput>
-    by: Chocolate_batchScalarFieldEnum[]
-    having?: Chocolate_batchScalarWhereWithAggregatesInput
+  export type Chocolate_batchesGroupByArgs = {
+    where?: Chocolate_batchesWhereInput
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithAggregationInput>
+    by: Chocolate_batchesScalarFieldEnum[]
+    having?: Chocolate_batchesScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: Chocolate_batchCountAggregateInputType | true
-    _min?: Chocolate_batchMinAggregateInputType
-    _max?: Chocolate_batchMaxAggregateInputType
+    _count?: Chocolate_batchesCountAggregateInputType | true
+    _min?: Chocolate_batchesMinAggregateInputType
+    _max?: Chocolate_batchesMaxAggregateInputType
   }
 
 
-  export type Chocolate_batchGroupByOutputType = {
+  export type Chocolate_batchesGroupByOutputType = {
     id: string
     recipe_id: string | null
     bean_origin: string
+    ingredients: JsonValue | null
     importer: string
     production_date: Date
-    _count: Chocolate_batchCountAggregateOutputType | null
-    _min: Chocolate_batchMinAggregateOutputType | null
-    _max: Chocolate_batchMaxAggregateOutputType | null
+    _count: Chocolate_batchesCountAggregateOutputType | null
+    _min: Chocolate_batchesMinAggregateOutputType | null
+    _max: Chocolate_batchesMaxAggregateOutputType | null
   }
 
-  type GetChocolate_batchGroupByPayload<T extends Chocolate_batchGroupByArgs> = Prisma.PrismaPromise<
+  type GetChocolate_batchesGroupByPayload<T extends Chocolate_batchesGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickArray<Chocolate_batchGroupByOutputType, T['by']> &
+      PickArray<Chocolate_batchesGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof Chocolate_batchGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof Chocolate_batchesGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], Chocolate_batchGroupByOutputType[P]>
-            : GetScalarType<T[P], Chocolate_batchGroupByOutputType[P]>
+              : GetScalarType<T[P], Chocolate_batchesGroupByOutputType[P]>
+            : GetScalarType<T[P], Chocolate_batchesGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type Chocolate_batchSelect = {
+  export type Chocolate_batchesSelect = {
     id?: boolean
     recipe_id?: boolean
     bean_origin?: boolean
+    ingredients?: boolean
     importer?: boolean
     production_date?: boolean
     recipes?: boolean | RecipesArgs
-    production_comments?: boolean | Chocolate_batch$production_commentsArgs
-    _count?: boolean | Chocolate_batchCountOutputTypeArgs
+    production_comments?: boolean | Chocolate_batches$production_commentsArgs
+    _count?: boolean | Chocolate_batchesCountOutputTypeArgs
   }
 
 
-  export type Chocolate_batchInclude = {
+  export type Chocolate_batchesInclude = {
     recipes?: boolean | RecipesArgs
-    production_comments?: boolean | Chocolate_batch$production_commentsArgs
-    _count?: boolean | Chocolate_batchCountOutputTypeArgs
+    production_comments?: boolean | Chocolate_batches$production_commentsArgs
+    _count?: boolean | Chocolate_batchesCountOutputTypeArgs
   }
 
-  export type Chocolate_batchGetPayload<S extends boolean | null | undefined | Chocolate_batchArgs> =
+  export type Chocolate_batchesGetPayload<S extends boolean | null | undefined | Chocolate_batchesArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Chocolate_batch :
+    S extends true ? Chocolate_batches :
     S extends undefined ? never :
-    S extends { include: any } & (Chocolate_batchArgs | Chocolate_batchFindManyArgs)
-    ? Chocolate_batch  & {
+    S extends { include: any } & (Chocolate_batchesArgs | Chocolate_batchesFindManyArgs)
+    ? Chocolate_batches  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'recipes' ? RecipesGetPayload<S['include'][P]> | null :
         P extends 'production_comments' ? Array < Production_commentsGetPayload<S['include'][P]>>  :
-        P extends '_count' ? Chocolate_batchCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends '_count' ? Chocolate_batchesCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
-    : S extends { select: any } & (Chocolate_batchArgs | Chocolate_batchFindManyArgs)
+    : S extends { select: any } & (Chocolate_batchesArgs | Chocolate_batchesFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'recipes' ? RecipesGetPayload<S['select'][P]> | null :
         P extends 'production_comments' ? Array < Production_commentsGetPayload<S['select'][P]>>  :
-        P extends '_count' ? Chocolate_batchCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Chocolate_batch ? Chocolate_batch[P] : never
+        P extends '_count' ? Chocolate_batchesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Chocolate_batches ? Chocolate_batches[P] : never
   } 
-      : Chocolate_batch
+      : Chocolate_batches
 
 
-  type Chocolate_batchCountArgs = 
-    Omit<Chocolate_batchFindManyArgs, 'select' | 'include'> & {
-      select?: Chocolate_batchCountAggregateInputType | true
+  type Chocolate_batchesCountArgs = 
+    Omit<Chocolate_batchesFindManyArgs, 'select' | 'include'> & {
+      select?: Chocolate_batchesCountAggregateInputType | true
     }
 
-  export interface Chocolate_batchDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+  export interface Chocolate_batchesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
 
     /**
-     * Find zero or one Chocolate_batch that matches the filter.
-     * @param {Chocolate_batchFindUniqueArgs} args - Arguments to find a Chocolate_batch
+     * Find zero or one Chocolate_batches that matches the filter.
+     * @param {Chocolate_batchesFindUniqueArgs} args - Arguments to find a Chocolate_batches
      * @example
-     * // Get one Chocolate_batch
-     * const chocolate_batch = await prisma.chocolate_batch.findUnique({
+     * // Get one Chocolate_batches
+     * const chocolate_batches = await prisma.chocolate_batches.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends Chocolate_batchFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, Chocolate_batchFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Chocolate_batch'> extends True ? Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>> : Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T> | null, null>
+    findUnique<T extends Chocolate_batchesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Chocolate_batchesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Chocolate_batches'> extends True ? Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>> : Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T> | null, null>
 
     /**
-     * Find one Chocolate_batch that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Chocolate_batches that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {Chocolate_batchFindUniqueOrThrowArgs} args - Arguments to find a Chocolate_batch
+     * @param {Chocolate_batchesFindUniqueOrThrowArgs} args - Arguments to find a Chocolate_batches
      * @example
-     * // Get one Chocolate_batch
-     * const chocolate_batch = await prisma.chocolate_batch.findUniqueOrThrow({
+     * // Get one Chocolate_batches
+     * const chocolate_batches = await prisma.chocolate_batches.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends Chocolate_batchFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, Chocolate_batchFindUniqueOrThrowArgs>
-    ): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>>
+    findUniqueOrThrow<T extends Chocolate_batchesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Chocolate_batchesFindUniqueOrThrowArgs>
+    ): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>>
 
     /**
-     * Find the first Chocolate_batch that matches the filter.
+     * Find the first Chocolate_batches that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchFindFirstArgs} args - Arguments to find a Chocolate_batch
+     * @param {Chocolate_batchesFindFirstArgs} args - Arguments to find a Chocolate_batches
      * @example
-     * // Get one Chocolate_batch
-     * const chocolate_batch = await prisma.chocolate_batch.findFirst({
+     * // Get one Chocolate_batches
+     * const chocolate_batches = await prisma.chocolate_batches.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends Chocolate_batchFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, Chocolate_batchFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Chocolate_batch'> extends True ? Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>> : Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T> | null, null>
+    findFirst<T extends Chocolate_batchesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Chocolate_batchesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Chocolate_batches'> extends True ? Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>> : Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T> | null, null>
 
     /**
-     * Find the first Chocolate_batch that matches the filter or
+     * Find the first Chocolate_batches that matches the filter or
      * throw `NotFoundError` if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchFindFirstOrThrowArgs} args - Arguments to find a Chocolate_batch
+     * @param {Chocolate_batchesFindFirstOrThrowArgs} args - Arguments to find a Chocolate_batches
      * @example
-     * // Get one Chocolate_batch
-     * const chocolate_batch = await prisma.chocolate_batch.findFirstOrThrow({
+     * // Get one Chocolate_batches
+     * const chocolate_batches = await prisma.chocolate_batches.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends Chocolate_batchFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, Chocolate_batchFindFirstOrThrowArgs>
-    ): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>>
+    findFirstOrThrow<T extends Chocolate_batchesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Chocolate_batchesFindFirstOrThrowArgs>
+    ): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>>
 
     /**
      * Find zero or more Chocolate_batches that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {Chocolate_batchesFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all Chocolate_batches
-     * const chocolate_batches = await prisma.chocolate_batch.findMany()
+     * const chocolate_batches = await prisma.chocolate_batches.findMany()
      * 
      * // Get first 10 Chocolate_batches
-     * const chocolate_batches = await prisma.chocolate_batch.findMany({ take: 10 })
+     * const chocolate_batches = await prisma.chocolate_batches.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const chocolate_batchWithIdOnly = await prisma.chocolate_batch.findMany({ select: { id: true } })
+     * const chocolate_batchesWithIdOnly = await prisma.chocolate_batches.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends Chocolate_batchFindManyArgs>(
-      args?: SelectSubset<T, Chocolate_batchFindManyArgs>
-    ): Prisma.PrismaPromise<Array<Chocolate_batchGetPayload<T>>>
+    findMany<T extends Chocolate_batchesFindManyArgs>(
+      args?: SelectSubset<T, Chocolate_batchesFindManyArgs>
+    ): Prisma.PrismaPromise<Array<Chocolate_batchesGetPayload<T>>>
 
     /**
-     * Create a Chocolate_batch.
-     * @param {Chocolate_batchCreateArgs} args - Arguments to create a Chocolate_batch.
+     * Create a Chocolate_batches.
+     * @param {Chocolate_batchesCreateArgs} args - Arguments to create a Chocolate_batches.
      * @example
-     * // Create one Chocolate_batch
-     * const Chocolate_batch = await prisma.chocolate_batch.create({
+     * // Create one Chocolate_batches
+     * const Chocolate_batches = await prisma.chocolate_batches.create({
      *   data: {
-     *     // ... data to create a Chocolate_batch
+     *     // ... data to create a Chocolate_batches
      *   }
      * })
      * 
     **/
-    create<T extends Chocolate_batchCreateArgs>(
-      args: SelectSubset<T, Chocolate_batchCreateArgs>
-    ): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>>
+    create<T extends Chocolate_batchesCreateArgs>(
+      args: SelectSubset<T, Chocolate_batchesCreateArgs>
+    ): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>>
 
     /**
      * Create many Chocolate_batches.
-     *     @param {Chocolate_batchCreateManyArgs} args - Arguments to create many Chocolate_batches.
+     *     @param {Chocolate_batchesCreateManyArgs} args - Arguments to create many Chocolate_batches.
      *     @example
      *     // Create many Chocolate_batches
-     *     const chocolate_batch = await prisma.chocolate_batch.createMany({
+     *     const chocolate_batches = await prisma.chocolate_batches.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends Chocolate_batchCreateManyArgs>(
-      args?: SelectSubset<T, Chocolate_batchCreateManyArgs>
+    createMany<T extends Chocolate_batchesCreateManyArgs>(
+      args?: SelectSubset<T, Chocolate_batchesCreateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a Chocolate_batch.
-     * @param {Chocolate_batchDeleteArgs} args - Arguments to delete one Chocolate_batch.
+     * Delete a Chocolate_batches.
+     * @param {Chocolate_batchesDeleteArgs} args - Arguments to delete one Chocolate_batches.
      * @example
-     * // Delete one Chocolate_batch
-     * const Chocolate_batch = await prisma.chocolate_batch.delete({
+     * // Delete one Chocolate_batches
+     * const Chocolate_batches = await prisma.chocolate_batches.delete({
      *   where: {
-     *     // ... filter to delete one Chocolate_batch
+     *     // ... filter to delete one Chocolate_batches
      *   }
      * })
      * 
     **/
-    delete<T extends Chocolate_batchDeleteArgs>(
-      args: SelectSubset<T, Chocolate_batchDeleteArgs>
-    ): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>>
+    delete<T extends Chocolate_batchesDeleteArgs>(
+      args: SelectSubset<T, Chocolate_batchesDeleteArgs>
+    ): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>>
 
     /**
-     * Update one Chocolate_batch.
-     * @param {Chocolate_batchUpdateArgs} args - Arguments to update one Chocolate_batch.
+     * Update one Chocolate_batches.
+     * @param {Chocolate_batchesUpdateArgs} args - Arguments to update one Chocolate_batches.
      * @example
-     * // Update one Chocolate_batch
-     * const chocolate_batch = await prisma.chocolate_batch.update({
+     * // Update one Chocolate_batches
+     * const chocolate_batches = await prisma.chocolate_batches.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1319,34 +1324,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    update<T extends Chocolate_batchUpdateArgs>(
-      args: SelectSubset<T, Chocolate_batchUpdateArgs>
-    ): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>>
+    update<T extends Chocolate_batchesUpdateArgs>(
+      args: SelectSubset<T, Chocolate_batchesUpdateArgs>
+    ): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>>
 
     /**
      * Delete zero or more Chocolate_batches.
-     * @param {Chocolate_batchDeleteManyArgs} args - Arguments to filter Chocolate_batches to delete.
+     * @param {Chocolate_batchesDeleteManyArgs} args - Arguments to filter Chocolate_batches to delete.
      * @example
      * // Delete a few Chocolate_batches
-     * const { count } = await prisma.chocolate_batch.deleteMany({
+     * const { count } = await prisma.chocolate_batches.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends Chocolate_batchDeleteManyArgs>(
-      args?: SelectSubset<T, Chocolate_batchDeleteManyArgs>
+    deleteMany<T extends Chocolate_batchesDeleteManyArgs>(
+      args?: SelectSubset<T, Chocolate_batchesDeleteManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Chocolate_batches.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {Chocolate_batchesUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
      * // Update many Chocolate_batches
-     * const chocolate_batch = await prisma.chocolate_batch.updateMany({
+     * const chocolate_batches = await prisma.chocolate_batches.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1356,59 +1361,59 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * })
      * 
     **/
-    updateMany<T extends Chocolate_batchUpdateManyArgs>(
-      args: SelectSubset<T, Chocolate_batchUpdateManyArgs>
+    updateMany<T extends Chocolate_batchesUpdateManyArgs>(
+      args: SelectSubset<T, Chocolate_batchesUpdateManyArgs>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Chocolate_batch.
-     * @param {Chocolate_batchUpsertArgs} args - Arguments to update or create a Chocolate_batch.
+     * Create or update one Chocolate_batches.
+     * @param {Chocolate_batchesUpsertArgs} args - Arguments to update or create a Chocolate_batches.
      * @example
-     * // Update or create a Chocolate_batch
-     * const chocolate_batch = await prisma.chocolate_batch.upsert({
+     * // Update or create a Chocolate_batches
+     * const chocolate_batches = await prisma.chocolate_batches.upsert({
      *   create: {
-     *     // ... data to create a Chocolate_batch
+     *     // ... data to create a Chocolate_batches
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Chocolate_batch we want to update
+     *     // ... the filter for the Chocolate_batches we want to update
      *   }
      * })
     **/
-    upsert<T extends Chocolate_batchUpsertArgs>(
-      args: SelectSubset<T, Chocolate_batchUpsertArgs>
-    ): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T>>
+    upsert<T extends Chocolate_batchesUpsertArgs>(
+      args: SelectSubset<T, Chocolate_batchesUpsertArgs>
+    ): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T>>
 
     /**
      * Count the number of Chocolate_batches.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchCountArgs} args - Arguments to filter Chocolate_batches to count.
+     * @param {Chocolate_batchesCountArgs} args - Arguments to filter Chocolate_batches to count.
      * @example
      * // Count the number of Chocolate_batches
-     * const count = await prisma.chocolate_batch.count({
+     * const count = await prisma.chocolate_batches.count({
      *   where: {
      *     // ... the filter for the Chocolate_batches we want to count
      *   }
      * })
     **/
-    count<T extends Chocolate_batchCountArgs>(
-      args?: Subset<T, Chocolate_batchCountArgs>,
+    count<T extends Chocolate_batchesCountArgs>(
+      args?: Subset<T, Chocolate_batchesCountArgs>,
     ): Prisma.PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], Chocolate_batchCountAggregateOutputType>
+          : GetScalarType<T['select'], Chocolate_batchesCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Chocolate_batch.
+     * Allows you to perform aggregations operations on a Chocolate_batches.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {Chocolate_batchesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -1428,13 +1433,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      *   take: 10,
      * })
     **/
-    aggregate<T extends Chocolate_batchAggregateArgs>(args: Subset<T, Chocolate_batchAggregateArgs>): Prisma.PrismaPromise<GetChocolate_batchAggregateType<T>>
+    aggregate<T extends Chocolate_batchesAggregateArgs>(args: Subset<T, Chocolate_batchesAggregateArgs>): Prisma.PrismaPromise<GetChocolate_batchesAggregateType<T>>
 
     /**
-     * Group by Chocolate_batch.
+     * Group by Chocolate_batches.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Chocolate_batchGroupByArgs} args - Group by arguments.
+     * @param {Chocolate_batchesGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1449,14 +1454,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     groupBy<
-      T extends Chocolate_batchGroupByArgs,
+      T extends Chocolate_batchesGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: Chocolate_batchGroupByArgs['orderBy'] }
-        : { orderBy?: Chocolate_batchGroupByArgs['orderBy'] },
+        ? { orderBy: Chocolate_batchesGroupByArgs['orderBy'] }
+        : { orderBy?: Chocolate_batchesGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1505,17 +1510,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, Chocolate_batchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChocolate_batchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, Chocolate_batchesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChocolate_batchesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Chocolate_batch.
+   * The delegate class that acts as a "Promise-like" for Chocolate_batches.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__Chocolate_batchClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+  export class Prisma__Chocolate_batchesClient<T, Null = never> implements Prisma.PrismaPromise<T> {
     private readonly _dmmf;
     private readonly _queryType;
     private readonly _rootField;
@@ -1532,7 +1537,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
     recipes<T extends RecipesArgs= {}>(args?: Subset<T, RecipesArgs>): Prisma__RecipesClient<RecipesGetPayload<T> | Null>;
 
-    production_comments<T extends Chocolate_batch$production_commentsArgs= {}>(args?: Subset<T, Chocolate_batch$production_commentsArgs>): Prisma.PrismaPromise<Array<Production_commentsGetPayload<T>>| Null>;
+    production_comments<T extends Chocolate_batches$production_commentsArgs= {}>(args?: Subset<T, Chocolate_batches$production_commentsArgs>): Prisma.PrismaPromise<Array<Production_commentsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1562,27 +1567,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   // Custom InputTypes
 
   /**
-   * Chocolate_batch base type for findUnique actions
+   * Chocolate_batches base type for findUnique actions
    */
-  export type Chocolate_batchFindUniqueArgsBase = {
+  export type Chocolate_batchesFindUniqueArgsBase = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * Filter, which Chocolate_batch to fetch.
+     * Filter, which Chocolate_batches to fetch.
      */
-    where: Chocolate_batchWhereUniqueInput
+    where: Chocolate_batchesWhereUniqueInput
   }
 
   /**
-   * Chocolate_batch findUnique
+   * Chocolate_batches findUnique
    */
-  export interface Chocolate_batchFindUniqueArgs extends Chocolate_batchFindUniqueArgsBase {
+  export interface Chocolate_batchesFindUniqueArgs extends Chocolate_batchesFindUniqueArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
@@ -1592,52 +1597,52 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       
 
   /**
-   * Chocolate_batch findUniqueOrThrow
+   * Chocolate_batches findUniqueOrThrow
    */
-  export type Chocolate_batchFindUniqueOrThrowArgs = {
+  export type Chocolate_batchesFindUniqueOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * Filter, which Chocolate_batch to fetch.
+     * Filter, which Chocolate_batches to fetch.
      */
-    where: Chocolate_batchWhereUniqueInput
+    where: Chocolate_batchesWhereUniqueInput
   }
 
 
   /**
-   * Chocolate_batch base type for findFirst actions
+   * Chocolate_batches base type for findFirst actions
    */
-  export type Chocolate_batchFindFirstArgsBase = {
+  export type Chocolate_batchesFindFirstArgsBase = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * Filter, which Chocolate_batch to fetch.
+     * Filter, which Chocolate_batches to fetch.
      */
-    where?: Chocolate_batchWhereInput
+    where?: Chocolate_batchesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Chocolate_batches to fetch.
      */
-    orderBy?: Enumerable<Chocolate_batchOrderByWithRelationInput>
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Chocolate_batches.
      */
-    cursor?: Chocolate_batchWhereUniqueInput
+    cursor?: Chocolate_batchesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -1655,13 +1660,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
      * Filter by unique combinations of Chocolate_batches.
      */
-    distinct?: Enumerable<Chocolate_batchScalarFieldEnum>
+    distinct?: Enumerable<Chocolate_batchesScalarFieldEnum>
   }
 
   /**
-   * Chocolate_batch findFirst
+   * Chocolate_batches findFirst
    */
-  export interface Chocolate_batchFindFirstArgs extends Chocolate_batchFindFirstArgsBase {
+  export interface Chocolate_batchesFindFirstArgs extends Chocolate_batchesFindFirstArgsBase {
    /**
     * Throw an Error if query returns no results
     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
@@ -1671,33 +1676,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       
 
   /**
-   * Chocolate_batch findFirstOrThrow
+   * Chocolate_batches findFirstOrThrow
    */
-  export type Chocolate_batchFindFirstOrThrowArgs = {
+  export type Chocolate_batchesFindFirstOrThrowArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * Filter, which Chocolate_batch to fetch.
+     * Filter, which Chocolate_batches to fetch.
      */
-    where?: Chocolate_batchWhereInput
+    where?: Chocolate_batchesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Chocolate_batches to fetch.
      */
-    orderBy?: Enumerable<Chocolate_batchOrderByWithRelationInput>
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Chocolate_batches.
      */
-    cursor?: Chocolate_batchWhereUniqueInput
+    cursor?: Chocolate_batchesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -1715,38 +1720,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
      * Filter by unique combinations of Chocolate_batches.
      */
-    distinct?: Enumerable<Chocolate_batchScalarFieldEnum>
+    distinct?: Enumerable<Chocolate_batchesScalarFieldEnum>
   }
 
 
   /**
-   * Chocolate_batch findMany
+   * Chocolate_batches findMany
    */
-  export type Chocolate_batchFindManyArgs = {
+  export type Chocolate_batchesFindManyArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
      * Filter, which Chocolate_batches to fetch.
      */
-    where?: Chocolate_batchWhereInput
+    where?: Chocolate_batchesWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Chocolate_batches to fetch.
      */
-    orderBy?: Enumerable<Chocolate_batchOrderByWithRelationInput>
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithRelationInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Chocolate_batches.
      */
-    cursor?: Chocolate_batchWhereUniqueInput
+    cursor?: Chocolate_batchesWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -1759,140 +1764,140 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * Skip the first `n` Chocolate_batches.
      */
     skip?: number
-    distinct?: Enumerable<Chocolate_batchScalarFieldEnum>
+    distinct?: Enumerable<Chocolate_batchesScalarFieldEnum>
   }
 
 
   /**
-   * Chocolate_batch create
+   * Chocolate_batches create
    */
-  export type Chocolate_batchCreateArgs = {
+  export type Chocolate_batchesCreateArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * The data needed to create a Chocolate_batch.
+     * The data needed to create a Chocolate_batches.
      */
-    data: XOR<Chocolate_batchCreateInput, Chocolate_batchUncheckedCreateInput>
+    data: XOR<Chocolate_batchesCreateInput, Chocolate_batchesUncheckedCreateInput>
   }
 
 
   /**
-   * Chocolate_batch createMany
+   * Chocolate_batches createMany
    */
-  export type Chocolate_batchCreateManyArgs = {
+  export type Chocolate_batchesCreateManyArgs = {
     /**
      * The data used to create many Chocolate_batches.
      */
-    data: Enumerable<Chocolate_batchCreateManyInput>
+    data: Enumerable<Chocolate_batchesCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * Chocolate_batch update
+   * Chocolate_batches update
    */
-  export type Chocolate_batchUpdateArgs = {
+  export type Chocolate_batchesUpdateArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * The data needed to update a Chocolate_batch.
+     * The data needed to update a Chocolate_batches.
      */
-    data: XOR<Chocolate_batchUpdateInput, Chocolate_batchUncheckedUpdateInput>
+    data: XOR<Chocolate_batchesUpdateInput, Chocolate_batchesUncheckedUpdateInput>
     /**
-     * Choose, which Chocolate_batch to update.
+     * Choose, which Chocolate_batches to update.
      */
-    where: Chocolate_batchWhereUniqueInput
+    where: Chocolate_batchesWhereUniqueInput
   }
 
 
   /**
-   * Chocolate_batch updateMany
+   * Chocolate_batches updateMany
    */
-  export type Chocolate_batchUpdateManyArgs = {
+  export type Chocolate_batchesUpdateManyArgs = {
     /**
      * The data used to update Chocolate_batches.
      */
-    data: XOR<Chocolate_batchUpdateManyMutationInput, Chocolate_batchUncheckedUpdateManyInput>
+    data: XOR<Chocolate_batchesUpdateManyMutationInput, Chocolate_batchesUncheckedUpdateManyInput>
     /**
      * Filter which Chocolate_batches to update
      */
-    where?: Chocolate_batchWhereInput
+    where?: Chocolate_batchesWhereInput
   }
 
 
   /**
-   * Chocolate_batch upsert
+   * Chocolate_batches upsert
    */
-  export type Chocolate_batchUpsertArgs = {
+  export type Chocolate_batchesUpsertArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * The filter to search for the Chocolate_batch to update in case it exists.
+     * The filter to search for the Chocolate_batches to update in case it exists.
      */
-    where: Chocolate_batchWhereUniqueInput
+    where: Chocolate_batchesWhereUniqueInput
     /**
-     * In case the Chocolate_batch found by the `where` argument doesn't exist, create a new Chocolate_batch with this data.
+     * In case the Chocolate_batches found by the `where` argument doesn't exist, create a new Chocolate_batches with this data.
      */
-    create: XOR<Chocolate_batchCreateInput, Chocolate_batchUncheckedCreateInput>
+    create: XOR<Chocolate_batchesCreateInput, Chocolate_batchesUncheckedCreateInput>
     /**
-     * In case the Chocolate_batch was found with the provided `where` argument, update it with this data.
+     * In case the Chocolate_batches was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<Chocolate_batchUpdateInput, Chocolate_batchUncheckedUpdateInput>
+    update: XOR<Chocolate_batchesUpdateInput, Chocolate_batchesUncheckedUpdateInput>
   }
 
 
   /**
-   * Chocolate_batch delete
+   * Chocolate_batches delete
    */
-  export type Chocolate_batchDeleteArgs = {
+  export type Chocolate_batchesDeleteArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
     /**
-     * Filter which Chocolate_batch to delete.
+     * Filter which Chocolate_batches to delete.
      */
-    where: Chocolate_batchWhereUniqueInput
+    where: Chocolate_batchesWhereUniqueInput
   }
 
 
   /**
-   * Chocolate_batch deleteMany
+   * Chocolate_batches deleteMany
    */
-  export type Chocolate_batchDeleteManyArgs = {
+  export type Chocolate_batchesDeleteManyArgs = {
     /**
      * Filter which Chocolate_batches to delete
      */
-    where?: Chocolate_batchWhereInput
+    where?: Chocolate_batchesWhereInput
   }
 
 
   /**
-   * Chocolate_batch.production_comments
+   * Chocolate_batches.production_comments
    */
-  export type Chocolate_batch$production_commentsArgs = {
+  export type Chocolate_batches$production_commentsArgs = {
     /**
      * Select specific fields to fetch from the Production_comments
      */
@@ -1911,17 +1916,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Chocolate_batch without action
+   * Chocolate_batches without action
    */
-  export type Chocolate_batchArgs = {
+  export type Chocolate_batchesArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
+    include?: Chocolate_batchesInclude | null
   }
 
 
@@ -2100,12 +2105,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment_timestamp?: boolean
     comment_text?: boolean
     attachment_path?: boolean
-    chocolate_batch?: boolean | Chocolate_batchArgs
+    chocolate_batches?: boolean | Chocolate_batchesArgs
   }
 
 
   export type Production_commentsInclude = {
-    chocolate_batch?: boolean | Chocolate_batchArgs
+    chocolate_batches?: boolean | Chocolate_batchesArgs
   }
 
   export type Production_commentsGetPayload<S extends boolean | null | undefined | Production_commentsArgs> =
@@ -2115,12 +2120,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Production_commentsArgs | Production_commentsFindManyArgs)
     ? Production_comments  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'chocolate_batch' ? Chocolate_batchGetPayload<S['include'][P]> | null :  never
+        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['include'][P]> | null :  never
   } 
     : S extends { select: any } & (Production_commentsArgs | Production_commentsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'chocolate_batch' ? Chocolate_batchGetPayload<S['select'][P]> | null :  P extends keyof Production_comments ? Production_comments[P] : never
+        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['select'][P]> | null :  P extends keyof Production_comments ? Production_comments[P] : never
   } 
       : Production_comments
 
@@ -2492,7 +2497,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    chocolate_batch<T extends Chocolate_batchArgs= {}>(args?: Subset<T, Chocolate_batchArgs>): Prisma__Chocolate_batchClient<Chocolate_batchGetPayload<T> | Null>;
+    chocolate_batches<T extends Chocolate_batchesArgs= {}>(args?: Subset<T, Chocolate_batchesArgs>): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -3972,14 +3977,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: boolean
     description?: boolean
     name?: boolean
-    chocolate_batch?: boolean | Recipes$chocolate_batchArgs
+    chocolate_batches?: boolean | Recipes$chocolate_batchesArgs
     recipe_ingredients?: boolean | Recipes$recipe_ingredientsArgs
     _count?: boolean | RecipesCountOutputTypeArgs
   }
 
 
   export type RecipesInclude = {
-    chocolate_batch?: boolean | Recipes$chocolate_batchArgs
+    chocolate_batches?: boolean | Recipes$chocolate_batchesArgs
     recipe_ingredients?: boolean | Recipes$recipe_ingredientsArgs
     _count?: boolean | RecipesCountOutputTypeArgs
   }
@@ -3991,14 +3996,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (RecipesArgs | RecipesFindManyArgs)
     ? Recipes  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'chocolate_batch' ? Array < Chocolate_batchGetPayload<S['include'][P]>>  :
+        P extends 'chocolate_batches' ? Array < Chocolate_batchesGetPayload<S['include'][P]>>  :
         P extends 'recipe_ingredients' ? Array < Recipe_ingredientsGetPayload<S['include'][P]>>  :
         P extends '_count' ? RecipesCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (RecipesArgs | RecipesFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'chocolate_batch' ? Array < Chocolate_batchGetPayload<S['select'][P]>>  :
+        P extends 'chocolate_batches' ? Array < Chocolate_batchesGetPayload<S['select'][P]>>  :
         P extends 'recipe_ingredients' ? Array < Recipe_ingredientsGetPayload<S['select'][P]>>  :
         P extends '_count' ? RecipesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Recipes ? Recipes[P] : never
   } 
@@ -4372,7 +4377,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    chocolate_batch<T extends Recipes$chocolate_batchArgs= {}>(args?: Subset<T, Recipes$chocolate_batchArgs>): Prisma.PrismaPromise<Array<Chocolate_batchGetPayload<T>>| Null>;
+    chocolate_batches<T extends Recipes$chocolate_batchesArgs= {}>(args?: Subset<T, Recipes$chocolate_batchesArgs>): Prisma.PrismaPromise<Array<Chocolate_batchesGetPayload<T>>| Null>;
 
     recipe_ingredients<T extends Recipes$recipe_ingredientsArgs= {}>(args?: Subset<T, Recipes$recipe_ingredientsArgs>): Prisma.PrismaPromise<Array<Recipe_ingredientsGetPayload<T>>| Null>;
 
@@ -4732,23 +4737,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Recipes.chocolate_batch
+   * Recipes.chocolate_batches
    */
-  export type Recipes$chocolate_batchArgs = {
+  export type Recipes$chocolate_batchesArgs = {
     /**
-     * Select specific fields to fetch from the Chocolate_batch
+     * Select specific fields to fetch from the Chocolate_batches
      */
-    select?: Chocolate_batchSelect | null
+    select?: Chocolate_batchesSelect | null
     /**
      * Choose, which related nodes to fetch as well.
      */
-    include?: Chocolate_batchInclude | null
-    where?: Chocolate_batchWhereInput
-    orderBy?: Enumerable<Chocolate_batchOrderByWithRelationInput>
-    cursor?: Chocolate_batchWhereUniqueInput
+    include?: Chocolate_batchesInclude | null
+    where?: Chocolate_batchesWhereInput
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithRelationInput>
+    cursor?: Chocolate_batchesWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: Enumerable<Chocolate_batchScalarFieldEnum>
+    distinct?: Enumerable<Chocolate_batchesScalarFieldEnum>
   }
 
 
@@ -4796,15 +4801,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-  export const Chocolate_batchScalarFieldEnum: {
+  export const Chocolate_batchesScalarFieldEnum: {
     id: 'id',
     recipe_id: 'recipe_id',
     bean_origin: 'bean_origin',
+    ingredients: 'ingredients',
     importer: 'importer',
     production_date: 'production_date'
   };
 
-  export type Chocolate_batchScalarFieldEnum = (typeof Chocolate_batchScalarFieldEnum)[keyof typeof Chocolate_batchScalarFieldEnum]
+  export type Chocolate_batchesScalarFieldEnum = (typeof Chocolate_batchesScalarFieldEnum)[keyof typeof Chocolate_batchesScalarFieldEnum]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const Production_commentsScalarFieldEnum: {
@@ -4869,51 +4892,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
 
 
-  export type Chocolate_batchWhereInput = {
-    AND?: Enumerable<Chocolate_batchWhereInput>
-    OR?: Enumerable<Chocolate_batchWhereInput>
-    NOT?: Enumerable<Chocolate_batchWhereInput>
+  export type Chocolate_batchesWhereInput = {
+    AND?: Enumerable<Chocolate_batchesWhereInput>
+    OR?: Enumerable<Chocolate_batchesWhereInput>
+    NOT?: Enumerable<Chocolate_batchesWhereInput>
     id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
     bean_origin?: StringFilter | string
+    ingredients?: JsonNullableFilter
     importer?: StringFilter | string
     production_date?: DateTimeFilter | Date | string
     recipes?: XOR<RecipesRelationFilter, RecipesWhereInput> | null
     production_comments?: Production_commentsListRelationFilter
   }
 
-  export type Chocolate_batchOrderByWithRelationInput = {
+  export type Chocolate_batchesOrderByWithRelationInput = {
     id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
+    ingredients?: SortOrder
     importer?: SortOrder
     production_date?: SortOrder
     recipes?: RecipesOrderByWithRelationInput
     production_comments?: Production_commentsOrderByRelationAggregateInput
   }
 
-  export type Chocolate_batchWhereUniqueInput = {
+  export type Chocolate_batchesWhereUniqueInput = {
     id?: string
   }
 
-  export type Chocolate_batchOrderByWithAggregationInput = {
+  export type Chocolate_batchesOrderByWithAggregationInput = {
     id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
+    ingredients?: SortOrder
     importer?: SortOrder
     production_date?: SortOrder
-    _count?: Chocolate_batchCountOrderByAggregateInput
-    _max?: Chocolate_batchMaxOrderByAggregateInput
-    _min?: Chocolate_batchMinOrderByAggregateInput
+    _count?: Chocolate_batchesCountOrderByAggregateInput
+    _max?: Chocolate_batchesMaxOrderByAggregateInput
+    _min?: Chocolate_batchesMinOrderByAggregateInput
   }
 
-  export type Chocolate_batchScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<Chocolate_batchScalarWhereWithAggregatesInput>
-    OR?: Enumerable<Chocolate_batchScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<Chocolate_batchScalarWhereWithAggregatesInput>
+  export type Chocolate_batchesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Chocolate_batchesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Chocolate_batchesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Chocolate_batchesScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
     recipe_id?: UuidNullableWithAggregatesFilter | string | null
     bean_origin?: StringWithAggregatesFilter | string
+    ingredients?: JsonNullableWithAggregatesFilter
     importer?: StringWithAggregatesFilter | string
     production_date?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -4928,7 +4955,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment_timestamp?: DateTimeNullableFilter | Date | string | null
     comment_text?: StringFilter | string
     attachment_path?: StringNullableFilter | string | null
-    chocolate_batch?: XOR<Chocolate_batchRelationFilter, Chocolate_batchWhereInput> | null
+    chocolate_batches?: XOR<Chocolate_batchesRelationFilter, Chocolate_batchesWhereInput> | null
   }
 
   export type Production_commentsOrderByWithRelationInput = {
@@ -4938,7 +4965,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment_timestamp?: SortOrder
     comment_text?: SortOrder
     attachment_path?: SortOrder
-    chocolate_batch?: Chocolate_batchOrderByWithRelationInput
+    chocolate_batches?: Chocolate_batchesOrderByWithRelationInput
   }
 
   export type Production_commentsWhereUniqueInput = {
@@ -5021,7 +5048,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: UuidFilter | string
     description?: StringFilter | string
     name?: StringFilter | string
-    chocolate_batch?: Chocolate_batchListRelationFilter
+    chocolate_batches?: Chocolate_batchesListRelationFilter
     recipe_ingredients?: Recipe_ingredientsListRelationFilter
   }
 
@@ -5029,7 +5056,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: SortOrder
     description?: SortOrder
     name?: SortOrder
-    chocolate_batch?: Chocolate_batchOrderByRelationAggregateInput
+    chocolate_batches?: Chocolate_batchesOrderByRelationAggregateInput
     recipe_ingredients?: Recipe_ingredientsOrderByRelationAggregateInput
   }
 
@@ -5055,61 +5082,68 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: StringWithAggregatesFilter | string
   }
 
-  export type Chocolate_batchCreateInput = {
+  export type Chocolate_batchesCreateInput = {
     id: string
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
-    recipes?: RecipesCreateNestedOneWithoutChocolate_batchInput
-    production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchInput
+    recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
+    production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
   }
 
-  export type Chocolate_batchUncheckedCreateInput = {
-    id: string
-    recipe_id?: string | null
-    bean_origin: string
-    importer: string
-    production_date: Date | string
-    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchInput
-  }
-
-  export type Chocolate_batchUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    bean_origin?: StringFieldUpdateOperationsInput | string
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipes?: RecipesUpdateOneWithoutChocolate_batchNestedInput
-    production_comments?: Production_commentsUpdateManyWithoutChocolate_batchNestedInput
-  }
-
-  export type Chocolate_batchUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
-    bean_origin?: StringFieldUpdateOperationsInput | string
-    importer?: StringFieldUpdateOperationsInput | string
-    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchNestedInput
-  }
-
-  export type Chocolate_batchCreateManyInput = {
+  export type Chocolate_batchesUncheckedCreateInput = {
     id: string
     recipe_id?: string | null
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer: string
+    production_date: Date | string
+    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchesInput
+  }
+
+  export type Chocolate_batchesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: StringFieldUpdateOperationsInput | string
+    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
+    production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
+  }
+
+  export type Chocolate_batchesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
+    bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: StringFieldUpdateOperationsInput | string
+    production_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput
+  }
+
+  export type Chocolate_batchesCreateManyInput = {
+    id: string
+    recipe_id?: string | null
+    bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
   }
 
-  export type Chocolate_batchUpdateManyMutationInput = {
+  export type Chocolate_batchesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type Chocolate_batchUncheckedUpdateManyInput = {
+  export type Chocolate_batchesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5120,7 +5154,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment_timestamp?: Date | string | null
     comment_text: string
     attachment_path?: string | null
-    chocolate_batch?: Chocolate_batchCreateNestedOneWithoutProduction_commentsInput
+    chocolate_batches?: Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput
   }
 
   export type Production_commentsUncheckedCreateInput = {
@@ -5138,7 +5172,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment_text?: StringFieldUpdateOperationsInput | string
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
-    chocolate_batch?: Chocolate_batchUpdateOneWithoutProduction_commentsNestedInput
+    chocolate_batches?: Chocolate_batchesUpdateOneWithoutProduction_commentsNestedInput
   }
 
   export type Production_commentsUncheckedUpdateInput = {
@@ -5228,7 +5262,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id: string
     description: string
     name: string
-    chocolate_batch?: Chocolate_batchCreateNestedManyWithoutRecipesInput
+    chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutRecipesInput
     recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
   }
 
@@ -5236,7 +5270,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id: string
     description: string
     name: string
-    chocolate_batch?: Chocolate_batchUncheckedCreateNestedManyWithoutRecipesInput
+    chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput
     recipe_ingredients?: Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput
   }
 
@@ -5244,7 +5278,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    chocolate_batch?: Chocolate_batchUpdateManyWithoutRecipesNestedInput
+    chocolate_batches?: Chocolate_batchesUpdateManyWithoutRecipesNestedInput
     recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
   }
 
@@ -5252,7 +5286,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    chocolate_batch?: Chocolate_batchUncheckedUpdateManyWithoutRecipesNestedInput
+    chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput
     recipe_ingredients?: Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput
   }
 
@@ -5312,6 +5346,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     mode?: QueryMode
     not?: NestedStringFilter | string
   }
+  export type JsonNullableFilter = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase>, Exclude<keyof Required<JsonNullableFilterBase>, 'path'>>,
+        Required<JsonNullableFilterBase>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase>, 'path'>>
+
+  export type JsonNullableFilterBase = {
+    equals?: InputJsonValue | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string
+    string_starts_with?: string
+    string_ends_with?: string
+    array_contains?: InputJsonValue | null
+    array_starts_with?: InputJsonValue | null
+    array_ends_with?: InputJsonValue | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonNullValueFilter
+  }
 
   export type DateTimeFilter = {
     equals?: Date | string
@@ -5339,7 +5395,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: SortOrder
   }
 
-  export type Chocolate_batchCountOrderByAggregateInput = {
+  export type Chocolate_batchesCountOrderByAggregateInput = {
+    id?: SortOrder
+    recipe_id?: SortOrder
+    bean_origin?: SortOrder
+    ingredients?: SortOrder
+    importer?: SortOrder
+    production_date?: SortOrder
+  }
+
+  export type Chocolate_batchesMaxOrderByAggregateInput = {
     id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
@@ -5347,15 +5412,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     production_date?: SortOrder
   }
 
-  export type Chocolate_batchMaxOrderByAggregateInput = {
-    id?: SortOrder
-    recipe_id?: SortOrder
-    bean_origin?: SortOrder
-    importer?: SortOrder
-    production_date?: SortOrder
-  }
-
-  export type Chocolate_batchMinOrderByAggregateInput = {
+  export type Chocolate_batchesMinOrderByAggregateInput = {
     id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
@@ -5410,6 +5467,31 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _min?: NestedStringFilter
     _max?: NestedStringFilter
   }
+  export type JsonNullableWithAggregatesFilter = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase = {
+    equals?: InputJsonValue | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string
+    string_starts_with?: string
+    string_ends_with?: string
+    array_contains?: InputJsonValue | null
+    array_starts_with?: InputJsonValue | null
+    array_ends_with?: InputJsonValue | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonNullValueFilter
+    _count?: NestedIntNullableFilter
+    _min?: NestedJsonNullableFilter
+    _max?: NestedJsonNullableFilter
+  }
 
   export type DateTimeWithAggregatesFilter = {
     equals?: Date | string
@@ -5451,9 +5533,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type Chocolate_batchRelationFilter = {
-    is?: Chocolate_batchWhereInput | null
-    isNot?: Chocolate_batchWhereInput | null
+  export type Chocolate_batchesRelationFilter = {
+    is?: Chocolate_batchesWhereInput | null
+    isNot?: Chocolate_batchesWhereInput | null
   }
 
   export type Production_commentsCountOrderByAggregateInput = {
@@ -5571,10 +5653,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedIntFilter
   }
 
-  export type Chocolate_batchListRelationFilter = {
-    every?: Chocolate_batchWhereInput
-    some?: Chocolate_batchWhereInput
-    none?: Chocolate_batchWhereInput
+  export type Chocolate_batchesListRelationFilter = {
+    every?: Chocolate_batchesWhereInput
+    some?: Chocolate_batchesWhereInput
+    none?: Chocolate_batchesWhereInput
   }
 
   export type Recipe_ingredientsListRelationFilter = {
@@ -5583,7 +5665,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: Recipe_ingredientsWhereInput
   }
 
-  export type Chocolate_batchOrderByRelationAggregateInput = {
+  export type Chocolate_batchesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5609,23 +5691,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: SortOrder
   }
 
-  export type RecipesCreateNestedOneWithoutChocolate_batchInput = {
-    create?: XOR<RecipesCreateWithoutChocolate_batchInput, RecipesUncheckedCreateWithoutChocolate_batchInput>
-    connectOrCreate?: RecipesCreateOrConnectWithoutChocolate_batchInput
+  export type RecipesCreateNestedOneWithoutChocolate_batchesInput = {
+    create?: XOR<RecipesCreateWithoutChocolate_batchesInput, RecipesUncheckedCreateWithoutChocolate_batchesInput>
+    connectOrCreate?: RecipesCreateOrConnectWithoutChocolate_batchesInput
     connect?: RecipesWhereUniqueInput
   }
 
-  export type Production_commentsCreateNestedManyWithoutChocolate_batchInput = {
-    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchInput>>
-    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchInput>
-    createMany?: Production_commentsCreateManyChocolate_batchInputEnvelope
+  export type Production_commentsCreateNestedManyWithoutChocolate_batchesInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchesInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchesInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchesInput>
+    createMany?: Production_commentsCreateManyChocolate_batchesInputEnvelope
     connect?: Enumerable<Production_commentsWhereUniqueInput>
   }
 
-  export type Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchInput = {
-    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchInput>>
-    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchInput>
-    createMany?: Production_commentsCreateManyChocolate_batchInputEnvelope
+  export type Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchesInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchesInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchesInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchesInput>
+    createMany?: Production_commentsCreateManyChocolate_batchesInputEnvelope
     connect?: Enumerable<Production_commentsWhereUniqueInput>
   }
 
@@ -5637,27 +5719,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     set?: Date | string
   }
 
-  export type RecipesUpdateOneWithoutChocolate_batchNestedInput = {
-    create?: XOR<RecipesCreateWithoutChocolate_batchInput, RecipesUncheckedCreateWithoutChocolate_batchInput>
-    connectOrCreate?: RecipesCreateOrConnectWithoutChocolate_batchInput
-    upsert?: RecipesUpsertWithoutChocolate_batchInput
+  export type RecipesUpdateOneWithoutChocolate_batchesNestedInput = {
+    create?: XOR<RecipesCreateWithoutChocolate_batchesInput, RecipesUncheckedCreateWithoutChocolate_batchesInput>
+    connectOrCreate?: RecipesCreateOrConnectWithoutChocolate_batchesInput
+    upsert?: RecipesUpsertWithoutChocolate_batchesInput
     disconnect?: boolean
     delete?: boolean
     connect?: RecipesWhereUniqueInput
-    update?: XOR<RecipesUpdateWithoutChocolate_batchInput, RecipesUncheckedUpdateWithoutChocolate_batchInput>
+    update?: XOR<RecipesUpdateWithoutChocolate_batchesInput, RecipesUncheckedUpdateWithoutChocolate_batchesInput>
   }
 
-  export type Production_commentsUpdateManyWithoutChocolate_batchNestedInput = {
-    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchInput>>
-    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchInput>
-    upsert?: Enumerable<Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchInput>
-    createMany?: Production_commentsCreateManyChocolate_batchInputEnvelope
+  export type Production_commentsUpdateManyWithoutChocolate_batchesNestedInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchesInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchesInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchesInput>
+    upsert?: Enumerable<Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchesInput>
+    createMany?: Production_commentsCreateManyChocolate_batchesInputEnvelope
     set?: Enumerable<Production_commentsWhereUniqueInput>
     disconnect?: Enumerable<Production_commentsWhereUniqueInput>
     delete?: Enumerable<Production_commentsWhereUniqueInput>
     connect?: Enumerable<Production_commentsWhereUniqueInput>
-    update?: Enumerable<Production_commentsUpdateWithWhereUniqueWithoutChocolate_batchInput>
-    updateMany?: Enumerable<Production_commentsUpdateManyWithWhereWithoutChocolate_batchInput>
+    update?: Enumerable<Production_commentsUpdateWithWhereUniqueWithoutChocolate_batchesInput>
+    updateMany?: Enumerable<Production_commentsUpdateManyWithWhereWithoutChocolate_batchesInput>
     deleteMany?: Enumerable<Production_commentsScalarWhereInput>
   }
 
@@ -5665,38 +5747,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     set?: string | null
   }
 
-  export type Production_commentsUncheckedUpdateManyWithoutChocolate_batchNestedInput = {
-    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchInput>>
-    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchInput>
-    upsert?: Enumerable<Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchInput>
-    createMany?: Production_commentsCreateManyChocolate_batchInputEnvelope
+  export type Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchesInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchesInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchesInput>
+    upsert?: Enumerable<Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchesInput>
+    createMany?: Production_commentsCreateManyChocolate_batchesInputEnvelope
     set?: Enumerable<Production_commentsWhereUniqueInput>
     disconnect?: Enumerable<Production_commentsWhereUniqueInput>
     delete?: Enumerable<Production_commentsWhereUniqueInput>
     connect?: Enumerable<Production_commentsWhereUniqueInput>
-    update?: Enumerable<Production_commentsUpdateWithWhereUniqueWithoutChocolate_batchInput>
-    updateMany?: Enumerable<Production_commentsUpdateManyWithWhereWithoutChocolate_batchInput>
+    update?: Enumerable<Production_commentsUpdateWithWhereUniqueWithoutChocolate_batchesInput>
+    updateMany?: Enumerable<Production_commentsUpdateManyWithWhereWithoutChocolate_batchesInput>
     deleteMany?: Enumerable<Production_commentsScalarWhereInput>
   }
 
-  export type Chocolate_batchCreateNestedOneWithoutProduction_commentsInput = {
-    create?: XOR<Chocolate_batchCreateWithoutProduction_commentsInput, Chocolate_batchUncheckedCreateWithoutProduction_commentsInput>
-    connectOrCreate?: Chocolate_batchCreateOrConnectWithoutProduction_commentsInput
-    connect?: Chocolate_batchWhereUniqueInput
+  export type Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput = {
+    create?: XOR<Chocolate_batchesCreateWithoutProduction_commentsInput, Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput>
+    connectOrCreate?: Chocolate_batchesCreateOrConnectWithoutProduction_commentsInput
+    connect?: Chocolate_batchesWhereUniqueInput
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
 
-  export type Chocolate_batchUpdateOneWithoutProduction_commentsNestedInput = {
-    create?: XOR<Chocolate_batchCreateWithoutProduction_commentsInput, Chocolate_batchUncheckedCreateWithoutProduction_commentsInput>
-    connectOrCreate?: Chocolate_batchCreateOrConnectWithoutProduction_commentsInput
-    upsert?: Chocolate_batchUpsertWithoutProduction_commentsInput
+  export type Chocolate_batchesUpdateOneWithoutProduction_commentsNestedInput = {
+    create?: XOR<Chocolate_batchesCreateWithoutProduction_commentsInput, Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput>
+    connectOrCreate?: Chocolate_batchesCreateOrConnectWithoutProduction_commentsInput
+    upsert?: Chocolate_batchesUpsertWithoutProduction_commentsInput
     disconnect?: boolean
     delete?: boolean
-    connect?: Chocolate_batchWhereUniqueInput
-    update?: XOR<Chocolate_batchUpdateWithoutProduction_commentsInput, Chocolate_batchUncheckedUpdateWithoutProduction_commentsInput>
+    connect?: Chocolate_batchesWhereUniqueInput
+    update?: XOR<Chocolate_batchesUpdateWithoutProduction_commentsInput, Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput>
   }
 
   export type RecipesCreateNestedOneWithoutRecipe_ingredientsInput = {
@@ -5723,11 +5805,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<RecipesUpdateWithoutRecipe_ingredientsInput, RecipesUncheckedUpdateWithoutRecipe_ingredientsInput>
   }
 
-  export type Chocolate_batchCreateNestedManyWithoutRecipesInput = {
-    create?: XOR<Enumerable<Chocolate_batchCreateWithoutRecipesInput>, Enumerable<Chocolate_batchUncheckedCreateWithoutRecipesInput>>
-    connectOrCreate?: Enumerable<Chocolate_batchCreateOrConnectWithoutRecipesInput>
-    createMany?: Chocolate_batchCreateManyRecipesInputEnvelope
-    connect?: Enumerable<Chocolate_batchWhereUniqueInput>
+  export type Chocolate_batchesCreateNestedManyWithoutRecipesInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutRecipesInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutRecipesInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutRecipesInput>
+    createMany?: Chocolate_batchesCreateManyRecipesInputEnvelope
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
   }
 
   export type Recipe_ingredientsCreateNestedManyWithoutRecipesInput = {
@@ -5737,11 +5819,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Recipe_ingredientsWhereUniqueInput>
   }
 
-  export type Chocolate_batchUncheckedCreateNestedManyWithoutRecipesInput = {
-    create?: XOR<Enumerable<Chocolate_batchCreateWithoutRecipesInput>, Enumerable<Chocolate_batchUncheckedCreateWithoutRecipesInput>>
-    connectOrCreate?: Enumerable<Chocolate_batchCreateOrConnectWithoutRecipesInput>
-    createMany?: Chocolate_batchCreateManyRecipesInputEnvelope
-    connect?: Enumerable<Chocolate_batchWhereUniqueInput>
+  export type Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutRecipesInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutRecipesInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutRecipesInput>
+    createMany?: Chocolate_batchesCreateManyRecipesInputEnvelope
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
   }
 
   export type Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput = {
@@ -5751,18 +5833,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Recipe_ingredientsWhereUniqueInput>
   }
 
-  export type Chocolate_batchUpdateManyWithoutRecipesNestedInput = {
-    create?: XOR<Enumerable<Chocolate_batchCreateWithoutRecipesInput>, Enumerable<Chocolate_batchUncheckedCreateWithoutRecipesInput>>
-    connectOrCreate?: Enumerable<Chocolate_batchCreateOrConnectWithoutRecipesInput>
-    upsert?: Enumerable<Chocolate_batchUpsertWithWhereUniqueWithoutRecipesInput>
-    createMany?: Chocolate_batchCreateManyRecipesInputEnvelope
-    set?: Enumerable<Chocolate_batchWhereUniqueInput>
-    disconnect?: Enumerable<Chocolate_batchWhereUniqueInput>
-    delete?: Enumerable<Chocolate_batchWhereUniqueInput>
-    connect?: Enumerable<Chocolate_batchWhereUniqueInput>
-    update?: Enumerable<Chocolate_batchUpdateWithWhereUniqueWithoutRecipesInput>
-    updateMany?: Enumerable<Chocolate_batchUpdateManyWithWhereWithoutRecipesInput>
-    deleteMany?: Enumerable<Chocolate_batchScalarWhereInput>
+  export type Chocolate_batchesUpdateManyWithoutRecipesNestedInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutRecipesInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutRecipesInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutRecipesInput>
+    upsert?: Enumerable<Chocolate_batchesUpsertWithWhereUniqueWithoutRecipesInput>
+    createMany?: Chocolate_batchesCreateManyRecipesInputEnvelope
+    set?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    disconnect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    delete?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    update?: Enumerable<Chocolate_batchesUpdateWithWhereUniqueWithoutRecipesInput>
+    updateMany?: Enumerable<Chocolate_batchesUpdateManyWithWhereWithoutRecipesInput>
+    deleteMany?: Enumerable<Chocolate_batchesScalarWhereInput>
   }
 
   export type Recipe_ingredientsUpdateManyWithoutRecipesNestedInput = {
@@ -5779,18 +5861,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Recipe_ingredientsScalarWhereInput>
   }
 
-  export type Chocolate_batchUncheckedUpdateManyWithoutRecipesNestedInput = {
-    create?: XOR<Enumerable<Chocolate_batchCreateWithoutRecipesInput>, Enumerable<Chocolate_batchUncheckedCreateWithoutRecipesInput>>
-    connectOrCreate?: Enumerable<Chocolate_batchCreateOrConnectWithoutRecipesInput>
-    upsert?: Enumerable<Chocolate_batchUpsertWithWhereUniqueWithoutRecipesInput>
-    createMany?: Chocolate_batchCreateManyRecipesInputEnvelope
-    set?: Enumerable<Chocolate_batchWhereUniqueInput>
-    disconnect?: Enumerable<Chocolate_batchWhereUniqueInput>
-    delete?: Enumerable<Chocolate_batchWhereUniqueInput>
-    connect?: Enumerable<Chocolate_batchWhereUniqueInput>
-    update?: Enumerable<Chocolate_batchUpdateWithWhereUniqueWithoutRecipesInput>
-    updateMany?: Enumerable<Chocolate_batchUpdateManyWithWhereWithoutRecipesInput>
-    deleteMany?: Enumerable<Chocolate_batchScalarWhereInput>
+  export type Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutRecipesInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutRecipesInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutRecipesInput>
+    upsert?: Enumerable<Chocolate_batchesUpsertWithWhereUniqueWithoutRecipesInput>
+    createMany?: Chocolate_batchesCreateManyRecipesInputEnvelope
+    set?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    disconnect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    delete?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    update?: Enumerable<Chocolate_batchesUpdateWithWhereUniqueWithoutRecipesInput>
+    updateMany?: Enumerable<Chocolate_batchesUpdateManyWithWhereWithoutRecipesInput>
+    deleteMany?: Enumerable<Chocolate_batchesScalarWhereInput>
   }
 
   export type Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput = {
@@ -5934,6 +6016,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _min?: NestedStringFilter
     _max?: NestedStringFilter
   }
+  export type NestedJsonNullableFilter = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase>, Exclude<keyof Required<NestedJsonNullableFilterBase>, 'path'>>,
+        Required<NestedJsonNullableFilterBase>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase>, 'path'>>
+
+  export type NestedJsonNullableFilterBase = {
+    equals?: InputJsonValue | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string
+    string_starts_with?: string
+    string_ends_with?: string
+    array_contains?: InputJsonValue | null
+    array_starts_with?: InputJsonValue | null
+    array_ends_with?: InputJsonValue | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonNullValueFilter
+  }
 
   export type NestedDateTimeWithAggregatesFilter = {
     equals?: Date | string
@@ -6018,26 +6122,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedFloatFilter | number
   }
 
-  export type RecipesCreateWithoutChocolate_batchInput = {
+  export type RecipesCreateWithoutChocolate_batchesInput = {
     id: string
     description: string
     name: string
     recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
   }
 
-  export type RecipesUncheckedCreateWithoutChocolate_batchInput = {
+  export type RecipesUncheckedCreateWithoutChocolate_batchesInput = {
     id: string
     description: string
     name: string
     recipe_ingredients?: Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput
   }
 
-  export type RecipesCreateOrConnectWithoutChocolate_batchInput = {
+  export type RecipesCreateOrConnectWithoutChocolate_batchesInput = {
     where: RecipesWhereUniqueInput
-    create: XOR<RecipesCreateWithoutChocolate_batchInput, RecipesUncheckedCreateWithoutChocolate_batchInput>
+    create: XOR<RecipesCreateWithoutChocolate_batchesInput, RecipesUncheckedCreateWithoutChocolate_batchesInput>
   }
 
-  export type Production_commentsCreateWithoutChocolate_batchInput = {
+  export type Production_commentsCreateWithoutChocolate_batchesInput = {
     id: string
     user_name: string
     comment_timestamp?: Date | string | null
@@ -6045,7 +6149,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     attachment_path?: string | null
   }
 
-  export type Production_commentsUncheckedCreateWithoutChocolate_batchInput = {
+  export type Production_commentsUncheckedCreateWithoutChocolate_batchesInput = {
     id: string
     user_name: string
     comment_timestamp?: Date | string | null
@@ -6053,47 +6157,47 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     attachment_path?: string | null
   }
 
-  export type Production_commentsCreateOrConnectWithoutChocolate_batchInput = {
+  export type Production_commentsCreateOrConnectWithoutChocolate_batchesInput = {
     where: Production_commentsWhereUniqueInput
-    create: XOR<Production_commentsCreateWithoutChocolate_batchInput, Production_commentsUncheckedCreateWithoutChocolate_batchInput>
+    create: XOR<Production_commentsCreateWithoutChocolate_batchesInput, Production_commentsUncheckedCreateWithoutChocolate_batchesInput>
   }
 
-  export type Production_commentsCreateManyChocolate_batchInputEnvelope = {
-    data: Enumerable<Production_commentsCreateManyChocolate_batchInput>
+  export type Production_commentsCreateManyChocolate_batchesInputEnvelope = {
+    data: Enumerable<Production_commentsCreateManyChocolate_batchesInput>
     skipDuplicates?: boolean
   }
 
-  export type RecipesUpsertWithoutChocolate_batchInput = {
-    update: XOR<RecipesUpdateWithoutChocolate_batchInput, RecipesUncheckedUpdateWithoutChocolate_batchInput>
-    create: XOR<RecipesCreateWithoutChocolate_batchInput, RecipesUncheckedCreateWithoutChocolate_batchInput>
+  export type RecipesUpsertWithoutChocolate_batchesInput = {
+    update: XOR<RecipesUpdateWithoutChocolate_batchesInput, RecipesUncheckedUpdateWithoutChocolate_batchesInput>
+    create: XOR<RecipesCreateWithoutChocolate_batchesInput, RecipesUncheckedCreateWithoutChocolate_batchesInput>
   }
 
-  export type RecipesUpdateWithoutChocolate_batchInput = {
+  export type RecipesUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
   }
 
-  export type RecipesUncheckedUpdateWithoutChocolate_batchInput = {
+  export type RecipesUncheckedUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     recipe_ingredients?: Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput
   }
 
-  export type Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchInput = {
+  export type Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchesInput = {
     where: Production_commentsWhereUniqueInput
-    update: XOR<Production_commentsUpdateWithoutChocolate_batchInput, Production_commentsUncheckedUpdateWithoutChocolate_batchInput>
-    create: XOR<Production_commentsCreateWithoutChocolate_batchInput, Production_commentsUncheckedCreateWithoutChocolate_batchInput>
+    update: XOR<Production_commentsUpdateWithoutChocolate_batchesInput, Production_commentsUncheckedUpdateWithoutChocolate_batchesInput>
+    create: XOR<Production_commentsCreateWithoutChocolate_batchesInput, Production_commentsUncheckedCreateWithoutChocolate_batchesInput>
   }
 
-  export type Production_commentsUpdateWithWhereUniqueWithoutChocolate_batchInput = {
+  export type Production_commentsUpdateWithWhereUniqueWithoutChocolate_batchesInput = {
     where: Production_commentsWhereUniqueInput
-    data: XOR<Production_commentsUpdateWithoutChocolate_batchInput, Production_commentsUncheckedUpdateWithoutChocolate_batchInput>
+    data: XOR<Production_commentsUpdateWithoutChocolate_batchesInput, Production_commentsUncheckedUpdateWithoutChocolate_batchesInput>
   }
 
-  export type Production_commentsUpdateManyWithWhereWithoutChocolate_batchInput = {
+  export type Production_commentsUpdateManyWithWhereWithoutChocolate_batchesInput = {
     where: Production_commentsScalarWhereInput
     data: XOR<Production_commentsUpdateManyMutationInput, Production_commentsUncheckedUpdateManyWithoutProduction_commentsInput>
   }
@@ -6110,44 +6214,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     attachment_path?: StringNullableFilter | string | null
   }
 
-  export type Chocolate_batchCreateWithoutProduction_commentsInput = {
+  export type Chocolate_batchesCreateWithoutProduction_commentsInput = {
     id: string
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
-    recipes?: RecipesCreateNestedOneWithoutChocolate_batchInput
+    recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
   }
 
-  export type Chocolate_batchUncheckedCreateWithoutProduction_commentsInput = {
+  export type Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput = {
     id: string
     recipe_id?: string | null
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
   }
 
-  export type Chocolate_batchCreateOrConnectWithoutProduction_commentsInput = {
-    where: Chocolate_batchWhereUniqueInput
-    create: XOR<Chocolate_batchCreateWithoutProduction_commentsInput, Chocolate_batchUncheckedCreateWithoutProduction_commentsInput>
+  export type Chocolate_batchesCreateOrConnectWithoutProduction_commentsInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    create: XOR<Chocolate_batchesCreateWithoutProduction_commentsInput, Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput>
   }
 
-  export type Chocolate_batchUpsertWithoutProduction_commentsInput = {
-    update: XOR<Chocolate_batchUpdateWithoutProduction_commentsInput, Chocolate_batchUncheckedUpdateWithoutProduction_commentsInput>
-    create: XOR<Chocolate_batchCreateWithoutProduction_commentsInput, Chocolate_batchUncheckedCreateWithoutProduction_commentsInput>
+  export type Chocolate_batchesUpsertWithoutProduction_commentsInput = {
+    update: XOR<Chocolate_batchesUpdateWithoutProduction_commentsInput, Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput>
+    create: XOR<Chocolate_batchesCreateWithoutProduction_commentsInput, Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput>
   }
 
-  export type Chocolate_batchUpdateWithoutProduction_commentsInput = {
+  export type Chocolate_batchesUpdateWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipes?: RecipesUpdateOneWithoutChocolate_batchNestedInput
+    recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
   }
 
-  export type Chocolate_batchUncheckedUpdateWithoutProduction_commentsInput = {
+  export type Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6156,14 +6264,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id: string
     description: string
     name: string
-    chocolate_batch?: Chocolate_batchCreateNestedManyWithoutRecipesInput
+    chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateWithoutRecipe_ingredientsInput = {
     id: string
     description: string
     name: string
-    chocolate_batch?: Chocolate_batchUncheckedCreateNestedManyWithoutRecipesInput
+    chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput
   }
 
   export type RecipesCreateOrConnectWithoutRecipe_ingredientsInput = {
@@ -6180,39 +6288,41 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    chocolate_batch?: Chocolate_batchUpdateManyWithoutRecipesNestedInput
+    chocolate_batches?: Chocolate_batchesUpdateManyWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateWithoutRecipe_ingredientsInput = {
     id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    chocolate_batch?: Chocolate_batchUncheckedUpdateManyWithoutRecipesNestedInput
+    chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput
   }
 
-  export type Chocolate_batchCreateWithoutRecipesInput = {
+  export type Chocolate_batchesCreateWithoutRecipesInput = {
     id: string
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
-    production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchInput
+    production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
   }
 
-  export type Chocolate_batchUncheckedCreateWithoutRecipesInput = {
+  export type Chocolate_batchesUncheckedCreateWithoutRecipesInput = {
     id: string
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
-    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchInput
+    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchesInput
   }
 
-  export type Chocolate_batchCreateOrConnectWithoutRecipesInput = {
-    where: Chocolate_batchWhereUniqueInput
-    create: XOR<Chocolate_batchCreateWithoutRecipesInput, Chocolate_batchUncheckedCreateWithoutRecipesInput>
+  export type Chocolate_batchesCreateOrConnectWithoutRecipesInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    create: XOR<Chocolate_batchesCreateWithoutRecipesInput, Chocolate_batchesUncheckedCreateWithoutRecipesInput>
   }
 
-  export type Chocolate_batchCreateManyRecipesInputEnvelope = {
-    data: Enumerable<Chocolate_batchCreateManyRecipesInput>
+  export type Chocolate_batchesCreateManyRecipesInputEnvelope = {
+    data: Enumerable<Chocolate_batchesCreateManyRecipesInput>
     skipDuplicates?: boolean
   }
 
@@ -6238,29 +6348,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
-  export type Chocolate_batchUpsertWithWhereUniqueWithoutRecipesInput = {
-    where: Chocolate_batchWhereUniqueInput
-    update: XOR<Chocolate_batchUpdateWithoutRecipesInput, Chocolate_batchUncheckedUpdateWithoutRecipesInput>
-    create: XOR<Chocolate_batchCreateWithoutRecipesInput, Chocolate_batchUncheckedCreateWithoutRecipesInput>
+  export type Chocolate_batchesUpsertWithWhereUniqueWithoutRecipesInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    update: XOR<Chocolate_batchesUpdateWithoutRecipesInput, Chocolate_batchesUncheckedUpdateWithoutRecipesInput>
+    create: XOR<Chocolate_batchesCreateWithoutRecipesInput, Chocolate_batchesUncheckedCreateWithoutRecipesInput>
   }
 
-  export type Chocolate_batchUpdateWithWhereUniqueWithoutRecipesInput = {
-    where: Chocolate_batchWhereUniqueInput
-    data: XOR<Chocolate_batchUpdateWithoutRecipesInput, Chocolate_batchUncheckedUpdateWithoutRecipesInput>
+  export type Chocolate_batchesUpdateWithWhereUniqueWithoutRecipesInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    data: XOR<Chocolate_batchesUpdateWithoutRecipesInput, Chocolate_batchesUncheckedUpdateWithoutRecipesInput>
   }
 
-  export type Chocolate_batchUpdateManyWithWhereWithoutRecipesInput = {
-    where: Chocolate_batchScalarWhereInput
-    data: XOR<Chocolate_batchUpdateManyMutationInput, Chocolate_batchUncheckedUpdateManyWithoutChocolate_batchInput>
+  export type Chocolate_batchesUpdateManyWithWhereWithoutRecipesInput = {
+    where: Chocolate_batchesScalarWhereInput
+    data: XOR<Chocolate_batchesUpdateManyMutationInput, Chocolate_batchesUncheckedUpdateManyWithoutChocolate_batchesInput>
   }
 
-  export type Chocolate_batchScalarWhereInput = {
-    AND?: Enumerable<Chocolate_batchScalarWhereInput>
-    OR?: Enumerable<Chocolate_batchScalarWhereInput>
-    NOT?: Enumerable<Chocolate_batchScalarWhereInput>
+  export type Chocolate_batchesScalarWhereInput = {
+    AND?: Enumerable<Chocolate_batchesScalarWhereInput>
+    OR?: Enumerable<Chocolate_batchesScalarWhereInput>
+    NOT?: Enumerable<Chocolate_batchesScalarWhereInput>
     id?: UuidFilter | string
     recipe_id?: UuidNullableFilter | string | null
     bean_origin?: StringFilter | string
+    ingredients?: JsonNullableFilter
     importer?: StringFilter | string
     production_date?: DateTimeFilter | Date | string
   }
@@ -6291,7 +6402,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     percentage?: IntFilter | number
   }
 
-  export type Production_commentsCreateManyChocolate_batchInput = {
+  export type Production_commentsCreateManyChocolate_batchesInput = {
     id: string
     user_name: string
     comment_timestamp?: Date | string | null
@@ -6299,7 +6410,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     attachment_path?: string | null
   }
 
-  export type Production_commentsUpdateWithoutChocolate_batchInput = {
+  export type Production_commentsUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6307,7 +6418,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type Production_commentsUncheckedUpdateWithoutChocolate_batchInput = {
+  export type Production_commentsUncheckedUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_name?: StringFieldUpdateOperationsInput | string
     comment_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6323,9 +6434,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type Chocolate_batchCreateManyRecipesInput = {
+  export type Chocolate_batchesCreateManyRecipesInput = {
     id: string
     bean_origin: string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer: string
     production_date: Date | string
   }
@@ -6336,25 +6448,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     percentage: number
   }
 
-  export type Chocolate_batchUpdateWithoutRecipesInput = {
+  export type Chocolate_batchesUpdateWithoutRecipesInput = {
     id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    production_comments?: Production_commentsUpdateManyWithoutChocolate_batchNestedInput
+    production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
   }
 
-  export type Chocolate_batchUncheckedUpdateWithoutRecipesInput = {
+  export type Chocolate_batchesUncheckedUpdateWithoutRecipesInput = {
     id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchNestedInput
+    production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput
   }
 
-  export type Chocolate_batchUncheckedUpdateManyWithoutChocolate_batchInput = {
+  export type Chocolate_batchesUncheckedUpdateManyWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     bean_origin?: StringFieldUpdateOperationsInput | string
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: StringFieldUpdateOperationsInput | string
     production_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }

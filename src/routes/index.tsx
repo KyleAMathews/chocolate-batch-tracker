@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import { useElectricData } from "electric-query"
 import {
   TableHead,
   TableRow,
@@ -9,8 +10,34 @@ import {
   Table,
 } from "@/components/ui/table"
 import { Card } from "@/components/ui/card"
+import { useElectric } from "../context"
+import { genUUID } from "electric-sql/util"
+import { Electric } from "../generated/client"
+
+const queries = ({ db }: { db: Electric[`db`] }) => {
+  return {
+    batches: db.liveRaw({
+      sql: `SELECT 
+    chocolate_batches.*,
+    recipes.id AS recipe_id,
+    recipes.name AS recipe_name
+FROM 
+    chocolate_batches
+LEFT JOIN 
+    recipes ON chocolate_batches.recipe_id = recipes.id;
+`,
+    }),
+  }
+}
+
+Index.queries = queries
 
 export default function Index() {
+  const { db } = useElectric()!
+  const location = useLocation()
+  const { batches } = useElectricData(location.pathname + location.search)
+  console.log({ batches })
+  const navigate = useNavigate()
   return (
     <>
       <div className="flex gap-3 justify-end">
@@ -19,7 +46,23 @@ export default function Index() {
             Edit Recipes
           </Button>
         </Link>
-        <Button className="text-lg py-2 px-6" variant="default">
+        <Button
+          className="text-lg py-2 px-6"
+          variant="default"
+          onClick={async () => {
+            const batch = await db.chocolate_batches.create({
+              data: {
+                id: genUUID(),
+                production_date: new Date(),
+                importer: ``,
+                bean_origin: ``,
+              },
+            })
+
+            console.log({ batch })
+            navigate(`/batch/${batch.id}`)
+          }}
+        >
           Add Batch
         </Button>
       </div>
@@ -36,39 +79,22 @@ export default function Index() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>Dark Chocolate</TableCell>
-                <TableCell>500kg</TableCell>
-                <TableCell>01/01/2024</TableCell>
-                <TableCell>Ghana</TableCell>
-                <TableCell className="text-right">
-                  <Button size="icon" variant="ghost">
-                    <FileEditIcon className="w-4 h-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Milk Chocolate</TableCell>
-                <TableCell>300kg</TableCell>
-                <TableCell>01/02/2024</TableCell>
-                <TableCell>Ivory Coast</TableCell>
-                <TableCell className="text-right">
-                  <Button size="icon" variant="ghost">
-                    <FileEditIcon className="w-4 h-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>White Chocolate</TableCell>
-                <TableCell>200kg</TableCell>
-                <TableCell>01/03/2024</TableCell>
-                <TableCell>Madagascar</TableCell>
-                <TableCell className="text-right">
-                  <Button size="icon" variant="ghost">
-                    <FileEditIcon className="w-4 h-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
+              {batches.map((batch) => (
+                <TableRow key={batch.id}>
+                  <TableCell>
+                    <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
+                  </TableCell>
+                  <TableCell></TableCell>
+                  <TableCell>
+                    <Link to={`/batch/${batch.id}`}>
+                      {batch.production_date}
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/batch/${batch.id}`}>{batch.bean_origin}</Link>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </Card>

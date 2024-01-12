@@ -28,6 +28,39 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
+        loader: async (props) => {
+          const url = new URL(props.request.url)
+          const key = url.pathname + url.search
+          await electricSqlLoader<Electric>({
+            key,
+            shapes: ({ db }) => [
+              {
+                shape: db.chocolate_batches.sync({
+                  include: {
+                    recipes: true,
+                  },
+                }),
+                isReady: async () =>
+                  !!(await db.raw({
+                    sql: `select id from chocolate_batches limit 1`,
+                  })),
+              },
+              {
+                shape: db.recipes.sync(),
+                isReady: async () =>
+                  !!(await db.raw({
+                    sql: `select id from recipes limit 1`,
+                  })),
+              },
+            ],
+            queries: ({ db }) =>
+              Index.queries({
+                db,
+              }),
+          })
+
+          return null
+        },
       },
       {
         path: `recipes`,
@@ -70,20 +103,50 @@ const router = createBrowserRouter([
         path: `batch/:batchId`,
         element: <Batch />,
         loader: async (props) => {
-          // const url = new URL(props.request.url)
-          // const key = url.pathname + url.search
-          // if (props.params.contactId) {
-          // await electricSqlLoader<Electric>({
-          // key,
-          // shapes,
-          // queries: ({ db }) =>
-          // Contact.queries({
-          // db,
-          // id: props.params.contactId,
-          // dummyUserId,
-          // }),
-          // })
-          // }
+          const url = new URL(props.request.url)
+          const key = url.pathname + url.search
+          console.log({ props })
+          console.time(`sync`)
+          await electricSqlLoader<Electric>({
+            key,
+            shapes: ({ db }) => [
+              {
+                shape: db.chocolate_batches.sync({
+                  include: {
+                    recipes: true,
+                  },
+                }),
+                isReady: async () =>
+                  !!(await db.raw({
+                    sql: `select id from chocolate_batches limit 1`,
+                  })),
+              },
+              {
+                shape: db.recipe_ingredients.sync({
+                  include: {
+                    recipes: true,
+                  },
+                }),
+                isReady: async () =>
+                  !!(await db.raw({
+                    sql: `select id from recipe_ingredients limit 1`,
+                  })),
+              },
+              {
+                shape: db.recipes.sync(),
+                isReady: async () =>
+                  !!(await db.raw({
+                    sql: `select id from recipes limit 1`,
+                  })),
+              },
+            ],
+            queries: ({ db }) =>
+              Batch.queries({
+                db,
+                id: props.params.batchId,
+              }),
+          })
+          console.timeEnd(`sync`)
 
           return null
         },

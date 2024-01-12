@@ -20,6 +20,7 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray } from "react-hook-form"
 import { useElectric } from "../context"
+import { pparseInt } from "@/lib/utils"
 import {
   Form,
   FormControl,
@@ -34,16 +35,7 @@ const ingredientSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1, { message: `Ingredient name is required.` }),
   percentage: z.preprocess(
-    (val) => {
-      // Attempt to convert the value to a number if it's a string
-      if (typeof val === `string`) {
-        const parsed = parseInt(val)
-        // Return the parsed number if it's a valid number, otherwise return undefined
-        return isNaN(parsed) ? 0 : parsed
-      }
-      // If it's already a number, just return it
-      return val
-    },
+    (val) => pparseInt(val),
     z
       .number({
         required_error: `Percentage amount is required.`,
@@ -143,7 +135,6 @@ export function RecipeForm({ recipe, closeForm }) {
     control,
     name: `ingredients`,
   })
-  console.log(`form,errors, values`, form, errors, values)
 
   return (
     <div className="py-6">
@@ -202,7 +193,7 @@ export function RecipeForm({ recipe, closeForm }) {
               <Flex gap="3" direction="column">
                 {fields.map((field, index) => {
                   return (
-                    <Flex gap="3">
+                    <Flex gap="3" key={`ingredient-${index}`}>
                       <input
                         type="hidden"
                         {...register(`ingredients.${index}.id`)}
@@ -248,7 +239,14 @@ export function RecipeForm({ recipe, closeForm }) {
             </Flex>
           </Flex>
           <div className="flex justify-end">
-            <Button className="mr-2" variant="outline">
+            <Button
+              className="mr-2"
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault()
+                closeForm()
+              }}
+            >
               Cancel
             </Button>
             <Button type="submit">Save</Button>
@@ -283,13 +281,13 @@ export default function Recipes() {
         />
       </Flex>
       <div className="divide-y divide-gray-200">
-        <div className="py-6">
-          <h2 className="text-xl font-semibold mb-2">Recipes</h2>
-          {recipes.length > 0 && (
+        {recipes.length > 0 && (
+          <div className="py-6">
+            <h2 className="text-xl font-semibold mb-2">Recipes</h2>
             <Flex gap="4" wrap="wrap">
               {recipes.map((recipe) => {
                 return (
-                  <Card className="relative min-w-52">
+                  <Card className="relative min-w-52" key={recipe.id}>
                     <div
                       style={{
                         position: `absolute`,
@@ -310,7 +308,7 @@ export default function Recipes() {
                       <ul>
                         {recipe.recipe_ingredients.map((ingredient) => {
                           return (
-                            <li>
+                            <li key={ingredient.id}>
                               <span>
                                 {ingredient.name} -{` `}
                                 {ingredient.percentage}%
@@ -324,9 +322,15 @@ export default function Recipes() {
                 )
               })}
             </Flex>
-          )}
-          {recipes.length === 0 && <div>Add your first recipe!</div>}
-        </div>
+          </div>
+        )}
+        {recipes.length === 0 && !editing && (
+          <Flex mt="3">
+            <Button onClick={() => setEditing({})}>
+              Add your first recipe!
+            </Button>
+          </Flex>
+        )}
         {editing && (
           <RecipeForm
             key={editing?.id || Math.random()}
