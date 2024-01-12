@@ -75,7 +75,6 @@ export default function Index() {
                 <TableHead>Weight</TableHead>
                 <TableHead>Production Date</TableHead>
                 <TableHead>Bean Origin</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -84,7 +83,12 @@ export default function Index() {
                   <TableCell>
                     <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
                   </TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>
+                    {batch.ingredients &&
+                      JSON.parse(batch.ingredients)
+                        .map((i) => i.grams)
+                        .reduce((a, b) => a + b, 0) + ` grams`}
+                  </TableCell>
                   <TableCell>
                     <Link to={`/batch/${batch.id}`}>
                       {batch.production_date}
