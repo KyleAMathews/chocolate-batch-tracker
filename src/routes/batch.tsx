@@ -4,6 +4,7 @@ import { Flex, Box, Text } from "@radix-ui/themes"
 import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
 import { genUUID } from "electric-sql/util"
 import Markdown from "react-markdown"
+import { FilePlusIcon } from "@radix-ui/react-icons"
 import {
   TableHead,
   TableRow,
@@ -20,19 +21,27 @@ import { Electric } from "../generated/client"
 import { useElectric } from "../context"
 import { useElectricData } from "electric-query"
 import { pparseInt } from "@/lib/utils"
+import CloudinaryUploadWidget from "../components/cloudinary-upload"
+import { Cloudinary } from "@cloudinary/url-gen"
+import { AdvancedImage } from "@cloudinary/react"
+import { fill } from "@cloudinary/url-gen/actions/resize"
+import { warn } from "console"
 
-function SelectRecipes({ recipes, batch }) {
+// Create a Cloudinary instance and set your cloud name.
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: `dsumeprrq`,
+  },
+})
+
+function SelectRecipes({ recipes, batch, editing }) {
   const { db } = useElectric()!
-  const [selectedRecipe, setSelectedRecipe] = useState(undefined)
-  const [editing, setEditing] = useState(true)
   if (editing) {
     return (
       <select
         defaultValue={batch.recipe_id || ``}
         onChange={async (e) => {
           const recipe = recipes.find((r) => r.id === e.target.value)
-          setSelectedRecipe(recipe.name)
-          setEditing(false)
           // Get recipe to copy in its ingredients.
           const ingredients = recipe.recipe_ingredients.map((i) => {
             return {
@@ -60,92 +69,59 @@ function SelectRecipes({ recipes, batch }) {
       </select>
     )
   } else {
-    return (
-      <div style={{ minWidth: 100 }}>
-        {selectedRecipe ? selectedRecipe : batch.recipe_name}
-        <span
-          style={{
-            padding: 4,
-            cursor: `pointer`,
-          }}
-          onClick={() => setEditing(true)}
-        >
-          <Pencil2Icon
-            style={{
-              display: `inline`,
-              position: `relative`,
-              top: -1,
-            }}
-          />
-        </span>
-      </div>
-    )
+    return <div style={{ minWidth: 100 }}>{batch.recipe_name}</div>
   }
 }
 
-function InputOrDisplay({ fieldName, value, batch_id }) {
+function InputOrDisplay({ fieldName, value, batch_id, editing }) {
   const { db } = useElectric()!
-  const [tempValue, setTempValue] = useState(undefined)
-  const [editing, setEditing] = useState(!value)
   if (editing) {
     return (
-      <form
-        onSubmit={async (e) => {
+      <Input
+        className="w-52"
+        name="text"
+        defaultValue={value}
+        onChange={async (e) => {
           e.preventDefault()
-          const formData = new FormData(e.target)
-          const { text } = Object.fromEntries(formData)
-
-          setTempValue(text)
-          setEditing(false)
+          const text = e.target.value
 
           await db.chocolate_batches.update({
             data: { [fieldName]: text },
             where: { id: batch_id },
           })
         }}
-      >
-        <Flex gap="3">
-          <Input className="w-52" name="text" defaultValue={value} />
-          <Button type="submit" variant="secondary">
-            Save
-          </Button>
-        </Flex>
-      </form>
+      />
+    )
+  } else {
+    return <div style={{ minWidth: 100 }}>{value}</div>
+  }
+}
+
+function GramInput({ value, onChange, editing }) {
+  if (editing) {
+    return (
+      <Flex align="center" gap="2">
+        <Input
+          type="number"
+          className="w-30"
+          value={value}
+          onChange={onChange}
+        />
+        grams
+      </Flex>
     )
   } else {
     return (
-      <div style={{ minWidth: 100 }}>
-        {tempValue ? tempValue : value}
-        <span
-          style={{
-            padding: 4,
-            cursor: `pointer`,
-          }}
-          onClick={() => setEditing(true)}
-        >
-          <Pencil2Icon
-            style={{
-              display: `inline`,
-              position: `relative`,
-              top: -1,
-            }}
-          />
-        </span>
-      </div>
+      <Flex align="center" gap="2">
+        {value}
+        {` `}
+        grams
+      </Flex>
     )
   }
 }
 
-function GramInput({ value, onChange }) {
-  return (
-    <Flex align="center" gap="2">
-      <Input type="number" className="w-30" value={value} onChange={onChange} />
-      grams
-    </Flex>
-  )
-}
-
-function IngredientsEditor({ ingredients, batchId }) {
+function IngredientsEditor({ ingredients, batchId, editing }) {
   const { db } = useElectric()!
   const pIngredients = JSON.parse(ingredients)
   const [weights, setWeights] = useState(pIngredients.map((i) => i.grams))
@@ -170,6 +146,7 @@ function IngredientsEditor({ ingredients, batchId }) {
                 </TableCell>
                 <TableCell className="font-medium">
                   <GramInput
+                    editing={editing}
                     value={weights[i]}
                     onChange={(e) => {
                       const newWeight = pparseInt(e.target.value)
@@ -204,9 +181,113 @@ function IngredientsEditor({ ingredients, batchId }) {
               </TableRow>
             )
           })}
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell>
+              <div className="font-normal">
+                Total:{` `}
+                {JSON.parse(ingredients)
+                  .map((i) => i.grams)
+                  .reduce((a, b) => a + b, 0) + ` grams`}
+              </div>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </div>
+  )
+}
+
+function AddComment({ batch }) {
+  const { db } = useElectric()!
+  const [attachments, setAttachments] = useState<Record<string, any>[]>([])
+  const [hasContent, setHasContent] = useState<boolean>(false)
+
+  console.log(hasContent, attachments.length)
+  return (
+    <Box mb="5">
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault()
+          const formData = new FormData(e.target)
+          const data = Object.fromEntries(formData)
+          try {
+            await db.production_comments.create({
+              data: {
+                id: genUUID(),
+                user_id: `123`,
+                user_name: `Kyle Mathews`,
+                batch_id: batch.id,
+                text: data.comment,
+                attachments,
+                created_at: new Date(),
+              },
+            })
+          } catch (e) {
+            console.log(e)
+            throw e
+          }
+          e.target.reset()
+          setAttachments([])
+        }}
+      >
+        <Flex gap="3" align="center" mb="2">
+          <h2 className="font-semibold text-lg md:text-xl">Add a Comment</h2>
+          <CloudinaryUploadWidget
+            uwConfig={{ cloudName: `dsumeprrq`, uploadPreset: `hyrnkipp` }}
+            onUpload={(uploadedAttachment) => {
+              setAttachments((actualAttachments) => {
+                return [...actualAttachments, uploadedAttachment]
+              })
+            }}
+          >
+            <FilePlusIcon
+              id="upload_button"
+              style={{ position: `relative`, top: 2 }}
+            />
+          </CloudinaryUploadWidget>
+          <Flex gap="2">
+            {attachments.map((attachment) => (
+              <img src={attachment.thumbnail_url} />
+            ))}
+          </Flex>
+        </Flex>
+        <Flex gap="2" direction="column">
+          <Textarea
+            name="comment"
+            onChange={(e) => {
+              setHasContent(e.target.value !== ``)
+            }}
+            placeholder="Enter your comment (markdown supported)"
+          />
+          <div>
+            <Button
+              disabled={!(hasContent || attachments.length > 0)}
+              className=""
+              type="submit"
+            >
+              Save
+            </Button>
+          </div>
+        </Flex>
+      </form>
+    </Box>
+  )
+}
+
+function Attachment({ attachment }) {
+  // Instantiate a CloudinaryImage object for the image with the public ID, 'docs/models'.
+  const img = cld.image(attachment.public_id)
+
+  // Resize to 250 x 250 pixels using the 'fill' crop mode.
+  img.resize(fill().width(250).height(250))
+
+  // Render the image in a React component.
+  return (
+    <a href={attachment.url} target="_blank" rel="noopener noreferrer">
+      <AdvancedImage cldImg={img} />
+    </a>
   )
 }
 
@@ -244,26 +325,45 @@ WHERE
 
 Batch.queries = queries
 export default function Batch() {
-  const { db } = useElectric()!
   const location = useLocation()
   const {
     recipes,
     batch: [batch],
     comments,
   } = useElectricData(location.pathname + location.search)
+
+  const [editing, setEditing] = useState(
+    batch.importer === `` && batch.bean_origin === ``
+  )
+
+  console.log({ batch, editing })
   return (
     <div className="grid gap-6 md:gap-8 px-4 md:px-6">
-      <div className="flex items-center">
-        <h1 className="font-semibold text-lg md:text-2xl">
-          Chocolate Batch Details
-        </h1>
-      </div>
+      <Flex gap="3">
+        <h1 className="font-semibold text-lg md:text-2xl">Chocolate Batch</h1>
+        {!editing && (
+          <span
+            style={{
+              padding: 4,
+              cursor: `pointer`,
+            }}
+            onClick={() => setEditing(true)}
+          >
+            <Pencil2Icon
+              style={{
+                display: `inline`,
+                position: `relative`,
+                top: -1,
+              }}
+            />
+          </span>
+        )}
+      </Flex>
       <div className="border shadow-sm rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Recipe</TableHead>
-              <TableHead className="w-[200px]">Weight</TableHead>
               <TableHead className="w-[200px]">Bean Origin</TableHead>
               <TableHead className="w-[200px]">Importer</TableHead>
               <TableHead className="w-[200px]">Production Date</TableHead>
@@ -273,19 +373,15 @@ export default function Batch() {
             <TableRow>
               <TableCell className="font-medium">
                 <SelectRecipes
+                  editing={editing}
                   key={`recipe-editor-${batch.recipe_id}`}
                   batch={batch}
                   recipes={recipes}
                 />
               </TableCell>
               <TableCell className="font-medium">
-                {batch.ingredients &&
-                  JSON.parse(batch.ingredients)
-                    .map((i) => i.grams)
-                    .reduce((a, b) => a + b, 0) + ` grams`}
-              </TableCell>
-              <TableCell className="font-medium">
                 <InputOrDisplay
+                  editing={editing}
                   fieldName="bean_origin"
                   value={batch.bean_origin}
                   batch_id={batch.id}
@@ -293,6 +389,7 @@ export default function Batch() {
               </TableCell>
               <TableCell className="font-medium">
                 <InputOrDisplay
+                  editing={editing}
                   fieldName="importer"
                   value={batch.importer}
                   batch_id={batch.id}
@@ -307,15 +404,20 @@ export default function Batch() {
       </div>
       {batch.ingredients && (
         <IngredientsEditor
+          editing={editing}
           key={`ingredients-editor-${batch.recipe_id}`}
           ingredients={batch.ingredients}
           batchId={batch.id}
         />
       )}
+      {editing && (
+        <Button onClick={() => setEditing(false)}>Done editing</Button>
+      )}
       <div>
         <h2 className="font-semibold text-lg md:text-xl mb-4">
           Production Comments
         </h2>
+        <AddComment batch={batch} />
         <Flex direction="column" gap="4">
           {comments.map((comment) => {
             return (
@@ -325,7 +427,7 @@ export default function Batch() {
                   {comment.created_at.toString()}
                 </p>
                 <Markdown
-                  className="mt-2"
+                  className="mt-2 mb-5"
                   components={{
                     p(props) {
                       return <Text as="p" mb="2" {...props} />
@@ -334,53 +436,15 @@ export default function Batch() {
                 >
                   {comment.text}
                 </Markdown>
+                <Flex gap="3">
+                  {comment.attachments.map((attachment) => (
+                    <Attachment attachment={attachment} />
+                  ))}
+                </Flex>
               </Box>
             )
           })}
         </Flex>
-        <div className="mt-6">
-          <h2 className="font-semibold text-lg md:text-xl mb-4">
-            Add a Comment
-          </h2>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const formData = new FormData(e.target)
-              const data = Object.fromEntries(formData)
-              await db.production_comments.create({
-                data: {
-                  id: genUUID(),
-                  user_id: `123`,
-                  user_name: `Kyle Mathews`,
-                  batch_id: batch.id,
-                  text: data.comment,
-                  attachment_path: null,
-                  created_at: new Date(),
-                },
-              })
-              e.target.reset()
-            }}
-          >
-            <Flex gap="2" direction="column">
-              <Label className="text-base" htmlFor="comment">
-                Comment
-              </Label>
-              <Textarea
-                name="comment"
-                placeholder="Enter your comment (markdown supported)"
-              />
-              <Label className="text-base" htmlFor="attachment">
-                Attachment
-              </Label>
-              <Input id="attachment" type="file" />
-              <div>
-                <Button className="mt-4" type="submit">
-                  Submit Comment
-                </Button>
-              </div>
-            </Flex>
-          </form>
-        </div>
       </div>
     </div>
   )

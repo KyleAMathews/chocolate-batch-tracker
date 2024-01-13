@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useCreateAndNavigateToBatch } from "@/lib/utils"
 import {
   Card,
   CardHeader,
@@ -270,6 +271,7 @@ Recipes.queries = queries
 export default function Recipes() {
   const location = useLocation()
   const [editing, setEditing] = useState(null)
+  const createAndNavigateToBatch = useCreateAndNavigateToBatch()
   const { recipes } = useElectricData(location.pathname + location.search)
   return (
     <Flex direction="column">
@@ -287,7 +289,10 @@ export default function Recipes() {
             <Flex gap="4" wrap="wrap">
               {recipes.map((recipe) => {
                 return (
-                  <Card className="relative min-w-52" key={recipe.id}>
+                  <Card
+                    className="relative min-w-52 flex flex-col grow"
+                    key={recipe.id}
+                  >
                     <div
                       style={{
                         position: `absolute`,
@@ -304,19 +309,36 @@ export default function Recipes() {
                       <CardTitle className="underline">{recipe.name}</CardTitle>
                       <CardDescription>{recipe.description}</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <ul>
-                        {recipe.recipe_ingredients.map((ingredient) => {
-                          return (
-                            <li key={ingredient.id}>
-                              <span>
-                                {ingredient.name} -{` `}
-                                {ingredient.percentage}%
-                              </span>
-                            </li>
-                          )
-                        })}
-                      </ul>
+                    <CardContent className="flex h-full">
+                      <Flex
+                        direction="column"
+                        gap="4"
+                        justify="between"
+                        grow="1"
+                      >
+                        <ul>
+                          {recipe.recipe_ingredients.map((ingredient) => {
+                            return (
+                              <li key={ingredient.id}>
+                                <span>
+                                  {ingredient.name} -{` `}
+                                  {ingredient.percentage}%
+                                </span>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                        <div>
+                          <Button
+                            variant="outline"
+                            onClick={() =>
+                              createAndNavigateToBatch({ recipe_id: recipe.id })
+                            }
+                          >
+                            Start Batch
+                          </Button>
+                        </div>
+                      </Flex>
                     </CardContent>
                   </Card>
                 )

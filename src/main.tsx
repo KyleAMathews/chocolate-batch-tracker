@@ -15,9 +15,6 @@ import Root from "./routes/root"
 import Index from "./routes/index"
 import Batch from "./routes/batch"
 import Recipes from "./routes/recipes"
-import Test from "./routes/test"
-import Test2 from "./routes/test2"
-import Test3 from "./routes/test2"
 
 const router = createBrowserRouter([
   {

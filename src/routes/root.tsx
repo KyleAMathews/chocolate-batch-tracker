@@ -13,16 +13,19 @@ export default function Root() {
     <div className="flex flex-col w-full min-h-screen">
       <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
         <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 lg:gap-6">
-          <Link
+          <NavLink
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
             to="/"
           >
             <CandyIcon className="w-6 h-6 hidden md:block" />
             <span className="sr-only">ChocoBatch</span>
-          </Link>
-          <Link to="/" className="font-bold">
+          </NavLink>
+          <NavLink to="/" className="font-bold">
             Chocolate
-          </Link>
+          </NavLink>
+          <NavLink to="/recipes" className="text-sm">
+            Recipes
+          </NavLink>
         </nav>
         <div className="flex justify-end items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
           put user management here

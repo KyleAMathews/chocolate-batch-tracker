@@ -48,7 +48,7 @@ export type Production_comments = {
   user_name: string
   created_at: Date
   text: string
-  attachment_path: string | null
+  attachments: Prisma.JsonValue | null
 }
 
 /**
@@ -1950,7 +1950,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string | null
     created_at: Date | null
     text: string | null
-    attachment_path: string | null
   }
 
   export type Production_commentsMaxAggregateOutputType = {
@@ -1960,7 +1959,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string | null
     created_at: Date | null
     text: string | null
-    attachment_path: string | null
   }
 
   export type Production_commentsCountAggregateOutputType = {
@@ -1970,7 +1968,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: number
     created_at: number
     text: number
-    attachment_path: number
+    attachments: number
     _all: number
   }
 
@@ -1982,7 +1980,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: true
     created_at?: true
     text?: true
-    attachment_path?: true
   }
 
   export type Production_commentsMaxAggregateInputType = {
@@ -1992,7 +1989,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: true
     created_at?: true
     text?: true
-    attachment_path?: true
   }
 
   export type Production_commentsCountAggregateInputType = {
@@ -2002,7 +1998,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: true
     created_at?: true
     text?: true
-    attachment_path?: true
+    attachments?: true
     _all?: true
   }
 
@@ -2086,7 +2082,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date
     text: string
-    attachment_path: string | null
+    attachments: JsonValue | null
     _count: Production_commentsCountAggregateOutputType | null
     _min: Production_commentsMinAggregateOutputType | null
     _max: Production_commentsMaxAggregateOutputType | null
@@ -2113,7 +2109,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: boolean
     created_at?: boolean
     text?: boolean
-    attachment_path?: boolean
+    attachments?: boolean
     chocolate_batches?: boolean | Chocolate_batchesArgs
   }
 
@@ -4846,7 +4842,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: 'user_name',
     created_at: 'created_at',
     text: 'text',
-    attachment_path: 'attachment_path'
+    attachments: 'attachments'
   };
 
   export type Production_commentsScalarFieldEnum = (typeof Production_commentsScalarFieldEnum)[keyof typeof Production_commentsScalarFieldEnum]
@@ -4965,7 +4961,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     text?: StringFilter | string
-    attachment_path?: StringNullableFilter | string | null
+    attachments?: JsonNullableFilter
     chocolate_batches?: XOR<Chocolate_batchesRelationFilter, Chocolate_batchesWhereInput>
   }
 
@@ -4976,7 +4972,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
-    attachment_path?: SortOrder
+    attachments?: SortOrder
     chocolate_batches?: Chocolate_batchesOrderByWithRelationInput
   }
 
@@ -4991,7 +4987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
-    attachment_path?: SortOrder
+    attachments?: SortOrder
     _count?: Production_commentsCountOrderByAggregateInput
     _max?: Production_commentsMaxOrderByAggregateInput
     _min?: Production_commentsMinOrderByAggregateInput
@@ -5007,7 +5003,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     text?: StringWithAggregatesFilter | string
-    attachment_path?: StringNullableWithAggregatesFilter | string | null
+    attachments?: JsonNullableWithAggregatesFilter
   }
 
   export type Recipe_ingredientsWhereInput = {
@@ -5168,7 +5164,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date | string
     text: string
-    attachment_path?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
     chocolate_batches: Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput
   }
 
@@ -5179,7 +5175,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date | string
     text: string
-    attachment_path?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUpdateInput = {
@@ -5188,7 +5184,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
     chocolate_batches?: Chocolate_batchesUpdateOneRequiredWithoutProduction_commentsNestedInput
   }
 
@@ -5199,7 +5195,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsCreateManyInput = {
@@ -5209,7 +5205,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date | string
     text: string
-    attachment_path?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUpdateManyMutationInput = {
@@ -5218,7 +5214,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUncheckedUpdateManyInput = {
@@ -5228,7 +5224,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Recipe_ingredientsCreateInput = {
@@ -5566,7 +5562,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
-    attachment_path?: SortOrder
+    attachments?: SortOrder
   }
 
   export type Production_commentsMaxOrderByAggregateInput = {
@@ -5576,7 +5572,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
-    attachment_path?: SortOrder
   }
 
   export type Production_commentsMinOrderByAggregateInput = {
@@ -5586,7 +5581,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
-    attachment_path?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -6167,7 +6161,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date | string
     text: string
-    attachment_path?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUncheckedCreateWithoutChocolate_batchesInput = {
@@ -6176,7 +6170,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date | string
     text: string
-    attachment_path?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsCreateOrConnectWithoutChocolate_batchesInput = {
@@ -6234,7 +6228,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     text?: StringFilter | string
-    attachment_path?: StringNullableFilter | string | null
+    attachments?: JsonNullableFilter
   }
 
   export type Chocolate_batchesCreateWithoutProduction_commentsInput = {
@@ -6431,7 +6425,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name: string
     created_at: Date | string
     text: string
-    attachment_path?: string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUpdateWithoutChocolate_batchesInput = {
@@ -6440,7 +6434,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUncheckedUpdateWithoutChocolate_batchesInput = {
@@ -6449,7 +6443,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Production_commentsUncheckedUpdateManyWithoutProduction_commentsInput = {
@@ -6458,7 +6452,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
-    attachment_path?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type Chocolate_batchesCreateManyRecipesInput = {

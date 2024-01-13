@@ -20,7 +20,7 @@ CREATE TABLE production_comments (
     user_name TEXT NOT NULL,
     created_at TIMESTAMPTZ NOT NULL,
     text TEXT NOT NULL,
-    attachment_path TEXT
+    attachments JSONB
 );
 
 CREATE TABLE recipe_ingredients (
