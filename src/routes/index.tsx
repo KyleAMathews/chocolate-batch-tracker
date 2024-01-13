@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useElectricData } from "electric-query"
+import { Flex } from "@radix-ui/themes"
 import {
   TableHead,
   TableRow,
@@ -39,47 +40,50 @@ export default function Index() {
   const createAndNavigateToBatch = useCreateAndNavigateToBatch()
   return (
     <>
-      <div className="flex gap-3 justify-end">
+      <Flex justify="between" align="center">
+        <h1 className="text-2xl font-semibold">Batches</h1>
         <Button
-          className="text-lg py-2 px-6"
+          className=""
           variant="default"
           onClick={() => createAndNavigateToBatch()}
         >
           Start Batch
         </Button>
-      </div>
+      </Flex>
       <div>
         <Card>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Recipe</TableHead>
-                <TableHead>Weight</TableHead>
                 <TableHead>Production Date</TableHead>
+                <TableHead>Recipe</TableHead>
                 <TableHead>Bean Origin</TableHead>
+                <TableHead>Weight</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {batches.map((batch) => (
                 <TableRow key={batch.id}>
                   <TableCell>
-                    <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link to={`/batch/${batch.id}`}>
-                      {batch.ingredients &&
-                        JSON.parse(batch.ingredients)
-                          .map((i) => i.grams)
-                          .reduce((a, b) => a + b, 0) + ` grams`}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
                     <Link to={`/batch/${batch.id}`}>
                       {batch.production_date}
                     </Link>
                   </TableCell>
                   <TableCell>
+                    <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
+                  </TableCell>
+                  <TableCell>
                     <Link to={`/batch/${batch.id}`}>{batch.bean_origin}</Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/batch/${batch.id}`}>
+                      {batch.ingredients &&
+                        Math.round(
+                          JSON.parse(batch.ingredients)
+                            .map((i) => i.grams)
+                            .reduce((a, b) => a + b, 0)
+                        ) + ` grams`}
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

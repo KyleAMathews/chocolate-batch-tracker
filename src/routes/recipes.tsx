@@ -306,7 +306,7 @@ export default function Recipes() {
                       <Pencil2Icon />
                     </div>
                     <CardHeader>
-                      <CardTitle className="underline">{recipe.name}</CardTitle>
+                      <CardTitle className="">{recipe.name}</CardTitle>
                       <CardDescription>{recipe.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex h-full">

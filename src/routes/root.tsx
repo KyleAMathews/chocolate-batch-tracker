@@ -12,12 +12,9 @@ export default function Root() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
-        <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 lg:gap-6">
-          <NavLink
-            className="flex items-center gap-2 text-lg font-semibold md:text-base"
-            to="/"
-          >
-            <CandyIcon className="w-6 h-6 hidden md:block" />
+        <nav className="flex gap-3 text-sm font-medium md:flex-row md:items-center md:text-lg md:gap-5 lg:gap-6">
+          <NavLink className="w-6 h-6 hidden md:block" to="/">
+            <CandyIcon className="" />
             <span className="sr-only">ChocoBatch</span>
           </NavLink>
           <NavLink to="/" className="font-bold">

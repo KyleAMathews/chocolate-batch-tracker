@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
-import { Flex, Box, Text } from "@radix-ui/themes"
+import { Flex, Box, Text, Separator } from "@radix-ui/themes"
+// import * as Separator from "@radix-ui/react-separator"
 import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
 import { genUUID } from "electric-sql/util"
 import Markdown from "react-markdown"
@@ -25,7 +26,8 @@ import CloudinaryUploadWidget from "../components/cloudinary-upload"
 import { Cloudinary } from "@cloudinary/url-gen"
 import { AdvancedImage } from "@cloudinary/react"
 import { fill } from "@cloudinary/url-gen/actions/resize"
-import { warn } from "console"
+
+console.log({ Separator })
 
 // Create a Cloudinary instance and set your cloud name.
 const cld = new Cloudinary({
@@ -187,9 +189,11 @@ function IngredientsEditor({ ingredients, batchId, editing }) {
             <TableCell>
               <div className="font-normal">
                 Total:{` `}
-                {JSON.parse(ingredients)
-                  .map((i) => i.grams)
-                  .reduce((a, b) => a + b, 0) + ` grams`}
+                {Math.round(
+                  JSON.parse(ingredients)
+                    .map((i) => i.grams)
+                    .reduce((a, b) => a + b, 0)
+                ) + ` grams`}
               </div>
             </TableCell>
           </TableRow>
@@ -229,6 +233,7 @@ function AddComment({ batch }) {
             throw e
           }
           e.target.reset()
+          setHasContent(false)
           setAttachments([])
         }}
       >
@@ -338,7 +343,7 @@ export default function Batch() {
 
   console.log({ batch, editing })
   return (
-    <div className="grid gap-6 md:gap-8 px-4 md:px-6">
+    <Flex gap="3" direction="column">
       <Flex gap="3">
         <h1 className="font-semibold text-lg md:text-2xl">Chocolate Batch</h1>
         {!editing && (
@@ -359,14 +364,14 @@ export default function Batch() {
           </span>
         )}
       </Flex>
-      <div className="border shadow-sm rounded-lg">
+      <div className="">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Recipe</TableHead>
+              <TableHead className="w-[200px]">Production Date</TableHead>
               <TableHead className="w-[200px]">Bean Origin</TableHead>
               <TableHead className="w-[200px]">Importer</TableHead>
-              <TableHead className="w-[200px]">Production Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -378,6 +383,9 @@ export default function Batch() {
                   batch={batch}
                   recipes={recipes}
                 />
+              </TableCell>
+              <TableCell className="font-medium">
+                {batch.production_date}
               </TableCell>
               <TableCell className="font-medium">
                 <InputOrDisplay
@@ -395,9 +403,6 @@ export default function Batch() {
                   batch_id={batch.id}
                 />
               </TableCell>
-              <TableCell className="font-medium">
-                {batch.production_date}
-              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -414,38 +419,40 @@ export default function Batch() {
         <Button onClick={() => setEditing(false)}>Done editing</Button>
       )}
       <div>
-        <h2 className="font-semibold text-lg md:text-xl mb-4">
-          Production Comments
-        </h2>
         <AddComment batch={batch} />
-        <Flex direction="column" gap="4">
+        <Flex direction="column" gap="2">
           {comments.map((comment) => {
             return (
-              <Box className="border rounded-lg" p="4">
-                <h3 className="font-medium">{comment.user_name}</h3>
-                <p className="text-sm text-gray-500">
-                  {comment.created_at.toString()}
-                </p>
-                <Markdown
-                  className="mt-2 mb-5"
-                  components={{
-                    p(props) {
-                      return <Text as="p" mb="2" {...props} />
-                    },
-                  }}
-                >
-                  {comment.text}
-                </Markdown>
-                <Flex gap="3">
-                  {comment.attachments.map((attachment) => (
-                    <Attachment attachment={attachment} />
-                  ))}
+              <>
+                <Flex gap="2" direction="column" className="" p="3" pl="0">
+                  <h3 className="font-medium">{comment.user_name}</h3>
+                  <p className="text-sm text-gray-500">
+                    {comment.created_at.toString()}
+                  </p>
+                  <Markdown
+                    className=""
+                    components={{
+                      p(props) {
+                        return <Text as="p" mb="2" {...props} />
+                      },
+                    }}
+                  >
+                    {comment.text}
+                  </Markdown>
+                  {comment.attachments.length > 0 && (
+                    <Flex gap="3">
+                      {comment.attachments.map((attachment) => (
+                        <Attachment attachment={attachment} />
+                      ))}
+                    </Flex>
+                  )}
                 </Flex>
-              </Box>
+                <Separator orientation="horizontal" size="4" />
+              </>
             )
           })}
         </Flex>
       </div>
-    </div>
+    </Flex>
   )
 }

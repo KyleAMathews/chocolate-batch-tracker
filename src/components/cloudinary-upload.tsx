@@ -4,10 +4,10 @@ function CloudinaryUploadWidget({ uwConfig, onUpload, children }) {
   const [loaded, setLoaded] = useState(false)
   const [widget, setWidget] = useState(null)
 
+  console.log({ loaded, cloudinary: window?.cloudinary })
   useEffect(() => {
     // Check if the script is already loaded
     if (!loaded) {
-      console.log(`not loaded`)
       const uwScript = document.getElementById(`uw`)
       if (!uwScript) {
         // If not loaded, create and load the script
