@@ -257,6 +257,9 @@ const queries = ({ db }: { db: Electric[`db`] }) => {
   return {
     recipes: db.recipes.liveMany({
       include: { recipe_ingredients: true },
+      orderBy: {
+        name: `asc`,
+      },
     }),
   }
 }
@@ -269,7 +272,7 @@ export default function Recipes() {
   const createAndNavigateToBatch = useCreateAndNavigateToBatch()
   const { recipes } = useElectricData(location.pathname + location.search)
   return (
-    <Flex direction="column" gap="6" style={{ width: 400 }}>
+    <Flex direction="column" gap="6" style={{ width: 300 }}>
       <Flex align="center" gap="6">
         <PageHeader>Chocolate Recipes</PageHeader>
         <PlusIcon
