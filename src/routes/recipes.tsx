@@ -1,23 +1,17 @@
 import { useState } from "react"
-import { Flex, Box } from "@radix-ui/themes"
+import { Flex, Text, Separator } from "@radix-ui/themes"
 import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
-import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { PageHeader } from "@/components/ui/headers"
+import Markdown from "react-markdown"
 import { useCreateAndNavigateToBatch } from "@/lib/utils"
 import { useUser } from "@clerk/clerk-react"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card"
 import { Electric } from "../generated/client"
 import { genUUID } from "electric-sql/util"
 import { useElectricData } from "electric-query"
-import { useParams, useLocation, useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray } from "react-hook-form"
@@ -275,93 +269,75 @@ export default function Recipes() {
   const createAndNavigateToBatch = useCreateAndNavigateToBatch()
   const { recipes } = useElectricData(location.pathname + location.search)
   return (
-    <Flex direction="column">
-      <Flex align="center" gap="3">
-        <h1 className="text-2xl font-bold">Chocolate Recipes</h1>
+    <Flex direction="column" gap="6" style={{ width: 400 }}>
+      <Flex align="center" gap="6">
+        <PageHeader>Chocolate Recipes</PageHeader>
         <PlusIcon
           style={{ transform: `scale(1.2)`, cursor: `pointer` }}
           onClick={() => setEditing({})}
         />
       </Flex>
-      <div className="divide-y divide-gray-200">
-        {recipes.length > 0 && (
-          <div className="py-6">
-            <h2 className="text-xl font-semibold mb-2">Recipes</h2>
-            <Flex gap="4" wrap="wrap">
-              {recipes.map((recipe) => {
-                return (
-                  <Card
-                    className="relative min-w-52 flex flex-col grow"
-                    key={recipe.id}
-                  >
-                    <div
-                      style={{
-                        position: `absolute`,
-                        top: 2,
-                        right: 2,
-                        cursor: `pointer`,
-                        padding: 8,
-                      }}
-                      onClick={() => setEditing(recipe)}
-                    >
-                      <Pencil2Icon />
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="">{recipe.name}</CardTitle>
-                      <CardDescription>{recipe.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex h-full">
-                      <Flex
-                        direction="column"
-                        gap="4"
-                        justify="between"
-                        grow="1"
-                      >
-                        <ul>
-                          {recipe.recipe_ingredients.map((ingredient) => {
-                            return (
-                              <li key={ingredient.id}>
-                                <span>
-                                  {ingredient.name} -{` `}
-                                  {ingredient.percentage}%
-                                </span>
-                              </li>
-                            )
-                          })}
-                        </ul>
-                        <div>
-                          <Button
-                            variant="outline"
-                            onClick={() =>
-                              createAndNavigateToBatch({ recipe_id: recipe.id })
-                            }
-                          >
-                            Start Batch
-                          </Button>
-                        </div>
-                      </Flex>
-                    </CardContent>
-                  </Card>
-                )
-              })}
+      {recipes.length > 0 &&
+        recipes.map((recipe) => {
+          return (
+            <Flex direction="column" gap="3" key={recipe.id}>
+              <Flex gap="3" align="center">
+                <h2 className="text-2xl font-bold">{recipe.name}</h2>
+                <div
+                  style={{ top: 1, position: `relative`, cursor: `pointer` }}
+                  onClick={() => setEditing(recipe)}
+                >
+                  <Pencil2Icon />
+                </div>
+              </Flex>
+              <Markdown
+                className=""
+                components={{
+                  p(props) {
+                    return <Text as="p" mb="2" {...props} />
+                  },
+                }}
+              >
+                {recipe.description}
+              </Markdown>
+              <Flex direction="column" gap="1">
+                <h3 className="text-lg font-semibold">Ingredients</h3>
+                <ul>
+                  {recipe.recipe_ingredients.map((ingredient) => {
+                    return (
+                      <li key={ingredient.id}>
+                        <span>
+                          {ingredient.name} -{` `}
+                          {ingredient.percentage}%
+                        </span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </Flex>
+              <Button
+                variant="outline"
+                onClick={() =>
+                  createAndNavigateToBatch({ recipe_id: recipe.id })
+                }
+              >
+                Start Batch
+              </Button>
             </Flex>
-          </div>
-        )}
-        {recipes.length === 0 && !editing && (
-          <Flex mt="3">
-            <Button onClick={() => setEditing({})}>
-              Add your first recipe!
-            </Button>
-          </Flex>
-        )}
-        {editing && (
-          <RecipeForm
-            key={editing?.id || Math.random()}
-            recipe={editing}
-            closeForm={() => setEditing(null)}
-          />
-        )}
-      </div>
+          )
+        })}
+      {recipes.length === 0 && !editing && (
+        <Flex mt="3">
+          <Button onClick={() => setEditing({})}>Add your first recipe!</Button>
+        </Flex>
+      )}
+      {editing && (
+        <RecipeForm
+          key={editing?.id || Math.random()}
+          recipe={editing}
+          closeForm={() => setEditing(null)}
+        />
+      )}
     </Flex>
   )
 }

@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import { Flex, Box, Text, Separator } from "@radix-ui/themes"
-// import * as Separator from "@radix-ui/react-separator"
 import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
 import { genUUID } from "electric-sql/util"
 import Markdown from "react-markdown"
 import { FilePlusIcon } from "@radix-ui/react-icons"
+import { PageHeader } from "@/components/ui/headers"
 import { useUser } from "@clerk/clerk-react"
 import {
   TableHead,
@@ -27,8 +27,6 @@ import CloudinaryUploadWidget from "../components/cloudinary-upload"
 import { Cloudinary } from "@cloudinary/url-gen"
 import { AdvancedImage } from "@cloudinary/react"
 import { fill } from "@cloudinary/url-gen/actions/resize"
-
-console.log({ Separator })
 
 // Create a Cloudinary instance and set your cloud name.
 const cld = new Cloudinary({
@@ -351,7 +349,7 @@ export default function Batch() {
   return (
     <Flex gap="3" direction="column">
       <Flex gap="3">
-        <h1 className="font-semibold text-lg md:text-2xl">Chocolate Batch</h1>
+        <PageHeader>Chocolate Batch</PageHeader>
         {!editing && (
           <span
             style={{
@@ -427,7 +425,7 @@ export default function Batch() {
       <div>
         <AddComment batch={batch} />
         <Flex direction="column" gap="2">
-          {comments.map((comment) => {
+          {comments.map((comment, i) => {
             return (
               <>
                 <Flex gap="2" direction="column" className="" p="3" pl="0">
@@ -459,7 +457,9 @@ export default function Batch() {
                     </Flex>
                   )}
                 </Flex>
-                <Separator orientation="horizontal" size="4" />
+                {comments.length > i + 1 && (
+                  <Separator orientation="horizontal" size="4" />
+                )}
               </>
             )
           })}

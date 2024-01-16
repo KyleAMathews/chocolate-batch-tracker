@@ -10,6 +10,7 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table"
+import { PageHeader } from "@/components/ui/headers"
 import { Electric } from "../generated/client"
 import { useCreateAndNavigateToBatch } from "@/lib/utils"
 
@@ -41,7 +42,7 @@ export default function Index() {
   return (
     <>
       <Flex justify="between" align="center">
-        <h1 className="text-2xl font-semibold">Batches</h1>
+        <PageHeader>Batches</PageHeader>
         <Button
           className=""
           variant="default"
