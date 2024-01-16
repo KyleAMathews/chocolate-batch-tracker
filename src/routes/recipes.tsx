@@ -29,7 +29,7 @@ export default function Recipes() {
   const [editing, setEditing] = useState(null)
   const { recipes } = useElectricData(location.pathname + location.search)
   return (
-    <Flex direction="column" gap="6" style={{ width: 300 }}>
+    <Flex direction="column" gap="6" style={{ width: `72ch` }}>
       <Flex align="center" gap="6">
         <PageHeader>Chocolate Recipes</PageHeader>
         <PlusIcon

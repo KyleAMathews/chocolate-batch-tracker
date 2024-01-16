@@ -210,7 +210,6 @@ function AddComment({ batch }) {
     user: { id: user_id },
   } = useUser()
 
-  console.log(hasContent, attachments.length)
   return (
     <Box mb="5">
       <form
@@ -345,7 +344,6 @@ export default function Batch() {
     batch.importer === `` && batch.bean_origin === ``
   )
 
-  console.log({ batch, comments })
   return (
     <Flex gap="3" direction="column">
       <Flex gap="3">

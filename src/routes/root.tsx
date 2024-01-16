@@ -1,10 +1,14 @@
 import { Outlet, NavLink, Link } from "react-router-dom"
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react"
 import { Flex } from "@radix-ui/themes"
+import { JsonNullableWithAggregatesFilterSchema } from "../generated/client"
 
 export default function Root() {
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div
+      className="flex flex-col min-h-screen"
+      style={{ maxWidth: 1280, margin: `0 auto` }}
+    >
       <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6 justify-between">
         <nav className="flex gap-3 text-sm font-medium md:flex-row md:items-center md:text-lg md:gap-5 lg:gap-6">
           <NavLink className="w-6 h-6 hidden md:block" to="/">
