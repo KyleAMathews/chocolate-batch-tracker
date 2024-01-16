@@ -21,6 +21,7 @@ export type Chocolate_batches = {
    * @zod.string.uuid()
    */
   id: string
+  user_id: string
   /**
    * @zod.string.uuid()
    */
@@ -40,12 +41,11 @@ export type Production_comments = {
    * @zod.string.uuid()
    */
   id: string
+  user_id: string
   /**
    * @zod.string.uuid()
    */
   batch_id: string
-  user_id: string
-  user_name: string
   created_at: Date
   text: string
   attachments: Prisma.JsonValue | null
@@ -80,8 +80,19 @@ export type Recipes = {
    * @zod.string.uuid()
    */
   id: string
+  user_id: string
   description: string
   name: string
+}
+
+/**
+ * Model Users
+ * 
+ */
+export type Users = {
+  id: string
+  name: string
+  avatar_url: string | null
 }
 
 
@@ -241,6 +252,16 @@ export class PrismaClient<
     * ```
     */
   get recipes(): Prisma.RecipesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.users`: Exposes CRUD operations for the **Users** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.users.findMany()
+    * ```
+    */
+  get users(): Prisma.UsersDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -713,7 +734,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Chocolate_batches: 'Chocolate_batches',
     Production_comments: 'Production_comments',
     Recipe_ingredients: 'Recipe_ingredients',
-    Recipes: 'Recipes'
+    Recipes: 'Recipes',
+    Users: 'Users'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -963,6 +985,53 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Count Type UsersCountOutputType
+   */
+
+
+  export type UsersCountOutputType = {
+    chocolate_batches: number
+    production_comments: number
+    recipes: number
+  }
+
+  export type UsersCountOutputTypeSelect = {
+    chocolate_batches?: boolean
+    production_comments?: boolean
+    recipes?: boolean
+  }
+
+  export type UsersCountOutputTypeGetPayload<S extends boolean | null | undefined | UsersCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UsersCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UsersCountOutputTypeArgs)
+    ? UsersCountOutputType 
+    : S extends { select: any } & (UsersCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UsersCountOutputType ? UsersCountOutputType[P] : never
+  } 
+      : UsersCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UsersCountOutputType
+     */
+    select?: UsersCountOutputTypeSelect | null
+  }
+
+
+
+  /**
    * Models
    */
 
@@ -979,6 +1048,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesMinAggregateOutputType = {
     id: string | null
+    user_id: string | null
     recipe_id: string | null
     bean_origin: string | null
     importer: string | null
@@ -987,6 +1057,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesMaxAggregateOutputType = {
     id: string | null
+    user_id: string | null
     recipe_id: string | null
     bean_origin: string | null
     importer: string | null
@@ -995,6 +1066,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCountAggregateOutputType = {
     id: number
+    user_id: number
     recipe_id: number
     bean_origin: number
     ingredients: number
@@ -1006,6 +1078,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesMinAggregateInputType = {
     id?: true
+    user_id?: true
     recipe_id?: true
     bean_origin?: true
     importer?: true
@@ -1014,6 +1087,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesMaxAggregateInputType = {
     id?: true
+    user_id?: true
     recipe_id?: true
     bean_origin?: true
     importer?: true
@@ -1022,6 +1096,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCountAggregateInputType = {
     id?: true
+    user_id?: true
     recipe_id?: true
     bean_origin?: true
     ingredients?: true
@@ -1105,6 +1180,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesGroupByOutputType = {
     id: string
+    user_id: string
     recipe_id: string | null
     bean_origin: string | null
     ingredients: JsonValue | null
@@ -1131,12 +1207,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesSelect = {
     id?: boolean
+    user_id?: boolean
     recipe_id?: boolean
     bean_origin?: boolean
     ingredients?: boolean
     importer?: boolean
     production_date?: boolean
     recipes?: boolean | RecipesArgs
+    users?: boolean | UsersArgs
     production_comments?: boolean | Chocolate_batches$production_commentsArgs
     _count?: boolean | Chocolate_batchesCountOutputTypeArgs
   }
@@ -1144,6 +1222,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesInclude = {
     recipes?: boolean | RecipesArgs
+    users?: boolean | UsersArgs
     production_comments?: boolean | Chocolate_batches$production_commentsArgs
     _count?: boolean | Chocolate_batchesCountOutputTypeArgs
   }
@@ -1156,6 +1235,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Chocolate_batches  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'recipes' ? RecipesGetPayload<S['include'][P]> | null :
+        P extends 'users' ? UsersGetPayload<S['include'][P]> :
         P extends 'production_comments' ? Array < Production_commentsGetPayload<S['include'][P]>>  :
         P extends '_count' ? Chocolate_batchesCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -1163,6 +1243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'recipes' ? RecipesGetPayload<S['select'][P]> | null :
+        P extends 'users' ? UsersGetPayload<S['select'][P]> :
         P extends 'production_comments' ? Array < Production_commentsGetPayload<S['select'][P]>>  :
         P extends '_count' ? Chocolate_batchesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Chocolate_batches ? Chocolate_batches[P] : never
   } 
@@ -1537,6 +1618,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     recipes<T extends RecipesArgs= {}>(args?: Subset<T, RecipesArgs>): Prisma__RecipesClient<RecipesGetPayload<T> | Null>;
+
+    users<T extends UsersArgs= {}>(args?: Subset<T, UsersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
 
     production_comments<T extends Chocolate_batches$production_commentsArgs= {}>(args?: Subset<T, Chocolate_batches$production_commentsArgs>): Prisma.PrismaPromise<Array<Production_commentsGetPayload<T>>| Null>;
 
@@ -1945,27 +2028,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsMinAggregateOutputType = {
     id: string | null
-    batch_id: string | null
     user_id: string | null
-    user_name: string | null
+    batch_id: string | null
     created_at: Date | null
     text: string | null
   }
 
   export type Production_commentsMaxAggregateOutputType = {
     id: string | null
-    batch_id: string | null
     user_id: string | null
-    user_name: string | null
+    batch_id: string | null
     created_at: Date | null
     text: string | null
   }
 
   export type Production_commentsCountAggregateOutputType = {
     id: number
-    batch_id: number
     user_id: number
-    user_name: number
+    batch_id: number
     created_at: number
     text: number
     attachments: number
@@ -1975,27 +2055,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsMinAggregateInputType = {
     id?: true
-    batch_id?: true
     user_id?: true
-    user_name?: true
+    batch_id?: true
     created_at?: true
     text?: true
   }
 
   export type Production_commentsMaxAggregateInputType = {
     id?: true
-    batch_id?: true
     user_id?: true
-    user_name?: true
+    batch_id?: true
     created_at?: true
     text?: true
   }
 
   export type Production_commentsCountAggregateInputType = {
     id?: true
-    batch_id?: true
     user_id?: true
-    user_name?: true
+    batch_id?: true
     created_at?: true
     text?: true
     attachments?: true
@@ -2077,9 +2154,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsGroupByOutputType = {
     id: string
-    batch_id: string
     user_id: string
-    user_name: string
+    batch_id: string
     created_at: Date
     text: string
     attachments: JsonValue | null
@@ -2104,18 +2180,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsSelect = {
     id?: boolean
-    batch_id?: boolean
     user_id?: boolean
-    user_name?: boolean
+    batch_id?: boolean
     created_at?: boolean
     text?: boolean
     attachments?: boolean
     chocolate_batches?: boolean | Chocolate_batchesArgs
+    users?: boolean | UsersArgs
   }
 
 
   export type Production_commentsInclude = {
     chocolate_batches?: boolean | Chocolate_batchesArgs
+    users?: boolean | UsersArgs
   }
 
   export type Production_commentsGetPayload<S extends boolean | null | undefined | Production_commentsArgs> =
@@ -2125,12 +2202,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Production_commentsArgs | Production_commentsFindManyArgs)
     ? Production_comments  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['include'][P]> :  never
+        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['include'][P]> :
+        P extends 'users' ? UsersGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (Production_commentsArgs | Production_commentsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['select'][P]> :  P extends keyof Production_comments ? Production_comments[P] : never
+        P extends 'chocolate_batches' ? Chocolate_batchesGetPayload<S['select'][P]> :
+        P extends 'users' ? UsersGetPayload<S['select'][P]> :  P extends keyof Production_comments ? Production_comments[P] : never
   } 
       : Production_comments
 
@@ -2503,6 +2582,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     chocolate_batches<T extends Chocolate_batchesArgs= {}>(args?: Subset<T, Chocolate_batchesArgs>): Prisma__Chocolate_batchesClient<Chocolate_batchesGetPayload<T> | Null>;
+
+    users<T extends UsersArgs= {}>(args?: Subset<T, UsersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -3845,18 +3926,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesMinAggregateOutputType = {
     id: string | null
+    user_id: string | null
     description: string | null
     name: string | null
   }
 
   export type RecipesMaxAggregateOutputType = {
     id: string | null
+    user_id: string | null
     description: string | null
     name: string | null
   }
 
   export type RecipesCountAggregateOutputType = {
     id: number
+    user_id: number
     description: number
     name: number
     _all: number
@@ -3865,18 +3949,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesMinAggregateInputType = {
     id?: true
+    user_id?: true
     description?: true
     name?: true
   }
 
   export type RecipesMaxAggregateInputType = {
     id?: true
+    user_id?: true
     description?: true
     name?: true
   }
 
   export type RecipesCountAggregateInputType = {
     id?: true
+    user_id?: true
     description?: true
     name?: true
     _all?: true
@@ -3957,6 +4044,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesGroupByOutputType = {
     id: string
+    user_id: string
     description: string
     name: string
     _count: RecipesCountAggregateOutputType | null
@@ -3980,10 +4068,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesSelect = {
     id?: boolean
+    user_id?: boolean
     description?: boolean
     name?: boolean
     chocolate_batches?: boolean | Recipes$chocolate_batchesArgs
     recipe_ingredients?: boolean | Recipes$recipe_ingredientsArgs
+    users?: boolean | UsersArgs
     _count?: boolean | RecipesCountOutputTypeArgs
   }
 
@@ -3991,6 +4081,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type RecipesInclude = {
     chocolate_batches?: boolean | Recipes$chocolate_batchesArgs
     recipe_ingredients?: boolean | Recipes$recipe_ingredientsArgs
+    users?: boolean | UsersArgs
     _count?: boolean | RecipesCountOutputTypeArgs
   }
 
@@ -4003,6 +4094,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['include']>]:
         P extends 'chocolate_batches' ? Array < Chocolate_batchesGetPayload<S['include'][P]>>  :
         P extends 'recipe_ingredients' ? Array < Recipe_ingredientsGetPayload<S['include'][P]>>  :
+        P extends 'users' ? UsersGetPayload<S['include'][P]> :
         P extends '_count' ? RecipesCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (RecipesArgs | RecipesFindManyArgs)
@@ -4010,6 +4102,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['select']>]:
         P extends 'chocolate_batches' ? Array < Chocolate_batchesGetPayload<S['select'][P]>>  :
         P extends 'recipe_ingredients' ? Array < Recipe_ingredientsGetPayload<S['select'][P]>>  :
+        P extends 'users' ? UsersGetPayload<S['select'][P]> :
         P extends '_count' ? RecipesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Recipes ? Recipes[P] : never
   } 
       : Recipes
@@ -4385,6 +4478,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     chocolate_batches<T extends Recipes$chocolate_batchesArgs= {}>(args?: Subset<T, Recipes$chocolate_batchesArgs>): Prisma.PrismaPromise<Array<Chocolate_batchesGetPayload<T>>| Null>;
 
     recipe_ingredients<T extends Recipes$recipe_ingredientsArgs= {}>(args?: Subset<T, Recipes$recipe_ingredientsArgs>): Prisma.PrismaPromise<Array<Recipe_ingredientsGetPayload<T>>| Null>;
+
+    users<T extends UsersArgs= {}>(args?: Subset<T, UsersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -4800,6 +4895,1000 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Users
+   */
+
+
+  export type AggregateUsers = {
+    _count: UsersCountAggregateOutputType | null
+    _min: UsersMinAggregateOutputType | null
+    _max: UsersMaxAggregateOutputType | null
+  }
+
+  export type UsersMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    avatar_url: string | null
+  }
+
+  export type UsersMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    avatar_url: string | null
+  }
+
+  export type UsersCountAggregateOutputType = {
+    id: number
+    name: number
+    avatar_url: number
+    _all: number
+  }
+
+
+  export type UsersMinAggregateInputType = {
+    id?: true
+    name?: true
+    avatar_url?: true
+  }
+
+  export type UsersMaxAggregateInputType = {
+    id?: true
+    name?: true
+    avatar_url?: true
+  }
+
+  export type UsersCountAggregateInputType = {
+    id?: true
+    name?: true
+    avatar_url?: true
+    _all?: true
+  }
+
+  export type UsersAggregateArgs = {
+    /**
+     * Filter which Users to aggregate.
+     */
+    where?: UsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UsersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Users
+    **/
+    _count?: true | UsersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UsersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UsersMaxAggregateInputType
+  }
+
+  export type GetUsersAggregateType<T extends UsersAggregateArgs> = {
+        [P in keyof T & keyof AggregateUsers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUsers[P]>
+      : GetScalarType<T[P], AggregateUsers[P]>
+  }
+
+
+
+
+  export type UsersGroupByArgs = {
+    where?: UsersWhereInput
+    orderBy?: Enumerable<UsersOrderByWithAggregationInput>
+    by: UsersScalarFieldEnum[]
+    having?: UsersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UsersCountAggregateInputType | true
+    _min?: UsersMinAggregateInputType
+    _max?: UsersMaxAggregateInputType
+  }
+
+
+  export type UsersGroupByOutputType = {
+    id: string
+    name: string
+    avatar_url: string | null
+    _count: UsersCountAggregateOutputType | null
+    _min: UsersMinAggregateOutputType | null
+    _max: UsersMaxAggregateOutputType | null
+  }
+
+  type GetUsersGroupByPayload<T extends UsersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UsersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UsersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UsersGroupByOutputType[P]>
+            : GetScalarType<T[P], UsersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UsersSelect = {
+    id?: boolean
+    name?: boolean
+    avatar_url?: boolean
+    chocolate_batches?: boolean | Users$chocolate_batchesArgs
+    production_comments?: boolean | Users$production_commentsArgs
+    recipes?: boolean | Users$recipesArgs
+    _count?: boolean | UsersCountOutputTypeArgs
+  }
+
+
+  export type UsersInclude = {
+    chocolate_batches?: boolean | Users$chocolate_batchesArgs
+    production_comments?: boolean | Users$production_commentsArgs
+    recipes?: boolean | Users$recipesArgs
+    _count?: boolean | UsersCountOutputTypeArgs
+  }
+
+  export type UsersGetPayload<S extends boolean | null | undefined | UsersArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Users :
+    S extends undefined ? never :
+    S extends { include: any } & (UsersArgs | UsersFindManyArgs)
+    ? Users  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'chocolate_batches' ? Array < Chocolate_batchesGetPayload<S['include'][P]>>  :
+        P extends 'production_comments' ? Array < Production_commentsGetPayload<S['include'][P]>>  :
+        P extends 'recipes' ? Array < RecipesGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UsersArgs | UsersFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'chocolate_batches' ? Array < Chocolate_batchesGetPayload<S['select'][P]>>  :
+        P extends 'production_comments' ? Array < Production_commentsGetPayload<S['select'][P]>>  :
+        P extends 'recipes' ? Array < RecipesGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Users ? Users[P] : never
+  } 
+      : Users
+
+
+  type UsersCountArgs = 
+    Omit<UsersFindManyArgs, 'select' | 'include'> & {
+      select?: UsersCountAggregateInputType | true
+    }
+
+  export interface UsersDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Users that matches the filter.
+     * @param {UsersFindUniqueArgs} args - Arguments to find a Users
+     * @example
+     * // Get one Users
+     * const users = await prisma.users.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UsersFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UsersFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Users'> extends True ? Prisma__UsersClient<UsersGetPayload<T>> : Prisma__UsersClient<UsersGetPayload<T> | null, null>
+
+    /**
+     * Find one Users that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UsersFindUniqueOrThrowArgs} args - Arguments to find a Users
+     * @example
+     * // Get one Users
+     * const users = await prisma.users.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UsersFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UsersFindUniqueOrThrowArgs>
+    ): Prisma__UsersClient<UsersGetPayload<T>>
+
+    /**
+     * Find the first Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersFindFirstArgs} args - Arguments to find a Users
+     * @example
+     * // Get one Users
+     * const users = await prisma.users.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UsersFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UsersFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Users'> extends True ? Prisma__UsersClient<UsersGetPayload<T>> : Prisma__UsersClient<UsersGetPayload<T> | null, null>
+
+    /**
+     * Find the first Users that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersFindFirstOrThrowArgs} args - Arguments to find a Users
+     * @example
+     * // Get one Users
+     * const users = await prisma.users.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UsersFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UsersFindFirstOrThrowArgs>
+    ): Prisma__UsersClient<UsersGetPayload<T>>
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Users
+     * const users = await prisma.users.findMany()
+     * 
+     * // Get first 10 Users
+     * const users = await prisma.users.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const usersWithIdOnly = await prisma.users.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends UsersFindManyArgs>(
+      args?: SelectSubset<T, UsersFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UsersGetPayload<T>>>
+
+    /**
+     * Create a Users.
+     * @param {UsersCreateArgs} args - Arguments to create a Users.
+     * @example
+     * // Create one Users
+     * const Users = await prisma.users.create({
+     *   data: {
+     *     // ... data to create a Users
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UsersCreateArgs>(
+      args: SelectSubset<T, UsersCreateArgs>
+    ): Prisma__UsersClient<UsersGetPayload<T>>
+
+    /**
+     * Create many Users.
+     *     @param {UsersCreateManyArgs} args - Arguments to create many Users.
+     *     @example
+     *     // Create many Users
+     *     const users = await prisma.users.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UsersCreateManyArgs>(
+      args?: SelectSubset<T, UsersCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Users.
+     * @param {UsersDeleteArgs} args - Arguments to delete one Users.
+     * @example
+     * // Delete one Users
+     * const Users = await prisma.users.delete({
+     *   where: {
+     *     // ... filter to delete one Users
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UsersDeleteArgs>(
+      args: SelectSubset<T, UsersDeleteArgs>
+    ): Prisma__UsersClient<UsersGetPayload<T>>
+
+    /**
+     * Update one Users.
+     * @param {UsersUpdateArgs} args - Arguments to update one Users.
+     * @example
+     * // Update one Users
+     * const users = await prisma.users.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UsersUpdateArgs>(
+      args: SelectSubset<T, UsersUpdateArgs>
+    ): Prisma__UsersClient<UsersGetPayload<T>>
+
+    /**
+     * Delete zero or more Users.
+     * @param {UsersDeleteManyArgs} args - Arguments to filter Users to delete.
+     * @example
+     * // Delete a few Users
+     * const { count } = await prisma.users.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UsersDeleteManyArgs>(
+      args?: SelectSubset<T, UsersDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Users
+     * const users = await prisma.users.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UsersUpdateManyArgs>(
+      args: SelectSubset<T, UsersUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Users.
+     * @param {UsersUpsertArgs} args - Arguments to update or create a Users.
+     * @example
+     * // Update or create a Users
+     * const users = await prisma.users.upsert({
+     *   create: {
+     *     // ... data to create a Users
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Users we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UsersUpsertArgs>(
+      args: SelectSubset<T, UsersUpsertArgs>
+    ): Prisma__UsersClient<UsersGetPayload<T>>
+
+    /**
+     * Count the number of Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersCountArgs} args - Arguments to filter Users to count.
+     * @example
+     * // Count the number of Users
+     * const count = await prisma.users.count({
+     *   where: {
+     *     // ... the filter for the Users we want to count
+     *   }
+     * })
+    **/
+    count<T extends UsersCountArgs>(
+      args?: Subset<T, UsersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UsersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UsersAggregateArgs>(args: Subset<T, UsersAggregateArgs>): Prisma.PrismaPromise<GetUsersAggregateType<T>>
+
+    /**
+     * Group by Users.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UsersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UsersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UsersGroupByArgs['orderBy'] }
+        : { orderBy?: UsersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UsersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUsersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Users.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UsersClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    chocolate_batches<T extends Users$chocolate_batchesArgs= {}>(args?: Subset<T, Users$chocolate_batchesArgs>): Prisma.PrismaPromise<Array<Chocolate_batchesGetPayload<T>>| Null>;
+
+    production_comments<T extends Users$production_commentsArgs= {}>(args?: Subset<T, Users$production_commentsArgs>): Prisma.PrismaPromise<Array<Production_commentsGetPayload<T>>| Null>;
+
+    recipes<T extends Users$recipesArgs= {}>(args?: Subset<T, Users$recipesArgs>): Prisma.PrismaPromise<Array<RecipesGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Users base type for findUnique actions
+   */
+  export type UsersFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where: UsersWhereUniqueInput
+  }
+
+  /**
+   * Users findUnique
+   */
+  export interface UsersFindUniqueArgs extends UsersFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Users findUniqueOrThrow
+   */
+  export type UsersFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where: UsersWhereUniqueInput
+  }
+
+
+  /**
+   * Users base type for findFirst actions
+   */
+  export type UsersFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UsersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: Enumerable<UsersScalarFieldEnum>
+  }
+
+  /**
+   * Users findFirst
+   */
+  export interface UsersFindFirstArgs extends UsersFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Users findFirstOrThrow
+   */
+  export type UsersFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UsersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Users.
+     */
+    cursor?: UsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
+    distinct?: Enumerable<UsersScalarFieldEnum>
+  }
+
+
+  /**
+   * Users findMany
+   */
+  export type UsersFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * Filter, which Users to fetch.
+     */
+    where?: UsersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Users to fetch.
+     */
+    orderBy?: Enumerable<UsersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Users.
+     */
+    cursor?: UsersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Users from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Users.
+     */
+    skip?: number
+    distinct?: Enumerable<UsersScalarFieldEnum>
+  }
+
+
+  /**
+   * Users create
+   */
+  export type UsersCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * The data needed to create a Users.
+     */
+    data: XOR<UsersCreateInput, UsersUncheckedCreateInput>
+  }
+
+
+  /**
+   * Users createMany
+   */
+  export type UsersCreateManyArgs = {
+    /**
+     * The data used to create many Users.
+     */
+    data: Enumerable<UsersCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Users update
+   */
+  export type UsersUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * The data needed to update a Users.
+     */
+    data: XOR<UsersUpdateInput, UsersUncheckedUpdateInput>
+    /**
+     * Choose, which Users to update.
+     */
+    where: UsersWhereUniqueInput
+  }
+
+
+  /**
+   * Users updateMany
+   */
+  export type UsersUpdateManyArgs = {
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UsersUpdateManyMutationInput, UsersUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UsersWhereInput
+  }
+
+
+  /**
+   * Users upsert
+   */
+  export type UsersUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * The filter to search for the Users to update in case it exists.
+     */
+    where: UsersWhereUniqueInput
+    /**
+     * In case the Users found by the `where` argument doesn't exist, create a new Users with this data.
+     */
+    create: XOR<UsersCreateInput, UsersUncheckedCreateInput>
+    /**
+     * In case the Users was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UsersUpdateInput, UsersUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Users delete
+   */
+  export type UsersDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+    /**
+     * Filter which Users to delete.
+     */
+    where: UsersWhereUniqueInput
+  }
+
+
+  /**
+   * Users deleteMany
+   */
+  export type UsersDeleteManyArgs = {
+    /**
+     * Filter which Users to delete
+     */
+    where?: UsersWhereInput
+  }
+
+
+  /**
+   * Users.chocolate_batches
+   */
+  export type Users$chocolate_batchesArgs = {
+    /**
+     * Select specific fields to fetch from the Chocolate_batches
+     */
+    select?: Chocolate_batchesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: Chocolate_batchesInclude | null
+    where?: Chocolate_batchesWhereInput
+    orderBy?: Enumerable<Chocolate_batchesOrderByWithRelationInput>
+    cursor?: Chocolate_batchesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Chocolate_batchesScalarFieldEnum>
+  }
+
+
+  /**
+   * Users.production_comments
+   */
+  export type Users$production_commentsArgs = {
+    /**
+     * Select specific fields to fetch from the Production_comments
+     */
+    select?: Production_commentsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: Production_commentsInclude | null
+    where?: Production_commentsWhereInput
+    orderBy?: Enumerable<Production_commentsOrderByWithRelationInput>
+    cursor?: Production_commentsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Production_commentsScalarFieldEnum>
+  }
+
+
+  /**
+   * Users.recipes
+   */
+  export type Users$recipesArgs = {
+    /**
+     * Select specific fields to fetch from the Recipes
+     */
+    select?: RecipesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecipesInclude | null
+    where?: RecipesWhereInput
+    orderBy?: Enumerable<RecipesOrderByWithRelationInput>
+    cursor?: RecipesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<RecipesScalarFieldEnum>
+  }
+
+
+  /**
+   * Users without action
+   */
+  export type UsersArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     */
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UsersInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -4808,6 +5897,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const Chocolate_batchesScalarFieldEnum: {
     id: 'id',
+    user_id: 'user_id',
     recipe_id: 'recipe_id',
     bean_origin: 'bean_origin',
     ingredients: 'ingredients',
@@ -4837,9 +5927,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const Production_commentsScalarFieldEnum: {
     id: 'id',
-    batch_id: 'batch_id',
     user_id: 'user_id',
-    user_name: 'user_name',
+    batch_id: 'batch_id',
     created_at: 'created_at',
     text: 'text',
     attachments: 'attachments'
@@ -4868,6 +5957,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const RecipesScalarFieldEnum: {
     id: 'id',
+    user_id: 'user_id',
     description: 'description',
     name: 'name'
   };
@@ -4893,6 +5983,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const UsersScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    avatar_url: 'avatar_url'
+  };
+
+  export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
   /**
    * Deep Input Types
    */
@@ -4903,23 +6002,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Chocolate_batchesWhereInput>
     NOT?: Enumerable<Chocolate_batchesWhereInput>
     id?: UuidFilter | string
+    user_id?: StringFilter | string
     recipe_id?: UuidNullableFilter | string | null
     bean_origin?: StringNullableFilter | string | null
     ingredients?: JsonNullableFilter
     importer?: StringNullableFilter | string | null
     production_date?: DateTimeNullableFilter | Date | string | null
     recipes?: XOR<RecipesRelationFilter, RecipesWhereInput> | null
+    users?: XOR<UsersRelationFilter, UsersWhereInput>
     production_comments?: Production_commentsListRelationFilter
   }
 
   export type Chocolate_batchesOrderByWithRelationInput = {
     id?: SortOrder
+    user_id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     ingredients?: SortOrder
     importer?: SortOrder
     production_date?: SortOrder
     recipes?: RecipesOrderByWithRelationInput
+    users?: UsersOrderByWithRelationInput
     production_comments?: Production_commentsOrderByRelationAggregateInput
   }
 
@@ -4929,6 +6032,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesOrderByWithAggregationInput = {
     id?: SortOrder
+    user_id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     ingredients?: SortOrder
@@ -4944,6 +6048,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Chocolate_batchesScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Chocolate_batchesScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
     recipe_id?: UuidNullableWithAggregatesFilter | string | null
     bean_origin?: StringNullableWithAggregatesFilter | string | null
     ingredients?: JsonNullableWithAggregatesFilter
@@ -4956,24 +6061,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Production_commentsWhereInput>
     NOT?: Enumerable<Production_commentsWhereInput>
     id?: UuidFilter | string
-    batch_id?: UuidFilter | string
     user_id?: StringFilter | string
-    user_name?: StringFilter | string
+    batch_id?: UuidFilter | string
     created_at?: DateTimeFilter | Date | string
     text?: StringFilter | string
     attachments?: JsonNullableFilter
     chocolate_batches?: XOR<Chocolate_batchesRelationFilter, Chocolate_batchesWhereInput>
+    users?: XOR<UsersRelationFilter, UsersWhereInput>
   }
 
   export type Production_commentsOrderByWithRelationInput = {
     id?: SortOrder
-    batch_id?: SortOrder
     user_id?: SortOrder
-    user_name?: SortOrder
+    batch_id?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
     attachments?: SortOrder
     chocolate_batches?: Chocolate_batchesOrderByWithRelationInput
+    users?: UsersOrderByWithRelationInput
   }
 
   export type Production_commentsWhereUniqueInput = {
@@ -4982,9 +6087,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsOrderByWithAggregationInput = {
     id?: SortOrder
-    batch_id?: SortOrder
     user_id?: SortOrder
-    user_name?: SortOrder
+    batch_id?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
     attachments?: SortOrder
@@ -4998,9 +6102,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
     NOT?: Enumerable<Production_commentsScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
-    batch_id?: UuidWithAggregatesFilter | string
     user_id?: StringWithAggregatesFilter | string
-    user_name?: StringWithAggregatesFilter | string
+    batch_id?: UuidWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     text?: StringWithAggregatesFilter | string
     attachments?: JsonNullableWithAggregatesFilter
@@ -5056,18 +6159,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<RecipesWhereInput>
     NOT?: Enumerable<RecipesWhereInput>
     id?: UuidFilter | string
+    user_id?: StringFilter | string
     description?: StringFilter | string
     name?: StringFilter | string
     chocolate_batches?: Chocolate_batchesListRelationFilter
     recipe_ingredients?: Recipe_ingredientsListRelationFilter
+    users?: XOR<UsersRelationFilter, UsersWhereInput>
   }
 
   export type RecipesOrderByWithRelationInput = {
     id?: SortOrder
+    user_id?: SortOrder
     description?: SortOrder
     name?: SortOrder
     chocolate_batches?: Chocolate_batchesOrderByRelationAggregateInput
     recipe_ingredients?: Recipe_ingredientsOrderByRelationAggregateInput
+    users?: UsersOrderByWithRelationInput
   }
 
   export type RecipesWhereUniqueInput = {
@@ -5076,6 +6183,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesOrderByWithAggregationInput = {
     id?: SortOrder
+    user_id?: SortOrder
     description?: SortOrder
     name?: SortOrder
     _count?: RecipesCountOrderByAggregateInput
@@ -5088,8 +6196,52 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<RecipesScalarWhereWithAggregatesInput>
     NOT?: Enumerable<RecipesScalarWhereWithAggregatesInput>
     id?: UuidWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
     description?: StringWithAggregatesFilter | string
     name?: StringWithAggregatesFilter | string
+  }
+
+  export type UsersWhereInput = {
+    AND?: Enumerable<UsersWhereInput>
+    OR?: Enumerable<UsersWhereInput>
+    NOT?: Enumerable<UsersWhereInput>
+    id?: StringFilter | string
+    name?: StringFilter | string
+    avatar_url?: StringNullableFilter | string | null
+    chocolate_batches?: Chocolate_batchesListRelationFilter
+    production_comments?: Production_commentsListRelationFilter
+    recipes?: RecipesListRelationFilter
+  }
+
+  export type UsersOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    avatar_url?: SortOrder
+    chocolate_batches?: Chocolate_batchesOrderByRelationAggregateInput
+    production_comments?: Production_commentsOrderByRelationAggregateInput
+    recipes?: RecipesOrderByRelationAggregateInput
+  }
+
+  export type UsersWhereUniqueInput = {
+    id?: string
+  }
+
+  export type UsersOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    avatar_url?: SortOrder
+    _count?: UsersCountOrderByAggregateInput
+    _max?: UsersMaxOrderByAggregateInput
+    _min?: UsersMinOrderByAggregateInput
+  }
+
+  export type UsersScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UsersScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UsersScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UsersScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    avatar_url?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type Chocolate_batchesCreateInput = {
@@ -5099,11 +6251,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     importer?: string | null
     production_date?: Date | string | null
     recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
+    users: UsersCreateNestedOneWithoutChocolate_batchesInput
     production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
   }
 
   export type Chocolate_batchesUncheckedCreateInput = {
     id: string
+    user_id: string
     recipe_id?: string | null
     bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
@@ -5119,11 +6273,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     importer?: NullableStringFieldUpdateOperationsInput | string | null
     production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
+    users?: UsersUpdateOneRequiredWithoutChocolate_batchesNestedInput
     production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
@@ -5134,6 +6290,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCreateManyInput = {
     id: string
+    user_id: string
     recipe_id?: string | null
     bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
@@ -5151,6 +6308,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
@@ -5160,19 +6318,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsCreateInput = {
     id: string
-    user_id: string
-    user_name: string
     created_at: Date | string
     text: string
     attachments?: NullableJsonNullValueInput | InputJsonValue
     chocolate_batches: Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput
+    users: UsersCreateNestedOneWithoutProduction_commentsInput
   }
 
   export type Production_commentsUncheckedCreateInput = {
     id: string
-    batch_id: string
     user_id: string
-    user_name: string
+    batch_id: string
     created_at: Date | string
     text: string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -5180,19 +6336,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
     chocolate_batches?: Chocolate_batchesUpdateOneRequiredWithoutProduction_commentsNestedInput
+    users?: UsersUpdateOneRequiredWithoutProduction_commentsNestedInput
   }
 
   export type Production_commentsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    batch_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
+    batch_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -5200,9 +6354,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsCreateManyInput = {
     id: string
-    batch_id: string
     user_id: string
-    user_name: string
+    batch_id: string
     created_at: Date | string
     text: string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -5210,8 +6363,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -5219,9 +6370,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    batch_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
+    batch_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -5281,10 +6431,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name: string
     chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutRecipesInput
     recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
+    users: UsersCreateNestedOneWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateInput = {
     id: string
+    user_id: string
     description: string
     name: string
     chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput
@@ -5297,10 +6449,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: StringFieldUpdateOperationsInput | string
     chocolate_batches?: Chocolate_batchesUpdateManyWithoutRecipesNestedInput
     recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
+    users?: UsersUpdateOneRequiredWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput
@@ -5309,6 +6463,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesCreateManyInput = {
     id: string
+    user_id: string
     description: string
     name: string
   }
@@ -5321,8 +6476,63 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UsersCreateInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutUsersInput
+    production_comments?: Production_commentsCreateNestedManyWithoutUsersInput
+    recipes?: RecipesCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUncheckedCreateInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutUsersInput
+    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutUsersInput
+    recipes?: RecipesUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    chocolate_batches?: Chocolate_batchesUpdateManyWithoutUsersNestedInput
+    production_comments?: Production_commentsUpdateManyWithoutUsersNestedInput
+    recipes?: RecipesUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutUsersNestedInput
+    production_comments?: Production_commentsUncheckedUpdateManyWithoutUsersNestedInput
+    recipes?: RecipesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersCreateManyInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+  }
+
+  export type UsersUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UsersUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UuidFilter = {
@@ -5335,6 +6545,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gte?: string
     mode?: QueryMode
     not?: NestedUuidFilter | string
+  }
+
+  export type StringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringFilter | string
   }
 
   export type UuidNullableFilter = {
@@ -5402,6 +6627,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: RecipesWhereInput
   }
 
+  export type UsersRelationFilter = {
+    is?: UsersWhereInput
+    isNot?: UsersWhereInput
+  }
+
   export type Production_commentsListRelationFilter = {
     every?: Production_commentsWhereInput
     some?: Production_commentsWhereInput
@@ -5414,6 +6644,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCountOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     ingredients?: SortOrder
@@ -5423,6 +6654,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesMaxOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -5431,6 +6663,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesMinOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     recipe_id?: SortOrder
     bean_origin?: SortOrder
     importer?: SortOrder
@@ -5447,6 +6680,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gte?: string
     mode?: QueryMode
     not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
+  export type StringWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter | string
     _count?: NestedIntFilter
     _min?: NestedStringFilter
     _max?: NestedStringFilter
@@ -5524,21 +6775,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter
   }
 
-  export type StringFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringFilter | string
-  }
-
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -5557,9 +6793,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsCountOrderByAggregateInput = {
     id?: SortOrder
-    batch_id?: SortOrder
     user_id?: SortOrder
-    user_name?: SortOrder
+    batch_id?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
     attachments?: SortOrder
@@ -5567,38 +6802,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsMaxOrderByAggregateInput = {
     id?: SortOrder
-    batch_id?: SortOrder
     user_id?: SortOrder
-    user_name?: SortOrder
+    batch_id?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
   }
 
   export type Production_commentsMinOrderByAggregateInput = {
     id?: SortOrder
-    batch_id?: SortOrder
     user_id?: SortOrder
-    user_name?: SortOrder
+    batch_id?: SortOrder
     created_at?: SortOrder
     text?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
   }
 
   export type DateTimeWithAggregatesFilter = {
@@ -5693,26 +6908,63 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type RecipesCountOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     description?: SortOrder
     name?: SortOrder
   }
 
   export type RecipesMaxOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     description?: SortOrder
     name?: SortOrder
   }
 
   export type RecipesMinOrderByAggregateInput = {
     id?: SortOrder
+    user_id?: SortOrder
     description?: SortOrder
     name?: SortOrder
+  }
+
+  export type RecipesListRelationFilter = {
+    every?: RecipesWhereInput
+    some?: RecipesWhereInput
+    none?: RecipesWhereInput
+  }
+
+  export type RecipesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UsersCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    avatar_url?: SortOrder
+  }
+
+  export type UsersMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    avatar_url?: SortOrder
+  }
+
+  export type UsersMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    avatar_url?: SortOrder
   }
 
   export type RecipesCreateNestedOneWithoutChocolate_batchesInput = {
     create?: XOR<RecipesCreateWithoutChocolate_batchesInput, RecipesUncheckedCreateWithoutChocolate_batchesInput>
     connectOrCreate?: RecipesCreateOrConnectWithoutChocolate_batchesInput
     connect?: RecipesWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutChocolate_batchesInput = {
+    create?: XOR<UsersCreateWithoutChocolate_batchesInput, UsersUncheckedCreateWithoutChocolate_batchesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutChocolate_batchesInput
+    connect?: UsersWhereUniqueInput
   }
 
   export type Production_commentsCreateNestedManyWithoutChocolate_batchesInput = {
@@ -5751,6 +7003,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<RecipesUpdateWithoutChocolate_batchesInput, RecipesUncheckedUpdateWithoutChocolate_batchesInput>
   }
 
+  export type UsersUpdateOneRequiredWithoutChocolate_batchesNestedInput = {
+    create?: XOR<UsersCreateWithoutChocolate_batchesInput, UsersUncheckedCreateWithoutChocolate_batchesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutChocolate_batchesInput
+    upsert?: UsersUpsertWithoutChocolate_batchesInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<UsersUpdateWithoutChocolate_batchesInput, UsersUncheckedUpdateWithoutChocolate_batchesInput>
+  }
+
   export type Production_commentsUpdateManyWithoutChocolate_batchesNestedInput = {
     create?: XOR<Enumerable<Production_commentsCreateWithoutChocolate_batchesInput>, Enumerable<Production_commentsUncheckedCreateWithoutChocolate_batchesInput>>
     connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutChocolate_batchesInput>
@@ -5785,6 +7045,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Chocolate_batchesWhereUniqueInput
   }
 
+  export type UsersCreateNestedOneWithoutProduction_commentsInput = {
+    create?: XOR<UsersCreateWithoutProduction_commentsInput, UsersUncheckedCreateWithoutProduction_commentsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutProduction_commentsInput
+    connect?: UsersWhereUniqueInput
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -5795,6 +7061,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     upsert?: Chocolate_batchesUpsertWithoutProduction_commentsInput
     connect?: Chocolate_batchesWhereUniqueInput
     update?: XOR<Chocolate_batchesUpdateWithoutProduction_commentsInput, Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput>
+  }
+
+  export type UsersUpdateOneRequiredWithoutProduction_commentsNestedInput = {
+    create?: XOR<UsersCreateWithoutProduction_commentsInput, UsersUncheckedCreateWithoutProduction_commentsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutProduction_commentsInput
+    upsert?: UsersUpsertWithoutProduction_commentsInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<UsersUpdateWithoutProduction_commentsInput, UsersUncheckedUpdateWithoutProduction_commentsInput>
   }
 
   export type RecipesCreateNestedOneWithoutRecipe_ingredientsInput = {
@@ -5831,6 +7105,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Recipe_ingredientsCreateOrConnectWithoutRecipesInput>
     createMany?: Recipe_ingredientsCreateManyRecipesInputEnvelope
     connect?: Enumerable<Recipe_ingredientsWhereUniqueInput>
+  }
+
+  export type UsersCreateNestedOneWithoutRecipesInput = {
+    create?: XOR<UsersCreateWithoutRecipesInput, UsersUncheckedCreateWithoutRecipesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutRecipesInput
+    connect?: UsersWhereUniqueInput
   }
 
   export type Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput = {
@@ -5875,6 +7155,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Recipe_ingredientsScalarWhereInput>
   }
 
+  export type UsersUpdateOneRequiredWithoutRecipesNestedInput = {
+    create?: XOR<UsersCreateWithoutRecipesInput, UsersUncheckedCreateWithoutRecipesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutRecipesInput
+    upsert?: UsersUpsertWithoutRecipesInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<UsersUpdateWithoutRecipesInput, UsersUncheckedUpdateWithoutRecipesInput>
+  }
+
   export type Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput = {
     create?: XOR<Enumerable<Chocolate_batchesCreateWithoutRecipesInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutRecipesInput>>
     connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutRecipesInput>
@@ -5903,6 +7191,132 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Recipe_ingredientsScalarWhereInput>
   }
 
+  export type Chocolate_batchesCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutUsersInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutUsersInput>
+    createMany?: Chocolate_batchesCreateManyUsersInputEnvelope
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+  }
+
+  export type Production_commentsCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutUsersInput>, Enumerable<Production_commentsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutUsersInput>
+    createMany?: Production_commentsCreateManyUsersInputEnvelope
+    connect?: Enumerable<Production_commentsWhereUniqueInput>
+  }
+
+  export type RecipesCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<RecipesCreateWithoutUsersInput>, Enumerable<RecipesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<RecipesCreateOrConnectWithoutUsersInput>
+    createMany?: RecipesCreateManyUsersInputEnvelope
+    connect?: Enumerable<RecipesWhereUniqueInput>
+  }
+
+  export type Chocolate_batchesUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutUsersInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutUsersInput>
+    createMany?: Chocolate_batchesCreateManyUsersInputEnvelope
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+  }
+
+  export type Production_commentsUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutUsersInput>, Enumerable<Production_commentsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutUsersInput>
+    createMany?: Production_commentsCreateManyUsersInputEnvelope
+    connect?: Enumerable<Production_commentsWhereUniqueInput>
+  }
+
+  export type RecipesUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<RecipesCreateWithoutUsersInput>, Enumerable<RecipesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<RecipesCreateOrConnectWithoutUsersInput>
+    createMany?: RecipesCreateManyUsersInputEnvelope
+    connect?: Enumerable<RecipesWhereUniqueInput>
+  }
+
+  export type Chocolate_batchesUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutUsersInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<Chocolate_batchesUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: Chocolate_batchesCreateManyUsersInputEnvelope
+    set?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    disconnect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    delete?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    update?: Enumerable<Chocolate_batchesUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<Chocolate_batchesUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<Chocolate_batchesScalarWhereInput>
+  }
+
+  export type Production_commentsUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutUsersInput>, Enumerable<Production_commentsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<Production_commentsUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: Production_commentsCreateManyUsersInputEnvelope
+    set?: Enumerable<Production_commentsWhereUniqueInput>
+    disconnect?: Enumerable<Production_commentsWhereUniqueInput>
+    delete?: Enumerable<Production_commentsWhereUniqueInput>
+    connect?: Enumerable<Production_commentsWhereUniqueInput>
+    update?: Enumerable<Production_commentsUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<Production_commentsUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<Production_commentsScalarWhereInput>
+  }
+
+  export type RecipesUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<RecipesCreateWithoutUsersInput>, Enumerable<RecipesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<RecipesCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<RecipesUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: RecipesCreateManyUsersInputEnvelope
+    set?: Enumerable<RecipesWhereUniqueInput>
+    disconnect?: Enumerable<RecipesWhereUniqueInput>
+    delete?: Enumerable<RecipesWhereUniqueInput>
+    connect?: Enumerable<RecipesWhereUniqueInput>
+    update?: Enumerable<RecipesUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<RecipesUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<RecipesScalarWhereInput>
+  }
+
+  export type Chocolate_batchesUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<Chocolate_batchesCreateWithoutUsersInput>, Enumerable<Chocolate_batchesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Chocolate_batchesCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<Chocolate_batchesUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: Chocolate_batchesCreateManyUsersInputEnvelope
+    set?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    disconnect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    delete?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    connect?: Enumerable<Chocolate_batchesWhereUniqueInput>
+    update?: Enumerable<Chocolate_batchesUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<Chocolate_batchesUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<Chocolate_batchesScalarWhereInput>
+  }
+
+  export type Production_commentsUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<Production_commentsCreateWithoutUsersInput>, Enumerable<Production_commentsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<Production_commentsCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<Production_commentsUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: Production_commentsCreateManyUsersInputEnvelope
+    set?: Enumerable<Production_commentsWhereUniqueInput>
+    disconnect?: Enumerable<Production_commentsWhereUniqueInput>
+    delete?: Enumerable<Production_commentsWhereUniqueInput>
+    connect?: Enumerable<Production_commentsWhereUniqueInput>
+    update?: Enumerable<Production_commentsUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<Production_commentsUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<Production_commentsScalarWhereInput>
+  }
+
+  export type RecipesUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<RecipesCreateWithoutUsersInput>, Enumerable<RecipesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<RecipesCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<RecipesUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: RecipesCreateManyUsersInputEnvelope
+    set?: Enumerable<RecipesWhereUniqueInput>
+    disconnect?: Enumerable<RecipesWhereUniqueInput>
+    delete?: Enumerable<RecipesWhereUniqueInput>
+    connect?: Enumerable<RecipesWhereUniqueInput>
+    update?: Enumerable<RecipesUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<RecipesUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<RecipesScalarWhereInput>
+  }
+
   export type NestedUuidFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -5912,6 +7326,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: string
     gte?: string
     not?: NestedUuidFilter | string
+  }
+
+  export type NestedStringFilter = {
+    equals?: string
+    in?: Enumerable<string>
+    notIn?: Enumerable<string>
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringFilter | string
   }
 
   export type NestedUuidNullableFilter = {
@@ -5975,7 +7403,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedIntFilter | number
   }
 
-  export type NestedStringFilter = {
+  export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
     notIn?: Enumerable<string>
@@ -5986,7 +7414,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     contains?: string
     startsWith?: string
     endsWith?: string
-    not?: NestedStringFilter | string
+    not?: NestedStringWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
   export type NestedUuidNullableWithAggregatesFilter = {
@@ -6078,23 +7509,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedDateTimeFilter | Date | string
   }
 
-  export type NestedStringWithAggregatesFilter = {
-    equals?: string
-    in?: Enumerable<string>
-    notIn?: Enumerable<string>
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
-  }
-
   export type NestedDateTimeWithAggregatesFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -6141,10 +7555,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     description: string
     name: string
     recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
+    users: UsersCreateNestedOneWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateWithoutChocolate_batchesInput = {
     id: string
+    user_id: string
     description: string
     name: string
     recipe_ingredients?: Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput
@@ -6155,19 +7571,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<RecipesCreateWithoutChocolate_batchesInput, RecipesUncheckedCreateWithoutChocolate_batchesInput>
   }
 
+  export type UsersCreateWithoutChocolate_batchesInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    production_comments?: Production_commentsCreateNestedManyWithoutUsersInput
+    recipes?: RecipesCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUncheckedCreateWithoutChocolate_batchesInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutUsersInput
+    recipes?: RecipesUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersCreateOrConnectWithoutChocolate_batchesInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutChocolate_batchesInput, UsersUncheckedCreateWithoutChocolate_batchesInput>
+  }
+
   export type Production_commentsCreateWithoutChocolate_batchesInput = {
     id: string
-    user_id: string
-    user_name: string
     created_at: Date | string
     text: string
     attachments?: NullableJsonNullValueInput | InputJsonValue
+    users: UsersCreateNestedOneWithoutProduction_commentsInput
   }
 
   export type Production_commentsUncheckedCreateWithoutChocolate_batchesInput = {
     id: string
     user_id: string
-    user_name: string
     created_at: Date | string
     text: string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -6193,13 +7628,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
+    users?: UsersUpdateOneRequiredWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     recipe_ingredients?: Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput
+  }
+
+  export type UsersUpsertWithoutChocolate_batchesInput = {
+    update: XOR<UsersUpdateWithoutChocolate_batchesInput, UsersUncheckedUpdateWithoutChocolate_batchesInput>
+    create: XOR<UsersCreateWithoutChocolate_batchesInput, UsersUncheckedCreateWithoutChocolate_batchesInput>
+  }
+
+  export type UsersUpdateWithoutChocolate_batchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    production_comments?: Production_commentsUpdateManyWithoutUsersNestedInput
+    recipes?: RecipesUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutChocolate_batchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    production_comments?: Production_commentsUncheckedUpdateManyWithoutUsersNestedInput
+    recipes?: RecipesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type Production_commentsUpsertWithWhereUniqueWithoutChocolate_batchesInput = {
@@ -6223,9 +7681,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Production_commentsScalarWhereInput>
     NOT?: Enumerable<Production_commentsScalarWhereInput>
     id?: UuidFilter | string
-    batch_id?: UuidFilter | string
     user_id?: StringFilter | string
-    user_name?: StringFilter | string
+    batch_id?: UuidFilter | string
     created_at?: DateTimeFilter | Date | string
     text?: StringFilter | string
     attachments?: JsonNullableFilter
@@ -6238,10 +7695,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     importer?: string | null
     production_date?: Date | string | null
     recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
+    users: UsersCreateNestedOneWithoutChocolate_batchesInput
   }
 
   export type Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput = {
     id: string
+    user_id: string
     recipe_id?: string | null
     bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
@@ -6252,6 +7711,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Chocolate_batchesCreateOrConnectWithoutProduction_commentsInput = {
     where: Chocolate_batchesWhereUniqueInput
     create: XOR<Chocolate_batchesCreateWithoutProduction_commentsInput, Chocolate_batchesUncheckedCreateWithoutProduction_commentsInput>
+  }
+
+  export type UsersCreateWithoutProduction_commentsInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutUsersInput
+    recipes?: RecipesCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUncheckedCreateWithoutProduction_commentsInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutUsersInput
+    recipes?: RecipesUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersCreateOrConnectWithoutProduction_commentsInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutProduction_commentsInput, UsersUncheckedCreateWithoutProduction_commentsInput>
   }
 
   export type Chocolate_batchesUpsertWithoutProduction_commentsInput = {
@@ -6266,10 +7746,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     importer?: NullableStringFieldUpdateOperationsInput | string | null
     production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
+    users?: UsersUpdateOneRequiredWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesUncheckedUpdateWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
     bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
@@ -6277,15 +7759,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type UsersUpsertWithoutProduction_commentsInput = {
+    update: XOR<UsersUpdateWithoutProduction_commentsInput, UsersUncheckedUpdateWithoutProduction_commentsInput>
+    create: XOR<UsersCreateWithoutProduction_commentsInput, UsersUncheckedCreateWithoutProduction_commentsInput>
+  }
+
+  export type UsersUpdateWithoutProduction_commentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    chocolate_batches?: Chocolate_batchesUpdateManyWithoutUsersNestedInput
+    recipes?: RecipesUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutProduction_commentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutUsersNestedInput
+    recipes?: RecipesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
   export type RecipesCreateWithoutRecipe_ingredientsInput = {
     id: string
     description: string
     name: string
     chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutRecipesInput
+    users: UsersCreateNestedOneWithoutRecipesInput
   }
 
   export type RecipesUncheckedCreateWithoutRecipe_ingredientsInput = {
     id: string
+    user_id: string
     description: string
     name: string
     chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput
@@ -6306,10 +7811,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     chocolate_batches?: Chocolate_batchesUpdateManyWithoutRecipesNestedInput
+    users?: UsersUpdateOneRequiredWithoutRecipesNestedInput
   }
 
   export type RecipesUncheckedUpdateWithoutRecipe_ingredientsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput
@@ -6321,11 +7828,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: string | null
     production_date?: Date | string | null
+    users: UsersCreateNestedOneWithoutChocolate_batchesInput
     production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
   }
 
   export type Chocolate_batchesUncheckedCreateWithoutRecipesInput = {
     id: string
+    user_id: string
     bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: string | null
@@ -6365,6 +7874,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type UsersCreateWithoutRecipesInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutUsersInput
+    production_comments?: Production_commentsCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUncheckedCreateWithoutRecipesInput = {
+    id: string
+    name: string
+    avatar_url?: string | null
+    chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutUsersInput
+    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersCreateOrConnectWithoutRecipesInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutRecipesInput, UsersUncheckedCreateWithoutRecipesInput>
+  }
+
   export type Chocolate_batchesUpsertWithWhereUniqueWithoutRecipesInput = {
     where: Chocolate_batchesWhereUniqueInput
     update: XOR<Chocolate_batchesUpdateWithoutRecipesInput, Chocolate_batchesUncheckedUpdateWithoutRecipesInput>
@@ -6386,6 +7916,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     OR?: Enumerable<Chocolate_batchesScalarWhereInput>
     NOT?: Enumerable<Chocolate_batchesScalarWhereInput>
     id?: UuidFilter | string
+    user_id?: StringFilter | string
     recipe_id?: UuidNullableFilter | string | null
     bean_origin?: StringNullableFilter | string | null
     ingredients?: JsonNullableFilter
@@ -6419,10 +7950,170 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     percentage?: IntFilter | number
   }
 
+  export type UsersUpsertWithoutRecipesInput = {
+    update: XOR<UsersUpdateWithoutRecipesInput, UsersUncheckedUpdateWithoutRecipesInput>
+    create: XOR<UsersCreateWithoutRecipesInput, UsersUncheckedCreateWithoutRecipesInput>
+  }
+
+  export type UsersUpdateWithoutRecipesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    chocolate_batches?: Chocolate_batchesUpdateManyWithoutUsersNestedInput
+    production_comments?: Production_commentsUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutRecipesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutUsersNestedInput
+    production_comments?: Production_commentsUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Chocolate_batchesCreateWithoutUsersInput = {
+    id: string
+    bean_origin?: string | null
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: string | null
+    production_date?: Date | string | null
+    recipes?: RecipesCreateNestedOneWithoutChocolate_batchesInput
+    production_comments?: Production_commentsCreateNestedManyWithoutChocolate_batchesInput
+  }
+
+  export type Chocolate_batchesUncheckedCreateWithoutUsersInput = {
+    id: string
+    recipe_id?: string | null
+    bean_origin?: string | null
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: string | null
+    production_date?: Date | string | null
+    production_comments?: Production_commentsUncheckedCreateNestedManyWithoutChocolate_batchesInput
+  }
+
+  export type Chocolate_batchesCreateOrConnectWithoutUsersInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    create: XOR<Chocolate_batchesCreateWithoutUsersInput, Chocolate_batchesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type Chocolate_batchesCreateManyUsersInputEnvelope = {
+    data: Enumerable<Chocolate_batchesCreateManyUsersInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Production_commentsCreateWithoutUsersInput = {
+    id: string
+    created_at: Date | string
+    text: string
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    chocolate_batches: Chocolate_batchesCreateNestedOneWithoutProduction_commentsInput
+  }
+
+  export type Production_commentsUncheckedCreateWithoutUsersInput = {
+    id: string
+    batch_id: string
+    created_at: Date | string
+    text: string
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type Production_commentsCreateOrConnectWithoutUsersInput = {
+    where: Production_commentsWhereUniqueInput
+    create: XOR<Production_commentsCreateWithoutUsersInput, Production_commentsUncheckedCreateWithoutUsersInput>
+  }
+
+  export type Production_commentsCreateManyUsersInputEnvelope = {
+    data: Enumerable<Production_commentsCreateManyUsersInput>
+    skipDuplicates?: boolean
+  }
+
+  export type RecipesCreateWithoutUsersInput = {
+    id: string
+    description: string
+    name: string
+    chocolate_batches?: Chocolate_batchesCreateNestedManyWithoutRecipesInput
+    recipe_ingredients?: Recipe_ingredientsCreateNestedManyWithoutRecipesInput
+  }
+
+  export type RecipesUncheckedCreateWithoutUsersInput = {
+    id: string
+    description: string
+    name: string
+    chocolate_batches?: Chocolate_batchesUncheckedCreateNestedManyWithoutRecipesInput
+    recipe_ingredients?: Recipe_ingredientsUncheckedCreateNestedManyWithoutRecipesInput
+  }
+
+  export type RecipesCreateOrConnectWithoutUsersInput = {
+    where: RecipesWhereUniqueInput
+    create: XOR<RecipesCreateWithoutUsersInput, RecipesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type RecipesCreateManyUsersInputEnvelope = {
+    data: Enumerable<RecipesCreateManyUsersInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Chocolate_batchesUpsertWithWhereUniqueWithoutUsersInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    update: XOR<Chocolate_batchesUpdateWithoutUsersInput, Chocolate_batchesUncheckedUpdateWithoutUsersInput>
+    create: XOR<Chocolate_batchesCreateWithoutUsersInput, Chocolate_batchesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type Chocolate_batchesUpdateWithWhereUniqueWithoutUsersInput = {
+    where: Chocolate_batchesWhereUniqueInput
+    data: XOR<Chocolate_batchesUpdateWithoutUsersInput, Chocolate_batchesUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type Chocolate_batchesUpdateManyWithWhereWithoutUsersInput = {
+    where: Chocolate_batchesScalarWhereInput
+    data: XOR<Chocolate_batchesUpdateManyMutationInput, Chocolate_batchesUncheckedUpdateManyWithoutChocolate_batchesInput>
+  }
+
+  export type Production_commentsUpsertWithWhereUniqueWithoutUsersInput = {
+    where: Production_commentsWhereUniqueInput
+    update: XOR<Production_commentsUpdateWithoutUsersInput, Production_commentsUncheckedUpdateWithoutUsersInput>
+    create: XOR<Production_commentsCreateWithoutUsersInput, Production_commentsUncheckedCreateWithoutUsersInput>
+  }
+
+  export type Production_commentsUpdateWithWhereUniqueWithoutUsersInput = {
+    where: Production_commentsWhereUniqueInput
+    data: XOR<Production_commentsUpdateWithoutUsersInput, Production_commentsUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type Production_commentsUpdateManyWithWhereWithoutUsersInput = {
+    where: Production_commentsScalarWhereInput
+    data: XOR<Production_commentsUpdateManyMutationInput, Production_commentsUncheckedUpdateManyWithoutProduction_commentsInput>
+  }
+
+  export type RecipesUpsertWithWhereUniqueWithoutUsersInput = {
+    where: RecipesWhereUniqueInput
+    update: XOR<RecipesUpdateWithoutUsersInput, RecipesUncheckedUpdateWithoutUsersInput>
+    create: XOR<RecipesCreateWithoutUsersInput, RecipesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type RecipesUpdateWithWhereUniqueWithoutUsersInput = {
+    where: RecipesWhereUniqueInput
+    data: XOR<RecipesUpdateWithoutUsersInput, RecipesUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type RecipesUpdateManyWithWhereWithoutUsersInput = {
+    where: RecipesScalarWhereInput
+    data: XOR<RecipesUpdateManyMutationInput, RecipesUncheckedUpdateManyWithoutRecipesInput>
+  }
+
+  export type RecipesScalarWhereInput = {
+    AND?: Enumerable<RecipesScalarWhereInput>
+    OR?: Enumerable<RecipesScalarWhereInput>
+    NOT?: Enumerable<RecipesScalarWhereInput>
+    id?: UuidFilter | string
+    user_id?: StringFilter | string
+    description?: StringFilter | string
+    name?: StringFilter | string
+  }
+
   export type Production_commentsCreateManyChocolate_batchesInput = {
     id: string
     user_id: string
-    user_name: string
     created_at: Date | string
     text: string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -6430,17 +8121,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Production_commentsUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
+    users?: UsersUpdateOneRequiredWithoutProduction_commentsNestedInput
   }
 
   export type Production_commentsUncheckedUpdateWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -6449,7 +8138,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Production_commentsUncheckedUpdateManyWithoutProduction_commentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    user_name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     text?: StringFieldUpdateOperationsInput | string
     attachments?: NullableJsonNullValueInput | InputJsonValue
@@ -6457,6 +8145,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesCreateManyRecipesInput = {
     id: string
+    user_id: string
     bean_origin?: string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: string | null
@@ -6475,11 +8164,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: NullableStringFieldUpdateOperationsInput | string | null
     production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UsersUpdateOneRequiredWithoutChocolate_batchesNestedInput
     production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
   }
 
   export type Chocolate_batchesUncheckedUpdateWithoutRecipesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6489,6 +8180,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Chocolate_batchesUncheckedUpdateManyWithoutChocolate_batchesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
     ingredients?: NullableJsonNullValueInput | InputJsonValue
     importer?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6511,6 +8203,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     percentage?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type Chocolate_batchesCreateManyUsersInput = {
+    id: string
+    recipe_id?: string | null
+    bean_origin?: string | null
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: string | null
+    production_date?: Date | string | null
+  }
+
+  export type Production_commentsCreateManyUsersInput = {
+    id: string
+    batch_id: string
+    created_at: Date | string
+    text: string
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type RecipesCreateManyUsersInput = {
+    id: string
+    description: string
+    name: string
+  }
+
+  export type Chocolate_batchesUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recipes?: RecipesUpdateOneWithoutChocolate_batchesNestedInput
+    production_comments?: Production_commentsUpdateManyWithoutChocolate_batchesNestedInput
+  }
+
+  export type Chocolate_batchesUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    recipe_id?: NullableStringFieldUpdateOperationsInput | string | null
+    bean_origin?: NullableStringFieldUpdateOperationsInput | string | null
+    ingredients?: NullableJsonNullValueInput | InputJsonValue
+    importer?: NullableStringFieldUpdateOperationsInput | string | null
+    production_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    production_comments?: Production_commentsUncheckedUpdateManyWithoutChocolate_batchesNestedInput
+  }
+
+  export type Production_commentsUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+    chocolate_batches?: Chocolate_batchesUpdateOneRequiredWithoutProduction_commentsNestedInput
+  }
+
+  export type Production_commentsUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batch_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    text?: StringFieldUpdateOperationsInput | string
+    attachments?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type RecipesUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    chocolate_batches?: Chocolate_batchesUpdateManyWithoutRecipesNestedInput
+    recipe_ingredients?: Recipe_ingredientsUpdateManyWithoutRecipesNestedInput
+  }
+
+  export type RecipesUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    chocolate_batches?: Chocolate_batchesUncheckedUpdateManyWithoutRecipesNestedInput
+    recipe_ingredients?: Recipe_ingredientsUncheckedUpdateManyWithoutRecipesNestedInput
+  }
+
+  export type RecipesUncheckedUpdateManyWithoutRecipesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
 

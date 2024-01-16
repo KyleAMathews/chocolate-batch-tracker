@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useCreateAndNavigateToBatch } from "@/lib/utils"
+import { useUser } from "@clerk/clerk-react"
 import {
   Card,
   CardHeader,
@@ -67,6 +68,7 @@ export function RecipeForm({ recipe, closeForm }) {
   }
 
   const { db } = useElectric()!
+  const { user: {id: user_id} } = useUser()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -88,15 +90,12 @@ export function RecipeForm({ recipe, closeForm }) {
   const { errors } = formState
   const values = form.getValues()
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
     const recipe_id = recipe.id || genUUID()
     await db.recipes.upsert({
       create: {
         id: recipe_id,
+        user_id,
         description: values.description,
         name: values.recipeName,
       },

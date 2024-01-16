@@ -6,6 +6,7 @@ import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
 import { genUUID } from "electric-sql/util"
 import Markdown from "react-markdown"
 import { FilePlusIcon } from "@radix-ui/react-icons"
+import { useUser } from "@clerk/clerk-react"
 import {
   TableHead,
   TableRow,
@@ -129,7 +130,7 @@ function IngredientsEditor({ ingredients, batchId, editing }) {
   const [weights, setWeights] = useState(pIngredients.map((i) => i.grams))
   return (
     <div>
-      <h2 className="font-semibold text-lg md:text-xl mb-3">Ingredients</h2>
+      <h2 className="font-semibold text-lg mb-3">Ingredients</h2>
       <Table>
         <TableHeader>
           <TableRow>
@@ -207,6 +208,9 @@ function AddComment({ batch }) {
   const { db } = useElectric()!
   const [attachments, setAttachments] = useState<Record<string, any>[]>([])
   const [hasContent, setHasContent] = useState<boolean>(false)
+  const {
+    user: { id: user_id },
+  } = useUser()
 
   console.log(hasContent, attachments.length)
   return (
@@ -220,8 +224,7 @@ function AddComment({ batch }) {
             await db.production_comments.create({
               data: {
                 id: genUUID(),
-                user_id: `123`,
-                user_name: `Kyle Mathews`,
+                user_id,
                 batch_id: batch.id,
                 text: data.comment,
                 attachments,
@@ -321,6 +324,9 @@ WHERE
       orderBy: {
         created_at: `desc`,
       },
+      include: {
+        users: true,
+      },
       where: {
         batch_id: id,
       },
@@ -341,7 +347,7 @@ export default function Batch() {
     batch.importer === `` && batch.bean_origin === ``
   )
 
-  console.log({ batch, editing })
+  console.log({ batch, comments })
   return (
     <Flex gap="3" direction="column">
       <Flex gap="3">
@@ -425,7 +431,13 @@ export default function Batch() {
             return (
               <>
                 <Flex gap="2" direction="column" className="" p="3" pl="0">
-                  <h3 className="font-medium">{comment.user_name}</h3>
+                  <Flex gap="2">
+                    <h3 className="font-medium">{comment.users.name}</h3>
+                    <img
+                      src={comment.users.avatar_url}
+                      style={{ height: 24, borderRadius: 12 }}
+                    />
+                  </Flex>
                   <p className="text-sm text-gray-500">
                     {comment.created_at.toString()}
                   </p>

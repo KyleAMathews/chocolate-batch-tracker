@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { twMerge } from "tailwind-merge"
 import { useElectric } from "../context"
 import { genUUID } from "electric-sql/util"
+import { useUser } from "@clerk/clerk-react"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -21,6 +22,9 @@ export function pparseInt(val) {
 
 export function useCreateAndNavigateToBatch() {
   const { db } = useElectric()!
+  const {
+    user: { id: user_id },
+  } = useUser()
   const navigate = useNavigate()
   return async (params: Record<string, any>) => {
     let ingredients
@@ -43,6 +47,7 @@ export function useCreateAndNavigateToBatch() {
     const batch = await db.chocolate_batches.create({
       data: {
         id: genUUID(),
+        user_id,
         production_date: new Date(),
         importer: ``,
         bean_origin: ``,

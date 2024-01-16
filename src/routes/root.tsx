@@ -1,17 +1,11 @@
-import {
-  Outlet,
-  useSearchParams,
-  useNavigate,
-  NavLink,
-  Link,
-} from "react-router-dom"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Outlet, NavLink, Link } from "react-router-dom"
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react"
+import { Flex } from "@radix-ui/themes"
 
 export default function Root() {
   return (
     <div className="flex flex-col w-full min-h-screen">
-      <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
+      <header className="flex items-center h-16 px-4 border-b shrink-0 md:px-6 justify-between">
         <nav className="flex gap-3 text-sm font-medium md:flex-row md:items-center md:text-lg md:gap-5 lg:gap-6">
           <NavLink className="w-6 h-6 hidden md:block" to="/">
             <CandyIcon className="" />
@@ -24,9 +18,14 @@ export default function Root() {
             Recipes
           </NavLink>
         </nav>
-        <div className="flex justify-end items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          put user management here
-        </div>
+        <Flex>
+          <SignedIn>
+            <UserButton afterSignOutUrl="/sign-in" />
+          </SignedIn>
+          <SignedOut>
+            <Link to="/sign-in">Sign In</Link>
+          </SignedOut>
+        </Flex>
       </header>
       <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
         <Outlet />

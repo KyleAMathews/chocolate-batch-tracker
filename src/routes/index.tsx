@@ -10,7 +10,6 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table"
-import { Card } from "@/components/ui/card"
 import { Electric } from "../generated/client"
 import { useCreateAndNavigateToBatch } from "@/lib/utils"
 
@@ -35,6 +34,7 @@ ORDER BY
 Index.queries = queries
 
 export default function Index() {
+  console.log(`in index`)
   const location = useLocation()
   const { batches } = useElectricData(location.pathname + location.search)
   const createAndNavigateToBatch = useCreateAndNavigateToBatch()
@@ -51,45 +51,41 @@ export default function Index() {
         </Button>
       </Flex>
       <div>
-        <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Production Date</TableHead>
-                <TableHead>Recipe</TableHead>
-                <TableHead>Bean Origin</TableHead>
-                <TableHead>Weight</TableHead>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Production Date</TableHead>
+              <TableHead>Recipe</TableHead>
+              <TableHead>Bean Origin</TableHead>
+              <TableHead>Weight</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {batches.map((batch) => (
+              <TableRow key={batch.id}>
+                <TableCell>
+                  <Link to={`/batch/${batch.id}`}>{batch.production_date}</Link>
+                </TableCell>
+                <TableCell>
+                  <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
+                </TableCell>
+                <TableCell>
+                  <Link to={`/batch/${batch.id}`}>{batch.bean_origin}</Link>
+                </TableCell>
+                <TableCell>
+                  <Link to={`/batch/${batch.id}`}>
+                    {batch.ingredients &&
+                      Math.round(
+                        JSON.parse(batch.ingredients)
+                          .map((i) => i.grams)
+                          .reduce((a, b) => a + b, 0)
+                      ) + ` grams`}
+                  </Link>
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {batches.map((batch) => (
-                <TableRow key={batch.id}>
-                  <TableCell>
-                    <Link to={`/batch/${batch.id}`}>
-                      {batch.production_date}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link to={`/batch/${batch.id}`}>{batch.bean_origin}</Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link to={`/batch/${batch.id}`}>
-                      {batch.ingredients &&
-                        Math.round(
-                          JSON.parse(batch.ingredients)
-                            .map((i) => i.grams)
-                            .reduce((a, b) => a + b, 0)
-                        ) + ` grams`}
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Card>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </>
   )
