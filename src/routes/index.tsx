@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useElectricData } from "electric-query"
 import { Flex } from "@radix-ui/themes"
@@ -34,8 +34,8 @@ ORDER BY
 Index.queries = queries
 
 export default function Index() {
-  console.log(`in index`)
   const location = useLocation()
+  const navigate = useNavigate()
   const { batches } = useElectricData(location.pathname + location.search)
   const createAndNavigateToBatch = useCreateAndNavigateToBatch()
   return (
@@ -62,25 +62,23 @@ export default function Index() {
           </TableHeader>
           <TableBody>
             {batches.map((batch) => (
-              <TableRow key={batch.id}>
+              <TableRow
+                key={batch.id}
+                style={{ cursor: `pointer` }}
+                onClick={() => {
+                  navigate(`/batch/${batch.id}`)
+                }}
+              >
+                <TableCell>{batch.production_date}</TableCell>
+                <TableCell>{batch.recipe_name}</TableCell>
+                <TableCell>{batch.bean_origin}</TableCell>
                 <TableCell>
-                  <Link to={`/batch/${batch.id}`}>{batch.production_date}</Link>
-                </TableCell>
-                <TableCell>
-                  <Link to={`/batch/${batch.id}`}>{batch.recipe_name}</Link>
-                </TableCell>
-                <TableCell>
-                  <Link to={`/batch/${batch.id}`}>{batch.bean_origin}</Link>
-                </TableCell>
-                <TableCell>
-                  <Link to={`/batch/${batch.id}`}>
-                    {batch.ingredients &&
-                      Math.round(
-                        JSON.parse(batch.ingredients)
-                          .map((i) => i.grams)
-                          .reduce((a, b) => a + b, 0)
-                      ) + ` grams`}
-                  </Link>
+                  {batch.ingredients &&
+                    Math.round(
+                      JSON.parse(batch.ingredients)
+                        .map((i) => i.grams)
+                        .reduce((a, b) => a + b, 0)
+                    ) + ` grams`}
                 </TableCell>
               </TableRow>
             ))}

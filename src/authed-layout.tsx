@@ -9,7 +9,7 @@ export default function DashboardLayout() {
   React.useEffect(() => {
     console.log({ userId, isLoaded })
     if (!userId) {
-    navigate(`/sign-in`)
+      navigate(`/sign-in`)
     }
   }, [userId, isLoaded, navigate])
 

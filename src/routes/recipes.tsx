@@ -68,7 +68,9 @@ export function RecipeForm({ recipe, closeForm }) {
   }
 
   const { db } = useElectric()!
-  const { user: {id: user_id} } = useUser()
+  const {
+    user: { id: user_id },
+  } = useUser()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({

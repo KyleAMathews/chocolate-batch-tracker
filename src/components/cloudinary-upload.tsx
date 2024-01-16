@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 
 function CloudinaryUploadWidget({ uwConfig, onUpload, children }) {
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(!!window?.cloudinary)
   const [widget, setWidget] = useState(null)
 
-  console.log({ loaded, cloudinary: window?.cloudinary })
   useEffect(() => {
     // Check if the script is already loaded
     if (!loaded) {
@@ -22,7 +21,6 @@ function CloudinaryUploadWidget({ uwConfig, onUpload, children }) {
       setWidget(
         window.cloudinary.createUploadWidget(uwConfig, (error, result) => {
           if (!error && result && result.event === `success`) {
-            // console.log(`Done! Here is the image info: `, result.info)
             onUpload(result.info)
           }
         })
