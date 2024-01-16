@@ -7,14 +7,12 @@ export default function DashboardLayout() {
   const navigate = useNavigate()
 
   React.useEffect(() => {
-    console.log({ userId, isLoaded })
     if (!userId) {
       navigate(`/sign-in`)
     }
   }, [userId, isLoaded, navigate])
 
   if (!userId) return null
-  console.log({ userId, isLoaded })
 
   return <Outlet />
 }

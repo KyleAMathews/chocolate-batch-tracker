@@ -15,6 +15,7 @@ import Root from "./routes/root"
 import Index from "./routes/index"
 import Batch from "./routes/batch"
 import Recipes from "./routes/recipes"
+import RecipeEdit from "./routes/recipe-edit"
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,39 @@ const router = createBrowserRouter([
                 queries: ({ db }) =>
                   Recipes.queries({
                     db,
+                  }),
+              })
+
+              return null
+            },
+          },
+          {
+            path: `recipes/edit/:recipeId`,
+            element: <RecipeEdit />,
+            loader: async (props) => {
+              const url = new URL(props.request.url)
+              const key = url.pathname + url.search
+              await electricSqlLoader<Electric>({
+                key,
+                shapes: ({ db }) => [
+                  {
+                    shape: db.recipes.sync({
+                      include: {
+                        chocolate_batches: true,
+                        recipe_ingredients: true,
+                        users: true,
+                      },
+                    }),
+                    isReady: async () =>
+                      !!(await db.raw({
+                        sql: `select id from recipes limit 1`,
+                      })),
+                  },
+                ],
+                queries: ({ db }) =>
+                  RecipeEdit.queries({
+                    db,
+                    id: props.params.recipeId,
                   }),
               })
 

@@ -17,7 +17,6 @@ export function ElectricalProvider({ children }) {
     // declare the data fetching function
     const setupElectric = async () => {
       const token = await getToken()
-      console.log({ token })
       if (token) {
         setTimeout(async () => {
           const electric = await initElectric({
@@ -36,26 +35,17 @@ export function ElectricalProvider({ children }) {
 
           // Sync user data in if it's changed.
           const { db } = electric
-          console.time(`sync users`)
           const syncPromise = await db.users.sync()
           await syncPromise.synced
-          console.timeEnd(`sync users`)
           const { fullName, imageUrl, id } = user
           const clerkUser = { name: fullName, id, avatar_url: imageUrl }
-          console.log(
-            await db.raw({
-              sql: `select * from sqlite_master where type='table'`,
-            })
-          )
           const dbUser =
             (await db.users.findUnique({
               where: {
                 id,
               },
             })) || {}
-          console.log({ dbUser, clerkUser })
           if (!isEqual(dbUser, clerkUser)) {
-            console.log(`updating`)
             db.users.upsert({
               create: {
                 ...clerkUser,
@@ -82,8 +72,6 @@ export function ElectricalProvider({ children }) {
         .catch(console.error)
     }
   }, [getToken, isSignedIn])
-
-  console.log({ db })
 
   return <ElectricProvider db={db}>{children}</ElectricProvider>
 }
