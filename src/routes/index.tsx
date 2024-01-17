@@ -55,9 +55,9 @@ export default function Index() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Production Date</TableHead>
+              <TableHead>Date</TableHead>
               <TableHead>Recipe</TableHead>
-              <TableHead>Bean Origin</TableHead>
+              <TableHead>Origin</TableHead>
               <TableHead>Weight</TableHead>
             </TableRow>
           </TableHeader>

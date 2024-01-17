@@ -371,8 +371,8 @@ export default function Batch() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Recipe</TableHead>
-              <TableHead className="w-[200px]">Production Date</TableHead>
-              <TableHead className="w-[200px]">Bean Origin</TableHead>
+              <TableHead className="w-[200px]">Date</TableHead>
+              <TableHead className="w-[200px]">Origin</TableHead>
               <TableHead className="w-[200px]">Importer</TableHead>
             </TableRow>
           </TableHeader>
