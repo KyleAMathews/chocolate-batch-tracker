@@ -181,7 +181,6 @@ const router = createBrowserRouter([
                     shape: db.recipe_ingredients.sync({
                       include: {
                         recipes: true,
-                        users: true,
                       },
                     }),
                     isReady: async () =>
