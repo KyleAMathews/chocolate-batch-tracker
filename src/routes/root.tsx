@@ -16,7 +16,7 @@ export default function Root() {
             <span className="sr-only">ChocoBatch</span>
           </NavLink>
           <NavLink to="/" className="font-bold">
-            Chocolate
+            Batches
           </NavLink>
           <NavLink to="/recipes" className="text-sm">
             Recipes

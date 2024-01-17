@@ -8,6 +8,11 @@ import { isEqual } from "lodash"
 
 export const { ElectricProvider, useElectric } = makeElectricContext<Electric>()
 
+const electricUrl =
+  typeof import.meta.env.VITE_ELECTRIC_URL === `undefined`
+    ? `ws://localhost:5133`
+    : `wss://${import.meta.env.VITE_ELECTRIC_URL}`
+
 export function ElectricalProvider({ children }) {
   const { getToken, isSignedIn } = useAuth()
   const { user } = useUser()
@@ -19,7 +24,7 @@ export function ElectricalProvider({ children }) {
       const token = await getToken()
       if (token) {
         setTimeout(async () => {
-          const electric = await initElectric({
+          const config = {
             appName: `chocolate-batches`,
             schema,
             sqliteWasmPath: sqliteWasm,
@@ -28,9 +33,11 @@ export function ElectricalProvider({ children }) {
                 token,
               },
               debug: false, //DEBUG_MODE,
-              url: import.meta.env.VITE_ELECTRIC_URL,
+              url: electricUrl,
             },
-          })
+          }
+          console.log({ config })
+          const electric = await initElectric(config)
           setDb(electric)
 
           // Sync user data in if it's changed.
