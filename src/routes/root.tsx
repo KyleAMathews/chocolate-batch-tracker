@@ -1,7 +1,7 @@
 import { Outlet, NavLink, Link } from "react-router-dom"
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react"
 import { Flex } from "@radix-ui/themes"
-import { JsonNullableWithAggregatesFilterSchema } from "../generated/client"
+import { ConnectivityIcon } from "../components/connectivity-icon"
 
 export default function Root() {
   return (
@@ -21,6 +21,7 @@ export default function Root() {
           <NavLink to="/recipes" className="text-sm">
             Recipes
           </NavLink>
+          <ConnectivityIcon />
         </nav>
         <Flex>
           <SignedIn>
