@@ -34,7 +34,7 @@ CREATE TABLE recipe_ingredients (
     id UUID PRIMARY KEY,
     recipe_id UUID NOT NULL REFERENCES recipes(id),
     name TEXT NOT NULL,
-    percentage INTEGER NOT NULL CHECK (percentage > 0 AND percentage <= 100)
+    percentage INTEGER NOT NULL
 );
 
 ALTER TABLE chocolate_batches ENABLE ELECTRIC;
