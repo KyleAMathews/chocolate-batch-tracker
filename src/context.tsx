@@ -27,12 +27,12 @@ export function ElectricalProvider({ children }) {
           appName: `chocolate-batches`,
           schema,
           sqliteWasmPath: sqliteWasm,
+          token,
+          getToken,
           config: {
-            auth: {
-              token,
-            },
             debug: false, //DEBUG_MODE,
             url: electricUrl,
+            auth: { token },
           },
         }
         console.log({ config })
