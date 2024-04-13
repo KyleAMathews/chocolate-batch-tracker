@@ -32,7 +32,6 @@ export function ElectricalProvider({ children }) {
           config: {
             debug: false, //DEBUG_MODE,
             url: electricUrl,
-            auth: { token },
           },
         }
         console.log({ config })
